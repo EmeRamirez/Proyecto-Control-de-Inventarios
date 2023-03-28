@@ -1,0 +1,16 @@
+{
+    "cerveceria":[
+        {
+            "id":1,
+            "nombre":"Cerveceria Brigida"
+        },
+        {
+            "id":2,
+            "nombre":"Cerveceria Sibaros"
+        },
+        {
+            "id":3,
+            "nombre":"Cerveceria Biuzt"
+        }
+    ]
+}

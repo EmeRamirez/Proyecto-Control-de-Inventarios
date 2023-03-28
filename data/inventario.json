@@ -1,0 +1,180 @@
+{
+"item":[
+    {
+        "id":1,
+        "id_cerveceria":1,
+        "qr":"",
+        "tipo": "barril inox",
+        "capacidad": "30 litros",
+        "id_estado":1,
+        "contenido":"",
+        "lugar":"",
+        "observacion":""
+    },
+    {
+        "id":2,
+        "id_cerveceria":1,
+        "qr":"",
+        "tipo": "cilindro co2",
+        "capacidad": "9 kilos",
+        "id_estado":1,
+        "contenido":"",
+        "lugar":"",
+        "observacion":""
+    },
+    {
+        "id":3,
+        "id_cerveceria":1,
+        "qr":"",
+        "tipo": "barril inox",
+        "capacidad": "30 litros",
+        "id_estado":3,
+        "contenido":"",
+        "lugar":"",
+        "observacion":""
+    },
+    {
+        "id":4,
+        "id_cerveceria":1,
+        "qr":"",
+        "tipo": "barril inox",
+        "capacidad": "30 litros",
+        "id_estado":1,
+        "contenido":"",
+        "lugar":"",
+        "observacion":""
+    },
+    {
+        "id":5,
+        "id_cerveceria":1,
+        "qr":"",
+        "tipo": "barril inox",
+        "capacidad": "30 litros",
+        "id_estado":2,
+        "contenido":"",
+        "lugar":"",
+        "observacion":""
+    },
+    {
+        "id":6,
+        "id_cerveceria":2,
+        "qr":"",
+        "tipo": "barril inox",
+        "capacidad": "30 litros",
+        "id_estado":1,
+        "contenido":"",
+        "lugar":"",
+        "observacion":""
+    },
+    {
+        "id":7,
+        "id_cerveceria":2,
+        "qr":"",
+        "tipo": "barril inox",
+        "capacidad": "30 litros",
+        "id_estado":3,
+        "contenido":"",
+        "lugar":"",
+        "observacion":""
+    },
+    {
+        "id":8,
+        "id_cerveceria":2,
+        "qr":"",
+        "tipo": "barril inox",
+        "capacidad": "30 litros",
+        "id_estado":4,
+        "contenido":"",
+        "lugar":"",
+        "observacion":""
+    },
+    {
+        "id":9,
+        "id_cerveceria":2,
+        "qr":"",
+        "tipo": "barril inox",
+        "capacidad": "30 litros",
+        "id_estado":2,
+        "contenido":"",
+        "lugar":"",
+        "observacion":""
+    },
+    {
+        "id":10,
+        "id_cerveceria":2,
+        "qr":"",
+        "tipo": "barril inox",
+        "capacidad": "30 litros",
+        "id_estado":3,
+        "contenido":"",
+        "lugar":"",
+        "observacion":""
+    },
+    {
+        "id":11,
+        "id_cerveceria":2,
+        "qr":"",
+        "tipo": "barril inox",
+        "capacidad": "30 litros",
+        "id_estado":1,
+        "contenido":"",
+        "lugar":"",
+        "observacion":""
+    },
+    {
+        "id":12,
+        "id_cerveceria":2,
+        "qr":"",
+        "tipo": "barril inox",
+        "capacidad": "30 litros",
+        "id_estado":1,
+        "contenido":"",
+        "lugar":"",
+        "observacion":""
+    },
+    {
+        "id":13,
+        "id_cerveceria":3,
+        "qr":"",
+        "tipo": "barril inox",
+        "capacidad": "30 litros",
+        "id_estado":2,
+        "contenido":"",
+        "lugar":"",
+        "observacion":""
+    },
+    {
+        "id":14,
+        "id_cerveceria":3,
+        "qr":"",
+        "tipo": "barril inox",
+        "capacidad": "30 litros",
+        "id_estado":3,
+        "contenido":"",
+        "lugar":"",
+        "observacion":""
+    },
+    {
+        "id":15,
+        "id_cerveceria":3,
+        "qr":"",
+        "tipo": "barril inox",
+        "capacidad": "30 litros",
+        "id_estado":1,
+        "contenido":"",
+        "lugar":"",
+        "observacion":""
+    },
+    {
+        "id":16,
+        "id_cerveceria":3,
+        "qr":"",
+        "tipo": "barril inox",
+        "capacidad": "30 litros",
+        "id_estado":1,
+        "contenido":"",
+        "lugar":"",
+        "observacion":""
+    }
+]
+}

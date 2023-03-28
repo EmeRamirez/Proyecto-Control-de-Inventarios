@@ -1,0 +1,127 @@
+footer {
+    background-color: #3d6d79f6;
+    height:auto;
+}
+
+footer li {
+    list-style:none;
+}
+
+#cont-logo {
+    padding-left: 0vw;
+    padding-bottom: 2vw;
+}
+
+#cont-ext-ft {
+    padding-top: 4vw;
+    padding-left: 4vw;
+    display: grid;
+    grid-template-columns: 0.7fr 0.7fr 0.6fr 0.6fr 1.5fr;
+    color: rgb(163, 172, 182);
+    font-family: 'Noto Sans', sans-serif;
+    padding-bottom: 5vw;
+}
+
+#cont-izq-ft p {
+    color: #7D92A5;
+}
+
+#cont-izq-ft {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding-top: 1vw;
+}
+
+#cont-izq-ft a{
+    color: rgb(163, 172, 182);
+    
+}
+
+#cont-rrss {
+    display: flex;
+    gap: 1.2vw;
+    padding-top: 1.5vw;
+}
+
+#cont-cen-ft {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 1vw;  
+
+}
+
+#cont-cen-ft h5 {
+    color: rgb(163, 172, 182);
+}
+
+#cont-cen-ft a {
+    color: #7D92A5;
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: 400;
+}
+
+#cont-der-ft {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding-right: 4vw;
+    gap: 1vw;
+}
+
+#copyright-txt {
+    margin: 0; 
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 1vw;
+    color:#7D92A5;
+}
+
+@media only screen and (max-width: 860px) {
+    #cont-cen-ft {
+        display: none;
+    }
+
+    #cont-ext-ft {
+        grid-template-columns: 0.6fr 1fr 1fr;
+    }
+
+    #brand-img-ft {
+        height: 8vw !important;
+    }
+
+    #cont-izq-ft {
+        display: flex;
+        flex-direction: row;
+        gap: 4vw;
+    }
+
+    #cont-izq-ft p {
+        font-size: large;
+    }
+
+    #copyright-txt {
+        font-size: 2vw !important;
+    }
+}
+
+@media only screen and (max-width: 650px) {
+    
+    #cont-izq-ft {
+        display: flex;
+        flex-direction: column;
+        gap: 4vw;
+    }
+
+    #cont-der-ft img {
+        height: 40px !important;
+    }
+
+    #copyright-txt {
+        font-size: 2.5vw !important;
+    }
+}

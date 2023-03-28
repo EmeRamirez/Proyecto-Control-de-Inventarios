@@ -1,0 +1,29 @@
+{{#> layoutmobile}}
+
+<div class="celular">
+    <div class="header-celu">
+        <p class="header-subtitle">{{cerveceria}}</p>
+        <h4 class="header-title">Inventario</h4>
+    </div>
+    <div class="body-celu">
+        <div class="body-container">
+            {{#each inventario}}
+                {{>carditem}}
+            {{/each}}
+        </div>
+        
+    </div>
+
+    <div class="appfooterspace">
+        <p></p>
+    </div>
+
+    <div class="menu-celu">
+        <a href="appmob"><i class="fa-solid fa-house fa-2xl"></i></a>
+        <a href="inventariomob"><i class="fa-solid fa-folder-tree fa-2xl"></i></a>
+        <i class="fa-solid fa-chart-line fa-2xl"></i>
+        <i class="fa-solid fa-qrcode fa-2xl"></i>
+    </div>
+</div>
+
+{{/layoutmobile}}

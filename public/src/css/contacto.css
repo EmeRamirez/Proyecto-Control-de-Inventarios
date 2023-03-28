@@ -1,0 +1,122 @@
+/* Fuentes
+font-family: 'Noto Sans', sans-serif;
+font-family: 'Roboto', sans-serif;
+font-family: 'Work Sans', sans-serif; 
+font-family: 'Poppins', sans-serif;
+*/
+
+@import url(styles.css);
+
+.contenedor-contacto {
+    display: grid;
+    grid-template-columns: 45% 55%;
+    justify-content: center;
+    margin-top: 7vw;
+    margin-bottom: 5vw;
+}
+
+#texto-contacto {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 8vw 7vw;
+    margin-right: 16vw;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+}
+
+#texto-contacto h1{
+   padding: 0;
+   margin: 0;
+}
+
+#contenedor-formulario {
+    margin-top: 7vw;
+    display: flex;
+    justify-content: center;
+    font-family: 'Noto Sans', sans-serif;
+}
+
+#contenedor-formulario-interno {
+    background-color: #f2f5ff;
+    width: 100%;
+    border-radius: 20px;
+    padding: 0 3vw;
+    margin-right: 2vw;
+    padding-bottom: 3vw;
+}
+
+#contenedor-formulario-interno .form-control , #contenedor-formulario-interno select {
+    line-height: 2.5vw;
+    padding: 0.5rem 1.2rem;
+    font-size: 1.2rem;
+    color: rgb(116, 116, 116) !important;
+    
+}
+
+.form-control::placeholder {
+    color:rgb(151, 149, 149);
+}
+
+#boton-submit {
+    background-color: var(--btnBlu);
+    border-color: var(--btnBlu);
+    color: aliceblue;
+}
+
+#boton-submit:hover{
+    transform: scale(103%);
+}
+
+#texto-notificacion {
+    padding: 0 1vw;
+    text-align: center;
+    font-size: 2vw;
+}
+
+.notificacion-enviado {
+    color: green;
+    display: flex;
+    justify-content: center;
+}
+
+.notificacion-no-enviado {
+    color: red;
+    display: flex;
+    justify-content: center;
+}
+
+.fa-xmark:hover {
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 860px) {
+
+    .contenedor-contacto {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-top: 12vw;
+        margin-top: 8vw;
+    }
+
+    #contenedor-formulario-interno {
+        margin-right:0;
+        margin: 0 2vw;
+        padding-bottom: 5vw;
+        
+    }
+
+    #texto-contacto {
+        margin-bottom: 0;
+    }
+
+    .row {
+        margin-left: 0;
+    }
+
+    .contenedor-contacto{
+        margin-top: 15vw;
+    }
+
+}

@@ -1,0 +1,199 @@
+@import url(styles.css);
+
+html{
+  padding: 0;
+  margin: 0;
+  background-color: white;
+}
+
+.celular{
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  justify-content: center;
+}
+
+.header-celu{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: #1B232A;
+  min-height: 11vh;
+}
+
+.header-title{
+  letter-spacing: 5px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 32px;
+  margin-left: 3vw;
+  font-weight: bolder;
+  color: white;
+  padding: 0 10px;
+}
+
+.header-subtitle{
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  margin-left: 3vw;
+  margin-bottom: 0;
+  margin-top: 1.5vh;
+  padding: 0 10px;
+  letter-spacing: 2px;
+}
+
+.body-celu{
+  display: flex;
+  justify-content: center;
+  min-height: 80vh;
+  /* background-color: #3d8296; */
+  background-color: white;
+
+}
+
+.menu-celu{
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  position: absolute;
+  position: fixed;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  z-index: 999;
+  width: 310px;
+  top:75vh;
+  left:0;
+  right:0;
+  margin-left: auto;
+  margin-right: auto;
+  min-height: 80px;
+  max-height: 80px;
+  background-color: #1B232A;
+  border-radius: 25px; 
+  color: white;   
+  transition: 100ms;
+  box-shadow: 0px 0px 20px rgba(0, 255, 255, 0.24);
+}
+
+.menu-celu .fa-solid:hover{
+    color: aqua;
+    box-shadow: 1px 1px 15px aqua;
+    -webkit-animation: glowing 1s ease-in-out infinite alternate;
+    -moz-animation: glowing 1s ease-in-out infinite alternate;
+    animation: glowing 1s ease-in-out infinite alternate;
+    box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px rgb(55, 160, 192), 0 0 40px #0ff, 0 0 50px #2b528d, 0 0 60px #2eaeb8, 0 0 70px #4093a8;
+}
+
+.menu-celu a , .menu-celu a:visited{
+    color: white;
+}
+
+.body-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+  gap: 30px;
+  margin-top: 25vw;
+  
+}
+
+.celbody-card1{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 300px;
+  min-height: 90px;
+  background-image: url('https://mmk-cel-testing.netlify.app/src/img/et1.png');
+  border-top-right-radius: 50px;
+  border-top-left-radius: 50px;
+}
+
+.celbody-card2{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 300px;
+  min-height: 90px;
+  background-image: url('https://mmk-cel-testing.netlify.app/src/img/et2.png');
+}
+
+.celbody-card3{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 300px;
+  min-height: 90px;
+  background-image: url('https://mmk-cel-testing.netlify.app/src/img/et3.png');
+  border-bottom-right-radius: 50px;
+  border-bottom-left-radius: 50px;
+}
+
+.text-buttons{
+  letter-spacing: 3px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 20px;
+  color: white;
+  padding: 0 10px;
+}
+
+
+/* ================================ SECCION INVENTARIO ================================== */
+.inventariocel-card{
+  display: grid;
+  grid-template-columns: 60% 40%;
+  align-items: center;
+  justify-items: center;
+  min-width: 300px;
+  min-height: 100px;
+  background-color:#1B232A;
+  border-radius: 8px;
+}
+
+.listainventariocel{
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  padding-left: 4vw;
+  font-size: 12px;
+  font-family: 'Roboto', sans-serif;
+  color: white;
+  flex-direction: column;
+  margin: 0;
+  gap: 0;
+}
+
+#listainventariocel-titulo{
+  margin: 0;
+  font-weight: bold;
+  letter-spacing: 1.4px;
+  font-size: 13px;
+  color: white;
+}
+
+.listainventariocel p{
+  color: rgb(218, 209, 199);
+  margin: 0;
+}
+
+.cont-codigoqr-card{
+  display: flex;
+}
+
+.appfooterspace{
+  min-height: 28vh;
+  /* background-color: #3d8296; */
+  background-color: white;
+}
+
+
+
+@media only screen and (max-height: 680px) {
+  .body-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    gap: 30px;
+    margin-top: 10vw;
+    
+  }
+}

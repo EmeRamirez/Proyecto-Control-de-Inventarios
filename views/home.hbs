@@ -1,0 +1,92 @@
+{{#> layout}}
+
+ <main>
+
+    <!-- CONTENEDOR 1 -->
+    <div class="contenedor-presentacion">
+      <div class="row" id="cont-presentacion-int">
+        <div class="col-7" id="cont-princ-1">
+          <h1 id="titulo-conte"><span id="highlight-text">Controlar y seguir tus barriles</span> no puede ser más fácil.
+          </h1>
+          <p>Asigna estados, haz seguimiento, genera informes, lleva el control de tus activos y ahorra tiempo y dinero.
+          </p>
+          <div id="botonera-princ">
+            <button class="btn-principal">Prueba Gratis</button>
+            <button class="btn-principal" style="margin-left: 0;">Ver Planes</button>
+          </div>
+        </div>
+        <div class="col-5" id="cont-img">
+          <img id="devices-img" src="src/img/devices-cyan.png " alt="">
+        </div>
+      </div>
+    </div>
+    <!-- CONTENEDOR 1 -->
+
+    <!-- MAPA RUTA -->
+    <div id="mapa-ruta">
+      <img src="src/img/mapa-filtro-con-txt2.png" alt="" usemap="#map-img">
+
+      <map name="map-img" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <area target="_top" alt="barril-1" title="barril-1" href="javascript:;" coords="282,128,349,204" shape="rect" onclick="clickMap(0)">
+        <area target="" alt="cod-barra" title="cod-barra" href="javascript:;" coords="442,126,538,201" shape="rect" onclick="clickMap(1)">
+        <area target="" alt="trackeo" title="trackeo" href="javascript:;" coords="619,128,673,204" shape="rect" onclick="clickMap(2)">
+        <area target="" alt="tiempo" title="tiempo" href="javascript:;" coords="283,292,367,366" shape="rect" onclick="clickMap(3)">
+        <area target="" alt="graficos" title="graficos" href="javascript:;" coords="452,282,524,357" shape="rect" onclick="clickMap(4)">
+        <area target="" alt="barril2" title="barril2" href="javascript:;" coords="618,288,680,360" shape="rect" onclick="clickMap(5)">
+        <area target="" alt="brewery" title="brewery" href="javascript:;" coords="17,158,163,293" shape="rect" onclick="clickMap(6)">
+        <area target="" alt="beershop" title="beershop" href="javascript:;" coords="800,189,930,291" shape="rect" onclick="clickMap(7)">
+      </map>
+    </div>
+
+    
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="modal-container">
+            <div class="col-12" id="modal-cont-foto">
+              <img src="src/img/barril-filling-res78-difu.png" alt="" id="foto-modal">
+              <div id="txt-modal">
+                <h1 id="txt-modal-titulo">No pierdas más Barriles</h1>
+                <h5 id="txt-modal-parrafo">Organiza tus despachos y retiros, minimiza las pérdidas.<h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+    <!-- Caracteristicas -->
+    <div id="contenedor-caract">
+      <div id="cont-cara-txt">
+        <h1 id="titulo-conte"><img src="src/img/scan.png" alt="scan icon"
+            style="padding-right: 1.2vw; padding-bottom: 0.5vw;"></img><span id="highlight-text"
+            style="font-size: 2.2vw;">Identifica</span> tus barriles.</h1>
+        <p>Modifica y asigna estados en tiempo real a tus barriles rápidamente con tu dispositivo móvil, para llevar
+          seguimiento de ellos.</p>
+        <h1 id="titulo-conte"><img src="src/img/analytics.png" alt="analytics icon"
+            style="padding-right: 1.2vw; padding-bottom: 0.5vw;"><span id="highlight-text"
+            style="font-size: 2.2vw;">Obten informes</span> con un simple click.</h1>
+        <p>Genera informes y gráficos sobre el historial de tus ventas, estado y movimiento de tus activos fácilmente.
+        </p>
+        <h1 id="titulo-conte"><img src="src/img/time-is-money.png" alt="analytics icon"
+            style="padding-right: 1.2vw; padding-bottom: 0.5vw;"><span id="highlight-text"
+            style="font-size: 2.2vw;">Ahorra tiempo y dinero</span> agilizando tus procesos.</h1>
+        <p>Automatiza las tareas de inventarios, minimiza pérdidas, aumenta tu productividad y maneja fácilmente la
+          disponibilidad de tus productos.</p>
+
+      </div>
+      <div id="cont-cara-der">
+        <img id="foto-barriles" src="src/img/barriles-difu2.png" alt="">
+      </div>
+    </div>
+    <!-- Caracteristicas -->
+  </main>
+
+{{/layout}}

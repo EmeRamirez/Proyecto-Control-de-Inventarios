@@ -1,0 +1,31 @@
+{
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cookie-parser": "^1.4.6",
+    "express": "^4.18.2",
+    "express-flash": "^0.0.2",
+    "express-session": "^1.17.3",
+    "hbs": "^4.2.0",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0"
+  },
+  "name": "sprint-m6",
+  "version": "1.0.0",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EmeRamirez/Sprint-M6.git"
+  },
+  "bugs": {
+    "url": "https://github.com/EmeRamirez/Sprint-M6/issues"
+  },
+  "homepage": "https://github.com/EmeRamirez/Sprint-M6#readme",
+  "description": ""
+}
