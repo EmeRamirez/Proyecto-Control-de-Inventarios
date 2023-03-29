@@ -1,25 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h2>Bienvenido {{capitalizar user}}</h2>
+{{#> layoutapp}}
 
-    <h3>Pertenece a: {{cerveceria}}</h3>
+<div class="app">
+    
+    <div class="header-app">
+        <div class="header-app-info">
+            <p class="header-subtitle">{{cerveceria}}</p>
+            <h4 class="header-title">Dashboard</h4>
+        </div>
+        <div class="header-app-panel">
+            <a href="/logout"><button class="btn btn-outline-secondary" >Log Out</button></a>
+        </div>
+    </div>
 
-    <h3>Tus barriles son los siguientes:</h3>
+    <div class="body-app">
+        <div class="menu-desk">
+            <a href="app"><i class="fa-solid fa-house fa-2xl optionselected"></i></a>
+            <a href="inventariomob"><i class="fa-solid fa-folder-tree fa-2xl"></i></a>
+            <i class="fa-solid fa-chart-line fa-2xl"></i>
+            <i class="fa-solid fa-qrcode fa-2xl"></i>
+        </div>
+        <div class="body-container">
+            <div class="celbody-card1"><h4 class="text-buttons">Cambiar Estado</h4></div>
+            <div class="celbody-card2"><h4 class="text-buttons">Nueva Categoria</h4></div>
+            <div class="celbody-card3"><h4 class="text-buttons">Nuevo Articulo</h4></div>
+        </div>
+    </div>
 
-    <table>
-    {{#each barriles}}
-        <tr>
-            <td>ID: {{id}}</td>
-            <td>   Capacidad: {{capacidad}}</td>
-        </tr>
-    {{/each}}
-    </table>
-</body>
-</html>
+    <div class="appfooterspace">
+        <div class="foot-menu" style="background-color: #1B232A;"></div>
+        <div><p></p></div>
+    </div>
+
+
+    <div class="menu-celu">
+        <a href="app"><i class="fa-solid fa-house fa-2xl optionselected"></i></a>
+        <a href="inventariomob"><i class="fa-solid fa-folder-tree fa-2xl"></i></a>
+        <i class="fa-solid fa-chart-line fa-2xl"></i>
+        <i class="fa-solid fa-qrcode fa-2xl"></i>
+    </div>
+    
+</div>
+
+{{/layoutapp}}

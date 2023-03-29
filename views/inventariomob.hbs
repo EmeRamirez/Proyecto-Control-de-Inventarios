@@ -1,29 +1,42 @@
-{{#> layoutmobile}}
+{{#> layoutapp}}
 
-<div class="celular">
-    <div class="header-celu">
-        <p class="header-subtitle">{{cerveceria}}</p>
-        <h4 class="header-title">Inventario</h4>
+<div class="app">
+    <div class="header-app">
+        <div class="header-app-info">
+            <p class="header-subtitle">{{cerveceria}}</p>
+            <h4 class="header-title">Inventario</h4>
+        </div>
+        <div class="header-app-panel">
+            <a href="/logout"><button class="btn btn-outline-secondary" >Log Out</button></a>
+        </div>
     </div>
-    <div class="body-celu">
+
+
+    <div class="body-app">
+         <div class="menu-desk">
+            <a href="app"><i class="fa-solid fa-house fa-2xl"></i></a>
+            <a href="inventariomob"><i class="fa-solid fa-folder-tree fa-2xl optionselected"></i></a>
+            <i class="fa-solid fa-chart-line fa-2xl"></i>
+            <i class="fa-solid fa-qrcode fa-2xl"></i>
+        </div>
         <div class="body-container">
             {{#each inventario}}
                 {{>carditem}}
             {{/each}}
-        </div>
-        
+        </div>        
     </div>
 
     <div class="appfooterspace">
-        <p></p>
+        <div class="foot-menu" style="background-color: #1B232A;"></div>
+        <div><p></p></div>
     </div>
 
     <div class="menu-celu">
-        <a href="appmob"><i class="fa-solid fa-house fa-2xl"></i></a>
-        <a href="inventariomob"><i class="fa-solid fa-folder-tree fa-2xl"></i></a>
+        <a href="app"><i class="fa-solid fa-house fa-2xl"></i></a>
+        <a href="inventariomob"><i class="fa-solid fa-folder-tree fa-2xl optionselected"></i></a>
         <i class="fa-solid fa-chart-line fa-2xl"></i>
         <i class="fa-solid fa-qrcode fa-2xl"></i>
     </div>
 </div>
 
-{{/layoutmobile}}
+{{/layoutapp}}

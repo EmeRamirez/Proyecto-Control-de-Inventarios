@@ -6,19 +6,34 @@ html{
   background-color: white;
 }
 
-.celular{
+.app{
   display: flex;
   flex-direction: column;
   position: relative;
   justify-content: center;
 }
 
-.header-celu{
+.header-app{
+  display: grid;
+  grid-template-columns: 80% 20%;
+  flex-direction: column;
+  /* align-items: flex-start; */
+  background-color: #1B232A;
+  min-height: 11vh;
+}
+
+.header-app-info{
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   background-color: #1B232A;
   min-height: 11vh;
+}
+
+.header-app-panel{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .header-title{
@@ -41,8 +56,9 @@ html{
   letter-spacing: 2px;
 }
 
-.body-celu{
-  display: flex;
+.body-app{
+  display: grid;
+  grid-template-columns: 10% 90%;
   justify-content: center;
   min-height: 80vh;
   /* background-color: #3d8296; */
@@ -51,7 +67,7 @@ html{
 }
 
 .menu-celu{
-  display: grid;
+  display: none;
   justify-items: center;
   align-items: center;
   position: absolute;
@@ -82,8 +98,32 @@ html{
     box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px rgb(55, 160, 192), 0 0 40px #0ff, 0 0 50px #2b528d, 0 0 60px #2eaeb8, 0 0 70px #4093a8;
 }
 
+.optionselected{
+  color: aqua;
+    box-shadow: 1px 1px 15px aqua;
+    -webkit-animation: glowing 1s ease-in-out infinite alternate;
+    -moz-animation: glowing 1s ease-in-out infinite alternate;
+    animation: glowing 1s ease-in-out infinite alternate;
+    box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px rgb(55, 160, 192), 0 0 40px #0ff, 0 0 50px #2b528d, 0 0 60px #2eaeb8, 0 0 70px #4093a8;
+}
+
 .menu-celu a , .menu-celu a:visited{
     color: white;
+}
+
+.menu-desk{
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  grid-template-rows: 15% 15% 15% 15% 40%;
+  z-index: 999;
+  width: 100px;
+  height: 100%;
+  background-color: #1B232A;
+  color: white;   
+  transition: 100ms;
+  padding-top: 7vh;
+  gap: 20px;
 }
 
 .body-container{
@@ -179,11 +219,17 @@ html{
 }
 
 .appfooterspace{
+  display: grid;
+  grid-template-columns: 10% 90%;
   min-height: 28vh;
   /* background-color: #3d8296; */
   background-color: white;
 }
 
+.foot-menu{
+  background-color: #1B232A;
+  width: 100px;
+}
 
 
 @media only screen and (max-height: 680px) {
@@ -194,6 +240,8 @@ html{
     justify-items: center;
     gap: 30px;
     margin-top: 10vw;
-    
   }
+
+
 }
+

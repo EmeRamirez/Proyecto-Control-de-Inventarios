@@ -9,20 +9,18 @@ import bodyParser from 'body-parser';
 import { Router } from "express";
 
 //Handlers
-import { leerArchivo } from "../utils/handlers.js";
+import JsonHandler from "../utils/class/JsonHandler.js";
+const jsonHandler = new JsonHandler(); 
 
 //Constantes
 const router = Router();
 const PassportLocal = passportLocal.Strategy
-const userData = await leerArchivo("./data/usuarios.json");
-const cervData = await leerArchivo("./data/cervecerias.json");
-const userList = userData.usuario;
-const cervList = cervData.cerveceria;
+const userList = await jsonHandler.getUsers();
+const cervList = await jsonHandler.getCerv();
 
 //Variables
 let usuarioLog;
 let cerveceriaLog;
-let autenticacion = false;
 
 
 // ========== Configuración de Middleware ========== //
@@ -61,7 +59,7 @@ passport.use(new PassportLocal(function(username,password,done){
     if (validador != -1){
         let usuario = userList[validador];
         if (usuario.pass == password){
-            return done(null,{id:usuario.id, name:usuario.user})
+            return done(null,{id:usuario.id})
         } else { 
             return done(null,false,{message: 'Contraseña Incorrecta'})
         }    
@@ -102,7 +100,7 @@ router.get('/contacto', (req,res) => {
 //===================GET===================//
 
 router.get('/login', (req,res) => {
-    
+    console.log(req.session);
         if (req.session.flash){
             if (req.session.flash.error){
             let msjError = req.session.flash.error[0].toString()
@@ -120,14 +118,17 @@ router.get('/login', (req,res) => {
 
 router.post('/login', passport.authenticate('local',{
     //Si el usuario aprueba la estrategia configurada en la línea 53
-    successRedirect: "/appmob",
+    successRedirect: "/app",
     failureRedirect: "/login",
     failureFlash: true
 }));
 
+
+//======================= APP ============================//
+
 //===================GET===================//
 //En esta ruta solo se puede entrar si el usuario está autenticado, para esto se añade el método isAuthenticated()
-router.get('/appmob', (req,res,next) => {
+router.get('/app', (req,res,next) => {
     if(req.isAuthenticated()) return next();
 
     res.redirect("/login");
@@ -138,7 +139,14 @@ router.get('/appmob', (req,res,next) => {
     cerveceriaLog = cervList.find(e => e.id == usuarioLog.id_cerveceria);
     console.log(cerveceriaLog);
 
-    res.render("appmob",{cerveceria:cerveceriaLog.nombre})
+    res.render("app",{cerveceria:cerveceriaLog.nombre})
+})
+
+router.get('/logout', (req,res,next) => {
+    req.logout((err) => {
+        if (err) {return next(err)};
+        res.redirect("login");
+    })  
 })
 
 
@@ -147,10 +155,9 @@ router.get('/inventariomob', (req,res,next) => {
 
     res.redirect("/login");
 } , async(req,res) => {
-    let dataInventario = await leerArchivo('./data/inventario.json');
-    console.log(dataInventario.item);
+    let dataInventario = await jsonHandler.getInventario();
     let arrInventario = [];
-    dataInventario.item.forEach(e => {
+    dataInventario.forEach(e => {
         if (e.id_cerveceria == cerveceriaLog.id){
             arrInventario.push(e);
         }
@@ -160,10 +167,10 @@ router.get('/inventariomob', (req,res,next) => {
 })
 
 
-
 //===================TESTING===================//
-router.get('/testing',(req,res)=>{
-    res.render('testing');
+router.get('/testing',async (req,res)=>{
+    
+
 })
 
 
