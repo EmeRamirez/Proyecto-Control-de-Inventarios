@@ -136,13 +136,25 @@ html{
   
 }
 
+.body-container-inventario{
+  display: flex;
+  flex-wrap: wrap;
+  /* grid-template-columns: repeat(auto-fill,minmax(min(100%, 16rem), 1fr)); */
+  align-content: flex-start;
+  /* justify-items: space-between; */
+  gap: 1rem;
+  margin-right: 8vw;
+  margin-top: 1rem;
+}
+
 .celbody-card1{
   display: flex;
   justify-content: center;
   align-items: center;
   min-width: 300px;
   min-height: 90px;
-  background-image: url('https://mmk-cel-testing.netlify.app/src/img/et1.png');
+  /* background-image: url('https://mmk-cel-testing.netlify.app/src/img/et1.png'); */
+  background-color: #3D6D79;
   border-top-right-radius: 50px;
   border-top-left-radius: 50px;
 }
@@ -153,7 +165,12 @@ html{
   align-items: center;
   min-width: 300px;
   min-height: 90px;
-  background-image: url('https://mmk-cel-testing.netlify.app/src/img/et2.png');
+  /* background-image: url('https://mmk-cel-testing.netlify.app/src/img/et2.png'); */
+  background-color: #99A98F;
+}
+
+.celbody-card2 .text-buttons{
+  color: #283138;
 }
 
 .celbody-card3{
@@ -162,7 +179,8 @@ html{
   align-items: center;
   min-width: 300px;
   min-height: 90px;
-  background-image: url('https://mmk-cel-testing.netlify.app/src/img/et3.png');
+  /* background-image: url('https://mmk-cel-testing.netlify.app/src/img/et3.png'); */
+  background-color: #5C82A6;
   border-bottom-right-radius: 50px;
   border-bottom-left-radius: 50px;
 }
@@ -192,7 +210,7 @@ html{
   display: flex;
   width: 100%;
   align-items: flex-start;
-  padding-left: 4vw;
+  padding-left: 1vw;
   font-size: 12px;
   font-family: 'Roboto', sans-serif;
   color: white;
