@@ -56,6 +56,17 @@ html{
   letter-spacing: 2px;
 }
 
+.log-dropdown{
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  background-color: #3D6D79;
+  margin-right: 0.5vw !important;
+}
+
+.user-login-desk{
+  font-size: 28px !important;
+}
+
 .body-app{
   display: grid;
   grid-template-columns: 10% 90%;
@@ -64,6 +75,26 @@ html{
   /* background-color: #3d8296; */
   background-color: white;
 
+}
+
+.dropdown-menu{
+  background-color: #1B232A;
+}
+
+.dropdown-item{
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  font-weight:200;
+  font-size: 13px;
+}
+
+.dropdown-desk{
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-celu{
+  display: none;
 }
 
 .menu-celu{
@@ -132,9 +163,10 @@ html{
   align-items: center;
   justify-items: center;
   gap: 30px;
-  margin-top: 25vw;
+  margin-top: 10vw;
   
 }
+
 
 .body-container-inventario{
   display: flex;
@@ -188,6 +220,7 @@ html{
 .text-buttons{
   letter-spacing: 3px;
   font-family: 'Poppins', sans-serif;
+  font-weight: 600;
   font-size: 20px;
   color: white;
   padding: 0 10px;

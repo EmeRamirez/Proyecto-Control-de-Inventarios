@@ -8,7 +8,30 @@
             <h4 class="header-title">Dashboard</h4>
         </div>
         <div class="header-app-panel">
-            <a href="/logout"><button class="btn btn-outline-secondary" >Log Out</button></a>
+            <div class="dropdown dropdown-desk">
+                <button class="btn btn-secondary dropdown-toggle log-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Hola {{capitalizar nombre}}
+                </button>
+                <i class="fa-solid fa-user user-login user-login-desk" style="font-size: 20px; letter-spacing: 0.3vw; color:white"></i>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li><a class="dropdown-item" href="/logout">Cerrar Sesión</a></li>
+                </ul>
+            </div>
+
+            <div class="dropdown dropdown-celu">
+                <button class="btn btn-secondary dropdown-toggle log-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-user user-login" style="font-size: 20px; letter-spacing: 0.3vw; color:white"></i>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Mi Cerveceria</a></li>
+                    <li><a class="dropdown-item" href="#">Registrar Usuario</a></li>
+                    <li><a class="dropdown-item" href="/logout">Cerrar Sesión</a></li>
+                </ul>
+            </div>
+            {{!-- <i class="fa-solid fa-user user-login" style="font-size: 30px; letter-spacing: 0.3vw; color:white"></i>
+            <a href="/logout"><button class="btn btn-outline-secondary" >Log Out</button></a> --}}
         </div>
     </div>
 

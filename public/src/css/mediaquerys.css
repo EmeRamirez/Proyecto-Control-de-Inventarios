@@ -77,14 +77,6 @@
         justify-content: end;
     }
 
-    /* .lista-navbar {
-        text-align: left;
-        align-items: flex-start;
-        flex-direction: column;
-        padding-top: 2vw;
-        
-    } */
-
     .navbar-nav {
         flex-direction: column;
         justify-content: flex-start;
@@ -122,13 +114,25 @@
    .navbar-toggler {
     margin-right: 5vw;
     scale: 150%;
-}
+    }
+
+    /* .body-container{
+        margin-top: 20vw;
+    } */
 }
 
 @media only screen and (max-width: 600px) {
     .menu-celu{
         display: grid;
-      }
+    }
+
+    .dropdown-celu{
+        display: flex;
+    }
+
+    .dropdown-desk{
+        display: none;
+    }
     
     .menu-desk {
         display: none;

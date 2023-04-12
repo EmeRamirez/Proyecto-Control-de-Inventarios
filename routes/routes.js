@@ -59,7 +59,7 @@ passport.use(new PassportLocal(function(username,password,done){
     if (validador != -1){
         let usuario = userList[validador];
         if (usuario.pass == password){
-            return done(null,{id:usuario.id})
+            return done(null,{id:usuario.id , user:usuario.user , pass:usuario.pass , email:usuario.email , id_cerveceria:usuario.id_cerveceria})
         } else { 
             return done(null,false,{message: 'Contraseña Incorrecta'})
         }    
@@ -70,12 +70,13 @@ passport.use(new PassportLocal(function(username,password,done){
 
 //Se configura la serialización, para almacenar la id del usuario logueado
 passport.serializeUser(function(user,done){
-    done(null,user.id);
+    // done(null,user.id);
+    done(null,user);
 })
 
 //Deserialización
-passport.deserializeUser(function(id,done){
-    done(null,{id})
+passport.deserializeUser(function(user,done){
+    done(null,user)
 })
 
 
@@ -100,7 +101,7 @@ router.get('/contacto', (req,res) => {
 //===================GET===================//
 
 router.get('/login', (req,res) => {
-    console.log(req.session);
+    // console.log(req.session);
         if (req.session.flash){
             if (req.session.flash.error){
             let msjError = req.session.flash.error[0].toString()
@@ -133,13 +134,10 @@ router.get('/app', (req,res,next) => {
 
     res.redirect("/login");
 } , (req,res) => {
-    usuarioLog = userList.find(e => e.id == req.session.passport.user)
-    console.log(`session ${req.session.passport.user}`);
-    console.log(usuarioLog);
+    usuarioLog = req.session.passport.user
     cerveceriaLog = cervList.find(e => e.id == usuarioLog.id_cerveceria);
-    console.log(cerveceriaLog);
 
-    res.render("app",{cerveceria:cerveceriaLog.nombre})
+    res.render("app",{cerveceria:cerveceriaLog.nombre, nombre:usuarioLog.user})
 })
 
 router.get('/logout', (req,res,next) => {

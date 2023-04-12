@@ -7,6 +7,5 @@
 2. Run server.js
 
 
-
 ## Repositorio 
-<a href='https://github.com/EmeRamirez/Proyecto-Control-de-Inventarios.git'></a>
+[https://github.com/EmeRamirez/Proyecto-Control-de-Inventarios.git](https://github.com/EmeRamirez/Proyecto-Control-de-Inventarios.git)
