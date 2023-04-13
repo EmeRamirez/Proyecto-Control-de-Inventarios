@@ -9,8 +9,17 @@ import bodyParser from 'body-parser';
 import { Router } from "express";
 
 //Handlers
+import {sequelize} from "../data/bd.js";
+import { Categoria } from "../data/class/Categoria.js";
+import { Cerveceria } from "../data/class/Cerveceria.js";
+import { Cliente } from "../data/class/Cliente.js";
+import { Estado } from "../data/class/Estado.js";
+import { Item } from "../data/class/Inventario.js";
+import { Rol } from "../data/class/Rol.js";
+import { Usuario } from "../data/class/Usuario.js";
 import JsonHandler from "../utils/class/JsonHandler.js";
 const jsonHandler = new JsonHandler(); 
+
 
 //Constantes
 const router = Router();
@@ -136,8 +145,10 @@ router.get('/app', (req,res,next) => {
 } , (req,res) => {
     usuarioLog = req.session.passport.user
     cerveceriaLog = cervList.find(e => e.id == usuarioLog.id_cerveceria);
+    let isMaster = false;
+    let isAdmin = false;
 
-    res.render("app",{cerveceria:cerveceriaLog.nombre, nombre:usuarioLog.user})
+    res.render("app",{cerveceria:cerveceriaLog.nombre, nombre:usuarioLog.user, isMaster:isMaster, isAdmin:isAdmin})
 })
 
 router.get('/logout', (req,res,next) => {

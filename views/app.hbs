@@ -14,9 +14,13 @@
                 </button>
                 <i class="fa-solid fa-user user-login user-login-desk" style="font-size: 20px; letter-spacing: 0.3vw; color:white"></i>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="/logout">Cerrar Sesión</a></li>
+                    {{#if isMaster}}
+                        <li><a class="dropdown-item" href="#">Registrar Cerveceria</a></li>
+                    {{/if}}
+                    {{#if isAdmin}}    
+                        <li><a class="dropdown-item" href="#">Registrar Usuario</a></li>
+                    {{/if}}
+                        <li><a class="dropdown-item" href="/logout">Cerrar Sesión</a></li>
                 </ul>
             </div>
 
