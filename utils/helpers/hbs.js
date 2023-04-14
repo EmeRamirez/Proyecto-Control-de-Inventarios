@@ -12,13 +12,22 @@ hbs.registerHelper('capitalizar', function (str) {
 })
 
 hbs.registerHelper('nombrarEstado', function (num) {
-    if (num == 1){
-        return "En uso";
-    } else if (num == 2){
-        return "Listo para usar";
-    } else if (num == 3){
-        return "Sucio";
-    } else if (num == 4){
-        return "Fuera de Servicio";
-    }
-})
+    switch (num){
+        case 1:
+            return 'Entregado';
+        case 2:
+            return 'Reservado';
+        case 3:
+            return 'Listo';
+        case 4:
+            return 'En Proceso';
+        case 5:
+            return 'Limpio';
+        case 6:
+            return 'Sucio';
+        case 7:
+            return 'Fuera de Servicio'
+        default:
+            return 'Sin estado asignado'
+    }   
+});

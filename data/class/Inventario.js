@@ -25,11 +25,11 @@ Item.init({
     },
     capacidad:{
         type: DataTypes.STRING(45),
-        allowNull:false,
+        allowNull:true,
     },
     observacion:{
         type: DataTypes.STRING(200),
-        allowNull:false,
+        allowNull:true,
     }
 },
 {
@@ -41,10 +41,7 @@ Item.init({
     }
 });
 
-Cerveceria.hasMany(Item,{foreignKey:'id_cerveceria'});
-Item.belongsTo(Cerveceria,{foreignKey:'id_cerveceria'});
-
-Cliente.hasMany(Item,{foreignKey:'id_cliente'});
+Cliente.hasMany(Item,{foreignKey:{name:'id_cliente',allowNull: true}});
 Item.belongsTo(Cliente,{foreignKey:'id_cliente'});
 
 Estado.hasMany(Item,{foreignKey:'id_estado'});

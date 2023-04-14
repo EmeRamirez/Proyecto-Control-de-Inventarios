@@ -1,6 +1,8 @@
 import {sequelize} from '../bd.js';
 import {DataTypes, Model} from 'sequelize';
 
+import { Cerveceria } from './Cerveceria.js';
+
 export class Categoria extends Model{}
 
 Categoria.init({
@@ -24,3 +26,7 @@ Categoria.init({
         plural: 'categorias'
     }
 });
+
+
+Cerveceria.hasMany(Categoria,{foreignKey:'id_cerveceria'});
+Categoria.belongsTo(Cerveceria,{foreignKey:'id_cerveceria'});

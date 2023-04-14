@@ -1,3 +1,4 @@
+import { Sequelize } from "sequelize";
 import {sequelize} from "../../data/bd.js";
 import { Categoria } from "../../data/class/Categoria.js";
 import { Cerveceria } from "../../data/class/Cerveceria.js";
@@ -8,6 +9,27 @@ import { Rol } from "../../data/class/Rol.js";
 import { Usuario } from "../../data/class/Usuario.js";
 
 
+//Función para obtener todo el inventario de una determinada Cerveceria
+export async function getInventariobyID(idcerv){
+    const res = await Item.findAll({
+        include: [{
+            model: Categoria,
+            required: true,
+            attributes:['descripcion'],
+            include:[{
+                model: Cerveceria,
+                required:true,
+                attributes:[],
+                where: {
+                    id_cerveceria:idcerv
+                }
+            }]
+        }]
+
+    })
+    let data = JSON.stringify(res)
+    return JSON.parse(data);
+};
 
 //Función para insertar una nuevo usuario en la tabla 'usuarios'
 export async function nuevoUsuario(nombre,apellido,pass,mail,idcerv,idrol){
@@ -52,40 +74,89 @@ export async function DBget(clase){
     return data;
 };
 
-// sequelize.sync();
-
 
 //Función para obtener el resultado de un left join de un registro de la tabla1 por ID, incluyendo una tabla2
 export async function getTablaJoinbyID(clase1,clase2,id){
-    const res = await clase1.findAll({
-        where:{
-            id_usuario : id
-        },
-        include:clase2,
-    });
-    const data = JSON.stringify(res,null,2);
-    const resp = JSON.parse(data);
-    return(resp[0]);
+    try {
+        const res = await clase1.findAll({
+            where:{
+                id_usuario : id
+            },
+            include:clase2,
+        });
+        const data = JSON.stringify(res,null,2);
+        const resp = JSON.parse(data);
+        return(resp[0]);    
+    } catch (error) {
+        console.error('No se pudo encontrar el registro.',error)
+    }
 };
 
-console.log(await getTablaJoinbyID(Usuario,Cerveceria,5)); 
+// console.log(await getTablaJoinbyID(Usuario,Cerveceria,5)); 
 
 
-// await nuevoUsuario('Matias','Aguirre','matias123','matias@gmail.com',1,2);
-// await nuevoUsuario('Misael','Leyton','misael123','misael@gmail.com',1,2);
-// await nuevoUsuario('Oscar','Chavez','oscar123','oscar@gmail.com',1,2);
+//Función para añadir un nuevo estado a la tabla 'estados'
+export async function nuevoEstado(desc){
+    try {
+        const estado = await Estado.create({
+            descripcion:desc
+        });
+        console.log(`Estado ${desc} creado.`);
+    } catch (error) {
+        console.error('No se pudo crear el nuevo estado.',error);
+    }
+};
 
-// await nuevoUsuario('Tuku','A','tuku123','tuku@gmail.com',2,2);
-// await nuevoUsuario('Mauricio','B','mauricio123','mauricio@gmail.com',2,2);
-// await nuevoUsuario('Pablo','C','pablo123','pablo@gmail.com',2,2);
-// await nuevoUsuario('Eder','D','eder123','eder@gmail.com',2,3);
+//Función para añadir un nuevo item a la tabla 'inventario'
+export async function nuevoItem(qrcode,_tipo,capac,obs,idcliente,idestado,idcateg){
+    try {
+        const item = await Item.create({
+            qr_code:qrcode,
+            tipo:_tipo,
+            capacidad:capac,
+            observacion:obs,
+            id_cliente:idcliente,
+            id_estado:idestado,
+            id_categoria:idcateg,
+        });
+        console.log(`Nuevo ${_tipo} registrado`);
+    } catch (error) {
+        console.error('No se pudo crear el nuevo item.',error); 
+    }
+}
 
-// await nuevoUsuario('Francisco','Mono','mono123','mono@gmail.com',3,2);
-// await nuevoUsuario('Marcos','Galdames','marcos123','marcos@gmail.com',3,2);
-// await nuevoUsuario('Balú','Balu','balu123','balu@gmail.com',3,3);
+//Función para añadir una nueva categoria a la tabla 'categorias'
+export async function nuevaCateg(desc,idcerv){
+    try {
+        const cat = await Categoria.create({
+            descripcion:desc,
+            id_cerveceria:idcerv
+        });
+        console.log(`Categoria ${desc} creada.`);
+    } catch (error) {
+        console.error('No se pudo crear la nueva categoria.',error);
+    }
+};
 
 
+//Función para añadir un nuevo rol a la tabla 'roles'
+export async function nuevoRol(desc){
+    try {
+        const rol = await Rol.create({
+            descripcion:desc
+        });
+        console.log(`Rol ${desc} creado.`);
+    } catch (error) {
+        console.error('No se pudo crear el nuevo rol.',error);
+    }
+};
 
-// await nuevaCerveceria('Cervecería Brígida','Brigida SPA','77889910-1','Calle Falsa 123','La Cisterna');
-// await nuevaCerveceria('Cervecería Sibaros','Sibaros SPA','88991120-1','Calle Verdadera 123','Viña del Mar');
-// await nuevaCerveceria('Cervecería Biuzt','Biuzt SPA','99112230-1','Calle Probable 123','Viña del Mar');
+//Función para sincronizar tablas
+export async function syncTables(){
+    try {
+      await sequelize.sync();
+      console.log('Las tablas fueron sincronizadas exitosamente.');
+    } catch (error) {
+      console.error('Error al sincronizar tablas:', error);
+    }
+};

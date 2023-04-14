@@ -17,15 +17,14 @@ import { Estado } from "../data/class/Estado.js";
 import { Item } from "../data/class/Inventario.js";
 import { Rol } from "../data/class/Rol.js";
 import { Usuario } from "../data/class/Usuario.js";
-import JsonHandler from "../utils/class/JsonHandler.js";
-const jsonHandler = new JsonHandler(); 
+import { DBget, getInventariobyID } from "../utils/class/DBHandler.js";
 
 
 //Constantes
 const router = Router();
 const PassportLocal = passportLocal.Strategy
-const userList = await jsonHandler.getUsers();
-const cervList = await jsonHandler.getCerv();
+const userList = await DBget(Usuario);
+const cervList = await DBget(Cerveceria);
 
 //Variables
 let usuarioLog;
@@ -60,22 +59,23 @@ router.use(passport.session());
 //passport-local - configuración de estrategia de login
 passport.use(new PassportLocal(function(username,password,done){
     let validador = -1;
-    if(userList.map(e => e.user).indexOf(username) == -1){
+    // console.log(userList.map(e => e.email).indexOf(username));
+    if(userList.map(e => e.email).indexOf(username) != -1){
         validador = userList.map(e => e.email).indexOf(username);
-        } else {validador = userList.map(e => e.user).indexOf(username);
-    }
+    } 
     
     if (validador != -1){
         let usuario = userList[validador];
-        if (usuario.pass == password){
-            return done(null,{id:usuario.id , user:usuario.user , pass:usuario.pass , email:usuario.email , id_cerveceria:usuario.id_cerveceria})
+        console.log(usuario);
+        if (usuario.password == password){
+            return done(null,{id:usuario.id_usuario , user:usuario.nombre_usuario , email:usuario.email , id_cerveceria:usuario.id_cerveceria, rol:usuario.id_rol})
         } else { 
             return done(null,false,{message: 'Contraseña Incorrecta'})
         }    
     } else {
-        return done(null,false,{message: 'El usuario no existe'})
+        return done(null,false,{message: 'Correo no registrado'})
     }
-}))
+}));
 
 //Se configura la serialización, para almacenar la id del usuario logueado
 passport.serializeUser(function(user,done){
@@ -143,12 +143,22 @@ router.get('/app', (req,res,next) => {
 
     res.redirect("/login");
 } , (req,res) => {
+    console.log(req.session);
+    // console.log(`usuario:`,req.session.passport.user);
     usuarioLog = req.session.passport.user
-    cerveceriaLog = cervList.find(e => e.id == usuarioLog.id_cerveceria);
+    cerveceriaLog = cervList.find(e => e.id_cerveceria == usuarioLog.id_cerveceria);
     let isMaster = false;
     let isAdmin = false;
 
-    res.render("app",{cerveceria:cerveceriaLog.nombre, nombre:usuarioLog.user, isMaster:isMaster, isAdmin:isAdmin})
+    if (usuarioLog.rol == 2){
+        isAdmin = true;
+    } else if (usuarioLog.rol == 1){
+        isMaster = true;
+        isAdmin = true;
+    };
+
+
+    res.render("app",{cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:isMaster, isAdmin:isAdmin})
 })
 
 router.get('/logout', (req,res,next) => {
@@ -164,15 +174,20 @@ router.get('/inventariomob', (req,res,next) => {
 
     res.redirect("/login");
 } , async(req,res) => {
-    let dataInventario = await jsonHandler.getInventario();
-    let arrInventario = [];
-    dataInventario.forEach(e => {
-        if (e.id_cerveceria == cerveceriaLog.id){
-            arrInventario.push(e);
-        }
-    })
+    let arrInventario = await getInventariobyID(cerveceriaLog.id_cerveceria);
+    
+    let isMaster = false;
+    let isAdmin = false;
+    if (usuarioLog.rol == 2){
+        isAdmin = true;
+    } else if (usuarioLog.rol == 1){
+        isMaster = true;
+        isAdmin = true;
+        arrInventario= await DBget(Item);
+    };
 
-    res.render("inventariomob",{cerveceria:cerveceriaLog.nombre, inventario:arrInventario})
+
+    res.render("inventariomob",{cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, inventario:arrInventario, isMaster:isMaster, isAdmin:isAdmin})
 })
 
 
