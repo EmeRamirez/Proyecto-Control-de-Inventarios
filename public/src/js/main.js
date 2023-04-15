@@ -118,5 +118,5 @@ if (document.querySelector('#mensaje-login')){
    let mensajeError = document.querySelector('#mensaje-login')
     setTimeout(() => {
         mensajeError.classList.add('d-none');
-    }, 2200);
+    }, 3000);
 }

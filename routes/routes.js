@@ -18,6 +18,7 @@ import { Item } from "../data/class/Inventario.js";
 import { Rol } from "../data/class/Rol.js";
 import { Usuario } from "../data/class/Usuario.js";
 import { DBget, getInventariobyID } from "../utils/class/DBHandler.js";
+import { nuevoUsuario } from "../utils/class/DBHandler.js";
 
 
 //Constantes
@@ -25,6 +26,8 @@ const router = Router();
 const PassportLocal = passportLocal.Strategy
 const userList = await DBget(Usuario);
 const cervList = await DBget(Cerveceria);
+let isMaster = false;
+let isAdmin = false;
 
 //Variables
 let usuarioLog;
@@ -147,18 +150,18 @@ router.get('/app', (req,res,next) => {
     // console.log(`usuario:`,req.session.passport.user);
     usuarioLog = req.session.passport.user
     cerveceriaLog = cervList.find(e => e.id_cerveceria == usuarioLog.id_cerveceria);
-    let isMaster = false;
-    let isAdmin = false;
+    usuarioLog.isMaster = false;
+    usuarioLog.isAdmin = false;
 
     if (usuarioLog.rol == 2){
-        isAdmin = true;
+        usuarioLog.isAdmin = true;
     } else if (usuarioLog.rol == 1){
-        isMaster = true;
-        isAdmin = true;
+        usuarioLog.isMaster = true;
+        usuarioLog.isAdmin = true;
     };
 
 
-    res.render("app",{cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:isMaster, isAdmin:isAdmin})
+    res.render("app",{cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin})
 })
 
 router.get('/logout', (req,res,next) => {
@@ -176,19 +179,56 @@ router.get('/inventariomob', (req,res,next) => {
 } , async(req,res) => {
     let arrInventario = await getInventariobyID(cerveceriaLog.id_cerveceria);
     
-    let isMaster = false;
-    let isAdmin = false;
-    if (usuarioLog.rol == 2){
-        isAdmin = true;
-    } else if (usuarioLog.rol == 1){
-        isMaster = true;
-        isAdmin = true;
+    if (usuarioLog.rol == 1){
         arrInventario= await DBget(Item);
-    };
+    }
 
 
-    res.render("inventariomob",{cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, inventario:arrInventario, isMaster:isMaster, isAdmin:isAdmin})
+    res.render("inventariomob",{cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, inventario:arrInventario, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin})
 })
+
+
+router.get('/register', (req,res,next) => {
+    if(req.isAuthenticated()) return next();
+
+    res.redirect("/login");
+} , async(req,res) => {
+
+    res.render("register",{cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, cervList:cervList})
+})
+
+router.post('/register', async(req,res,next) => {
+    let email     = req.body.email
+    let password = req.body.password
+    let name     = req.body.name
+    let lastname = req.body.lastname
+    let rolus    = req.body.rolus
+    let cervus   = '';
+
+    console.log(email);
+    if (userList.map(e => e.email).indexOf(email) != -1){
+        res.render("register",{error:'El correo electrónico ya se encuentra registrado',cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, cervList:cervList})
+    }else{
+        if (req.body.password[0] != req.body.password[1]){
+            res.render("register",{error:'Validacón de Password no válida',cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, cervList:cervList})
+        }else{
+            if (usuarioLog.rol == 1){
+                console.log(req.body);
+                cervus = req.body.cervus;
+            } else {
+                cervus = usuarioLog.id_cerveceria;
+            };
+
+            const nuevousuario = await nuevoUsuario(name,lastname,password[0],email,cervus,parseInt(rolus));
+            if (nuevousuario){
+                res.send("<script>alert('Nuevo Usuario creado exitosamente.');;window.location.href='/register'</script>")
+            }else{
+                res.send("<script>alert('Error al crear el usuario');;window.location.href='/register'</script>")
+            } 
+        }   
+}
+});
+
 
 
 //===================TESTING===================//

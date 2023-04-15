@@ -4,8 +4,14 @@
     
     <div class="header-app">
         <div class="header-app-info">
+            {{#unless isMaster}}
             <p class="header-subtitle">{{cerveceria}}</p>
             <h4 class="header-title">Dashboard</h4>
+            {{/unless}}
+            {{#if isMaster}}
+            <p class="header-subtitle">Admin</p>
+            <h4 class="header-title">Dashboard</h4>
+            {{/if}}
         </div>
         <div class="header-app-panel">
             <div class="dropdown dropdown-desk">
@@ -15,10 +21,10 @@
                 <i class="fa-solid fa-user user-login user-login-desk" style="font-size: 20px; letter-spacing: 0.3vw; color:white"></i>
                 <ul class="dropdown-menu">
                     {{#if isMaster}}
-                        <li><a class="dropdown-item" href="#">Registrar Cerveceria</a></li>
+                        <li><a class="dropdown-item" href="/regicerv">Registrar Cerveceria</a></li>
                     {{/if}}
                     {{#if isAdmin}}    
-                        <li><a class="dropdown-item" href="#">Registrar Usuario</a></li>
+                        <li><a class="dropdown-item" href="/register">Registrar Usuario</a></li>
                     {{/if}}
                         <li><a class="dropdown-item" href="/logout">Cerrar Sesión</a></li>
                 </ul>
@@ -29,13 +35,15 @@
                     <i class="fa-solid fa-user user-login" style="font-size: 20px; letter-spacing: 0.3vw; color:white"></i>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Mi Cerveceria</a></li>
-                    <li><a class="dropdown-item" href="#">Registrar Usuario</a></li>
-                    <li><a class="dropdown-item" href="/logout">Cerrar Sesión</a></li>
+                     {{#if isMaster}}
+                        <li><a class="dropdown-item" href="/regicerv">Registrar Cerveceria</a></li>
+                    {{/if}}
+                    {{#if isAdmin}}    
+                        <li><a class="dropdown-item" href="/register">Registrar Usuario</a></li>
+                    {{/if}}
+                        <li><a class="dropdown-item" href="/logout">Cerrar Sesión</a></li>
                 </ul>
             </div>
-            {{!-- <i class="fa-solid fa-user user-login" style="font-size: 30px; letter-spacing: 0.3vw; color:white"></i>
-            <a href="/logout"><button class="btn btn-outline-secondary" >Log Out</button></a> --}}
         </div>
     </div>
 
@@ -55,7 +63,7 @@
 
     <div class="appfooterspace">
         <div class="foot-menu" style="background-color: #1B232A;"></div>
-        <div><p></p></div>
+        <div style="background-color:#3d8296"><p></p></div>
     </div>
 
 

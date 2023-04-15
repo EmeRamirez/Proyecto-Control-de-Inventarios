@@ -43,8 +43,10 @@ export async function nuevoUsuario(nombre,apellido,pass,mail,idcerv,idrol){
             id_rol:idrol
         });
         console.log(`El nuevo usuario ha sido creado con éxito.`);
+        return true;
     } catch (error) {
         console.error('Error al crear el nuevo usuario', error);
+        return false;
     }
 };
 
@@ -76,7 +78,7 @@ export async function DBget(clase){
 
 
 //Función para obtener el resultado de un left join de un registro de la tabla1 por ID, incluyendo una tabla2
-export async function getTablaJoinbyID(clase1,clase2,id){
+export async function getTablaJoinbyID(clase1,id,clase2){
     try {
         const res = await clase1.findAll({
             where:{
@@ -92,7 +94,11 @@ export async function getTablaJoinbyID(clase1,clase2,id){
     }
 };
 
-// console.log(await getTablaJoinbyID(Usuario,Cerveceria,5)); 
+const result = await getTablaJoinbyID(Usuario,2,Cerveceria);
+console.log(result.cerveceria.razonsocial);
+// console.log(result);
+
+// console.log(await DBget(Item));
 
 
 //Función para añadir un nuevo estado a la tabla 'estados'
