@@ -21,5 +21,9 @@ Estado.init({
     sequelize,
     tableName: 'estados',
     createdAt: false,
-    updatedAt: false
+    updatedAt: false,
+    name:{
+        singular: 'estado',
+        plural: 'estados'
+    }
 });

@@ -63,6 +63,10 @@ import { syncTables, getTablaJoinbyID, nuevoRol, nuevoEstado, nuevoUsuario, nuev
 // await nuevoItem('BRDA04','Barril Inox','30 Lts',null,null,3,8);
 // await nuevoItem('BRDA05','Barril Inox','30 Lts',null,null,3,8);
 // await nuevoItem('BRDA06','Barril Inox','30 Lts',null,null,6,1);
+// await nuevoItem('BRDA07','Barril Inox','30 Lts',null,null,1,9);
+// await nuevoItem('BRDA08','Barril Inox','30 Lts',null,null,1,8);
+// await nuevoItem('BRDA09','Barril Inox','30 Lts',null,null,5,1);
+// await nuevoItem('BRDA010','Barril Inox','30 Lts',null,null,6,1);
 
 // await nuevoItem('SIOS01','Barril Inox','30 Lts',null,null,4,11);
 // await nuevoItem('SIOS02','Barril Inox','30 Lts',null,null,3,11);
@@ -94,9 +98,9 @@ import { syncTables, getTablaJoinbyID, nuevoRol, nuevoEstado, nuevoUsuario, nuev
 
 
 
-let arrItems = await getInventariobyID(2);
-console.log(arrItems);
-console.log(arrItems[3].categoria.descripcion);
+// let arrItems = await getInventariobyID(2);
+// console.log(arrItems);
+// console.log(arrItems[3].categoria.descripcion);
     
 // export async function getprueba(idcerv){
 //         const data = await Item.findAll({

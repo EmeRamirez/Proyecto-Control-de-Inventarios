@@ -286,8 +286,60 @@ html{
   width: 100px;
 }
 
+/* ================================ SECCION INFORMES ================================== */
 
-@media only screen and (max-height: 680px) {
+.body-container-informe{
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 180px;
+}
+
+.cont-ext-graf{
+  display: grid;
+  grid-template-columns: 30% 70%;
+  margin-top: 10vh;
+  min-width: 80%;
+}
+
+.graf-container{
+  display: flex;
+  max-width: 450px;
+  max-height: 450px;
+  background-color: #3a3a49;
+  padding: 25px;
+  border-radius: 30px;
+}
+
+.graf-menu{
+  display: grid;
+  align-content: center;
+  gap: 40px;
+  margin-bottom: 40px;
+  margin-right: 25px;
+}
+
+.btn-informe{
+  padding: 1vw 2vw;
+  max-width: 15vw;
+  max-height: 10vh;
+  font-size: 1.3rem;
+  border-radius: 20px;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: 2px;
+  color: #fff;
+  background-color: #1B232A;
+}
+
+/* Fuentes
+font-family: 'Noto Sans', sans-serif;
+font-family: 'Roboto', sans-serif;
+font-family: 'Work Sans', sans-serif; 
+font-family: 'Poppins', sans-serif;
+*/
+
+
+
+/* @media only screen and (max-height: 680px) {
   .body-container{
     display: flex;
     flex-direction: column;
@@ -298,5 +350,5 @@ html{
   }
 
 
-}
+} */
 

@@ -1,4 +1,3 @@
-import { Sequelize } from "sequelize";
 import {sequelize} from "../../data/bd.js";
 import { Categoria } from "../../data/class/Categoria.js";
 import { Cerveceria } from "../../data/class/Cerveceria.js";
@@ -9,7 +8,7 @@ import { Rol } from "../../data/class/Rol.js";
 import { Usuario } from "../../data/class/Usuario.js";
 
 
-//Función para obtener todo el inventario de una determinada Cerveceria
+//Función para obtener todo el inventario de una determinada Cerveceria incluyendo descripcion de categoría
 export async function getInventariobyID(idcerv){
     const res = await Item.findAll({
         include: [{
@@ -30,6 +29,44 @@ export async function getInventariobyID(idcerv){
     let data = JSON.stringify(res)
     return JSON.parse(data);
 };
+
+let inven = await getInventariobyID(2);
+// console.log(inven);
+
+//Función para obtener todo el inventario de todas las cervecerias incluyendo los subcampos.
+export async function getInventarioAll(){
+    const res = await Item.findAll({
+        include: [{ all:true}]
+    })
+    let data = JSON.stringify(res)
+    return JSON.parse(data);
+};
+
+//Función para obtener todo el inventario una determinada cerveceria incluyendo los subcampos.
+export async function getInventariobyID2(idcerv){
+    const res = await Item.findAll({
+        include: [Estado,{
+            model: Categoria,
+            required: true,
+            attributes:['descripcion'],
+            include:[{
+                model: Cerveceria,
+                required:true,
+                attributes:[],
+                where: {
+                    id_cerveceria:idcerv
+                }
+            }], 
+        }]
+
+    })
+    let data = JSON.stringify(res)
+    return JSON.parse(data);
+};
+
+
+// let res = await getInventariobyID2(4);
+// console.log(res.map(e => e.estado.descripcion));
 
 //Función para insertar una nuevo usuario en la tabla 'usuarios'
 export async function nuevoUsuario(nombre,apellido,pass,mail,idcerv,idrol){
@@ -61,10 +98,26 @@ export async function nuevaCerveceria(nombre,razs,rut,direc,cmna){
             comuna:cmna
         });
         console.log(`La nueva cervecería ha sido creada con éxito.`);
+        return true;
     } catch (error) {
         console.error('Error al crear cervecería', error);
+        return false;
+    };
+};
+
+//Funcion para contar los estados de la lista de items de determinada cervecería.
+export async function contarEstados(idcerv){
+    try {
+        const res = await sequelize.query(`SELECT est.descripcion, COUNT(est.id_estado) AS Conteo_estado FROM inventario as i INNER JOIN estados as est ON i.id_estado = est.id_estado INNER JOIN categorias as cat ON i.id_categoria = cat.id_categoria INNER JOIN cervecerias as cer ON cer.id_cerveceria = cat.id_cerveceria WHERE cer.id_cerveceria = ${idcerv} GROUP BY est.descripcion`);
+        return res[0];
+    } catch (error) {
+        console.error('Error al contar los estados del inventario.', error);
     }
 };
+
+// console.table(await contarEstados(4));
+// console.log(await contarEstados(4));
+
 
 
 //Funcion para obtener todos los datos de una tabla
@@ -94,8 +147,8 @@ export async function getTablaJoinbyID(clase1,id,clase2){
     }
 };
 
-const result = await getTablaJoinbyID(Usuario,2,Cerveceria);
-console.log(result.cerveceria.razonsocial);
+// const result = await getTablaJoinbyID(Usuario,2,Cerveceria);
+// console.log(result.cerveceria.razonsocial);
 // console.log(result);
 
 // console.log(await DBget(Item));

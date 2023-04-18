@@ -1,4 +1,4 @@
--- Active: 1680180900307@@127.0.0.1@5432@meetmykeg
+-- Active: 1680180900307@@127.0.0.1@5432@mmktest
 CREATE DATABASE meetmykeg;
 
 DROP TABLE nombre;
@@ -88,3 +88,11 @@ INSERT INTO contenidos (contenido) VALUES
 
 ALTER TABLE inventario ADD CONSTRAINT fk_idcontenido_inventario
 FOREIGN KEY (contenidos_id) REFERENCES contenidos(idcontenido);
+
+
+SELECT est.descripcion, COUNT(est.id_estado) AS Conteo_estado FROM inventario as i
+INNER JOIN estados as est ON i.id_estado = est.id_estado
+INNER JOIN categorias as cat ON i.id_categoria = cat.id_categoria
+INNER JOIN cervecerias as cer ON cer.id_cerveceria = cat.id_cerveceria
+WHERE cer.id_cerveceria = 4
+GROUP BY est.descripcion;

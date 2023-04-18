@@ -7,11 +7,11 @@
     <div class="header-app-info">
       {{#unless isMaster}}
       <p class="header-subtitle">{{cerveceria}}</p>
-      <h4 class="header-title">Dashboard</h4>
+      <h4 class="header-title">Informes</h4>
       {{/unless}}
       {{#if isMaster}}
       <p class="header-subtitle">Admin</p>
-      <h4 class="header-title">Dashboard</h4>
+      <h4 class="header-title">Informes</h4>
       {{/if}}
     </div>
     <div class="header-app-panel">
@@ -53,45 +53,24 @@
   <div class="body-app">
     <!-- MENU PRINCIPAL DESKTOP -->
     <div class="menu-desk">
-        <a href="app"><i class="fa-solid fa-house fa-2xl optionselected"></i></a>
+        <a href="app"><i class="fa-solid fa-house fa-2xl"></i></a>
         <a href="inventariomob"><i class="fa-solid fa-folder-tree fa-2xl"></i></a>
-        <a href="informe"><i class="fa-solid fa-chart-line fa-2xl"></i></a>
+        <a href="informe"><i class="fa-solid fa-chart-line fa-2xl optionselected"></i></a>
         <i class="fa-solid fa-qrcode fa-2xl"></i>
     </div>
-    <div class="body-container">
-          
-      <div class="form_wrapper">
-        <div class="form_container">
-          <div class="title_container">
-            <h2>Nueva Cerveceria</h2>
-          </div>
-          <div class="row clearfix">
-            <div class="">
-              <form method="POST" action="/regicerv">
-                <div class="input_field"> <span><i aria-hidden="true" class="fa-solid fa-beer-mug-empty"></i></span>
-                  <input type="text" name="name" placeholder="Nombre Cervecería" required />
-                </div>
-                <div class="input_field"> <span><i aria-hidden="true" class="fa-solid fa-passport"></i></span>
-                  <input type="text" name="razonsocial" placeholder="Razon Social" required />
-                </div>
-                <div class="input_field"> <span><i aria-hidden="true" class="fa-solid fa-id-card"></i></span>
-                  <input type="text" name="rut" placeholder="Rut Empresa" required />
-                </div>
-                <div class="input_field"> <span><i aria-hidden="true" class="fa-solid fa-location-dot"></i></span>
-                  <input type="text" name="direccion" placeholder="Dirección" required />
-                </div>
-                <div class="input_field"> <span><i aria-hidden="true" class="fa-solid fa-map-location-dot"></i></span>
-                  <input type="text" name="comuna" placeholder="Comuna" required />
-                </div>
-                    {{#if error}}
-                      <div style="text-align: center; margin-bottom: 15px"><span id="mensaje-login">{{error}}</span></div>
-                    {{/if}}
-                <input class="button" type="submit" value="Registrar" />
-              </form>
+    
+    <div class="body-container-informe">
+        <div class="cont-ext-graf">
+            <div class="graf-menu">
+                <button class="btn btn-dark btn-informe">Barriles</button>
+                <button class="btn btn-dark btn-informe">Categorias</button>
+                <button class="btn btn-dark btn-informe">Clientes</button>
+
             </div>
-          </div>
+            <div class="graf-container">
+                <canvas class="" id="myChart"></canvas>
+            </div>
         </div>
-      </div>
     </div>
   </div>
 
@@ -102,11 +81,38 @@
 
   <!-- MENU PRINCIPAL MOBILE -->
   <div class="menu-celu">
-      <a href="app"><i class="fa-solid fa-house fa-2xl optionselected"></i></a>
+      <a href="app"><i class="fa-solid fa-house fa-2xl"></i></a>
       <a href="inventariomob"><i class="fa-solid fa-folder-tree fa-2xl"></i></a>
-      <a href="informe"><i class="fa-solid fa-chart-line fa-2xl"></i></a>
+      <a href="informe"><i class="fa-solid fa-chart-line fa-2xl optionselected"></i></a>
       <i class="fa-solid fa-qrcode fa-2xl"></i>
   </div>  
 </div>
+
+<script>
+  const ctx = document.getElementById('myChart');
+  
+Chart.defaults.font.size = 16;
+Chart.defaults.font.weight = 'bold';
+Chart.defaults.color = '#fff';
+  new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: [{{{arrLabels}}}],
+          datasets: [{
+            label: 'Estado de Barriles',
+            data: [{{arrDatos}}],
+            borderWidth: 0.5,
+          }]
+        },
+        options: {
+          plugins: {
+          datalabels: {
+            color: 'red'
+          }
+          }
+        }
+    });
+  
+</script>
 
 {{/layoutapp}}
