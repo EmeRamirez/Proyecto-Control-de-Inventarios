@@ -17,20 +17,20 @@
     <div class="header-app-panel">
       <!-- MENU DROPDOWN DESKTOP -->
       <div class="dropdown dropdown-desk">
-          <button class="btn btn-secondary dropdown-toggle log-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Hola {{capitalizar nombre}}
-          </button>
-          <i class="fa-solid fa-user user-login user-login-desk" style="font-size: 20px; letter-spacing: 0.3vw; color:white"></i>
-          <ul class="dropdown-menu">
-            {{#if isMaster}}
-                <li><a class="dropdown-item" href="/regicerv">Registrar Cervecería</a></li>
-            {{/if}}
-            {{#if isAdmin}}    
-                <li><a class="dropdown-item" href="/register">Registrar Usuario</a></li>
-                <li><a class="dropdown-item" href="/regicat">Registrar Categoría</a></li>
-            {{/if}}
-                <li><a class="dropdown-item" href="/logout">Cerrar Sesión</a></li>
-          </ul>
+            <button class="btn btn-secondary dropdown-toggle log-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Hola {{capitalizar nombre}}
+            </button>
+            <i class="fa-solid fa-user user-login user-login-desk" style="font-size: 20px; letter-spacing: 0.3vw; color:white"></i>
+            <ul class="dropdown-menu">
+                {{#if isMaster}}
+                    <li><a class="dropdown-item" href="/regicerv">Registrar Cervecería</a></li>
+                {{/if}}
+                {{#if isAdmin}}    
+                    <li><a class="dropdown-item" href="/register">Registrar Usuario</a></li>
+                    <li><a class="dropdown-item" href="/regicat">Registrar Categoría</a></li>
+                {{/if}}
+                    <li><a class="dropdown-item" href="/logout">Cerrar Sesión</a></li>
+            </ul>
       </div>
 
       <!-- MENU DROPDOWN MOBILE -->
@@ -44,7 +44,7 @@
               {{/if}}
               {{#if isAdmin}}    
                   <li><a class="dropdown-item" href="/register">Registrar Usuario</a></li>
-                  <li><a class="dropdown-item" href="/regicat">Registrar Categoría</a></li>                  
+                  <li><a class="dropdown-item" href="/regicat">Registrar Categoría</a></li>
               {{/if}}
                   <li><a class="dropdown-item" href="/logout">Cerrar Sesión</a></li>
           </ul>
@@ -65,25 +65,13 @@
       <div class="form_wrapper">
         <div class="form_container">
           <div class="title_container">
-            <h2>Nueva Cerveceria</h2>
+            <h2>Nueva Categoría</h2>
           </div>
           <div class="row clearfix">
             <div class="">
-              <form method="POST" action="/regicerv">
+              <form method="POST" action="/regicat">
                 <div class="input_field"> <span><i aria-hidden="true" class="fa-solid fa-beer-mug-empty"></i></span>
-                  <input type="text" name="name" placeholder="Nombre Cervecería" required />
-                </div>
-                <div class="input_field"> <span><i aria-hidden="true" class="fa-solid fa-passport"></i></span>
-                  <input type="text" name="razonsocial" placeholder="Razon Social" required />
-                </div>
-                <div class="input_field"> <span><i aria-hidden="true" class="fa-solid fa-id-card"></i></span>
-                  <input type="text" name="rut" placeholder="Rut Empresa" required />
-                </div>
-                <div class="input_field"> <span><i aria-hidden="true" class="fa-solid fa-location-dot"></i></span>
-                  <input type="text" name="direccion" placeholder="Dirección" required />
-                </div>
-                <div class="input_field"> <span><i aria-hidden="true" class="fa-solid fa-map-location-dot"></i></span>
-                  <input type="text" name="comuna" placeholder="Comuna" required />
+                  <input type="text" name="name" placeholder="Nombre de la categoría" required />
                 </div>
                     {{#if error}}
                       <div style="text-align: center; margin-bottom: 15px"><span id="mensaje-login">{{error}}</span></div>
@@ -97,13 +85,13 @@
       <div class="form_wrapper cont-eliminar">
         <div class="form_container">
           <div class="title_container">
-            <h2>Eliminar Cerveceria</h2>
-            <form method="POST" action="/delcerv">
+            <h2>Eliminar Categoría</h2>
+            <form method="POST" action="/delcat">
               <div class="input_field select_option">
-                <select name="cervlist" required>
-                  <option value="">Seleccione una cerveceria</option>
-                  {{#each cervlist}}
-                  <option value={{id_cerveceria}}>{{nombre_cerveceria}}</option>
+                <select name="catlist" required>
+                  <option value="">Seleccione una categoria</option>
+                  {{#each catlist}}
+                  <option value={{id_categoria}}>{{descripcion}}</option>
                   {{/each}}
                 </select>
                 <div class="select_arrow"></div>

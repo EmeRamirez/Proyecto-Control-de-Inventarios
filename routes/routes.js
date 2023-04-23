@@ -9,29 +9,23 @@ import bodyParser from 'body-parser';
 import { Router } from "express";
 
 //Handlers
-import {sequelize} from "../data/bd.js";
-import { Categoria } from "../data/class/Categoria.js";
-import { Cerveceria } from "../data/class/Cerveceria.js";
-import { Cliente } from "../data/class/Cliente.js";
-import { Estado } from "../data/class/Estado.js";
-import { Item } from "../data/class/Inventario.js";
-import { Rol } from "../data/class/Rol.js";
-import { Usuario } from "../data/class/Usuario.js";
-import { DBget, getInventariobyID, nuevaCerveceria, contarEstados } from "../utils/class/DBHandler.js";
-import { nuevoUsuario } from "../utils/class/DBHandler.js";
-
+import * as aHd from "../utils/controllers/apiHandler.js";
 
 //Constantes
 const router = Router();
 const PassportLocal = passportLocal.Strategy
-const userList = await DBget(Usuario);
-const cervList = await DBget(Cerveceria);
+
 
 //Variables
+let userList;
+let cervList;
 let usuarioLog;
 let cerveceriaLog;
 let inventarioCerv;
 let conteoEstados;
+let cervUsers;
+let cervCats;
+let token;
 
 
 // ========== Configuración de Middleware ========== //
@@ -60,16 +54,21 @@ router.use(passport.initialize());
 router.use(passport.session());
 
 //passport-local - configuración de estrategia de login
-passport.use(new PassportLocal(function(username,password,done){
+passport.use(new PassportLocal(async function(username,password,done){
+    token = await aHd.getToken(username);
+    console.log('=============== TOKEN 1 ===============');
+    console.log(token);
+    userList = await aHd.getUsuarios(token);
+    token = '';
+    
     let validador = -1;
-    // console.log(userList.map(e => e.email).indexOf(username));
     if(userList.map(e => e.email).indexOf(username) != -1){
         validador = userList.map(e => e.email).indexOf(username);
     } 
     
     if (validador != -1){
         let usuario = userList[validador];
-        console.log(usuario);
+
         if (usuario.password == password){
             return done(null,{id:usuario.id_usuario , user:usuario.nombre_usuario , email:usuario.email , id_cerveceria:usuario.id_cerveceria, rol:usuario.id_rol})
         } else { 
@@ -113,7 +112,7 @@ router.get('/contacto', (req,res) => {
 //===================GET===================//
 
 router.get('/login', (req,res) => {
-    console.log(req.session);
+    // console.log(req.session);
         if (req.session.flash){
             if (req.session.flash.error){
             let msjError = req.session.flash.error[0].toString()
@@ -130,7 +129,7 @@ router.get('/login', (req,res) => {
 //===================POST===================//
 
 router.post('/login', passport.authenticate('local',{
-    //Si el usuario aprueba la estrategia configurada en la línea 53
+    //Si el usuario aprueba la estrategia configurada en la línea 55
     successRedirect: "/app",
     failureRedirect: "/login",
     failureFlash: true
@@ -146,25 +145,44 @@ router.get('/app', (req,res,next) => {
 
     res.redirect("/login");
 } , async(req,res) => {
-    console.log(req.session);
-    // console.log(`usuario:`,req.session.passport.user);
-    usuarioLog = req.session.passport.user
-    cerveceriaLog = cervList.find(e => e.id_cerveceria == usuarioLog.id_cerveceria);
-    inventarioCerv = await getInventariobyID(cerveceriaLog.id_cerveceria);
-    conteoEstados = await contarEstados(cerveceriaLog.id_cerveceria)
-    usuarioLog.isMaster = false;
-    usuarioLog.isAdmin = false;
+    //Se asigna a la variable global el usuario que se encuentra en la sesión
+    usuarioLog = req.session.passport.user;
+ 
+    //Al iniciar sesión se le asigna un token al usuario
+    token = await aHd.getToken(usuarioLog.email);
+    console.log('=============== TOKEN 2 ===============');
+    console.log(token);
+    
+    let auth = await aHd.authToken(token);
+    console.log(auth);
+    if(!auth){
+        res.redirect('/login');
+    } else {
 
-    if (usuarioLog.rol == 2){
-        usuarioLog.isAdmin = true;
-    } else if (usuarioLog.rol == 1){
-        usuarioLog.isMaster = true;
-        usuarioLog.isAdmin = true;
-    };
+        //Se asigna a la variable global la lista de cervecerías traidas desde la API
+        cervList = await aHd.getCervecerias(token);
+        // console.log(cervList);
+        
+        //Se busca la cervecería perteneciente al usuario en sesión y se asigna a la variable global
+        cerveceriaLog = cervList.find(e => e.id_cerveceria == usuarioLog.id_cerveceria);
+
+        // inventarioCerv = await getInventariobyID(cerveceriaLog.id_cerveceria);
+        // conteoEstados = await contarEstados(cerveceriaLog.id_cerveceria)
+        usuarioLog.isMaster = false;
+        usuarioLog.isAdmin = false;
+
+        if (usuarioLog.rol == 2){
+            usuarioLog.isAdmin = true;
+        } else if (usuarioLog.rol == 1){
+            usuarioLog.isMaster = true;
+            usuarioLog.isAdmin = true;
+        };
 
 
-    res.render("app",{cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin})
-})
+        res.render("app",{cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin})
+    }
+    }
+);
 
 
 //===================GET===================//
@@ -172,6 +190,7 @@ router.get('/app', (req,res,next) => {
 router.get('/logout', (req,res,next) => {
     req.logout((err) => {
         if (err) {return next(err)};
+        token = '';
         res.redirect("login");
     })  
 })
@@ -179,10 +198,10 @@ router.get('/logout', (req,res,next) => {
 
 //===================GET===================//
 
-router.get('/inventariomob', (req,res,next) => {
-    if(req.isAuthenticated()) return next();
+router.get('/inventariomob', async(req,res,next) => {
+    if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
 
-    res.redirect("/login");
+    res.send("<script>alert('Su sesión ha caducado. Ingrese nuevamente.');window.location.href='/login'</script>");
 } , async(req,res) => {
     
     if (usuarioLog.rol == 1){
@@ -196,32 +215,41 @@ router.get('/inventariomob', (req,res,next) => {
 
 //===================GET===================//
 
-router.get('/register', (req,res,next) => {
-    if(req.isAuthenticated()) return next();
+router.get('/register', async(req,res,next) => {
+    if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
 
-    res.redirect("/login");
+    res.send("<script>alert('Su sesión ha caducado. Ingrese nuevamente.');window.location.href='/login'</script>");
 } , async(req,res) => {
 
-    if(usuarioLog.rol == 3){
+    //Se almacena la lista de usuarios de la cervecería correspondiente al usuario y su rol para renderizar selectivamente.
+    cervUsers = [];
+    if(usuarioLog.rol == 3){ //Caso USER (No puede insertar ni eliminar usuarios)
         res.redirect("/app");
+    } else if (usuarioLog.rol == 2){ //Caso ADMIN (Solo puede insertar y eliminar usuarios de su cervecería)
+        userList.forEach(e =>{
+            if (e.id_cerveceria == usuarioLog.id_cerveceria && e.email != usuarioLog.email){cervUsers.push(e)};
+        });
+    } else if (usuarioLog.rol == 1){ //Caso MASTER (tiene acceso a todos los usuarios, exceptuando a sí mismo)
+        cervUsers = userList;
+        cervUsers = cervUsers.slice(1);
     };
 
-    res.render("register",{cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, cervList:cervList})
-})
+
+    res.render("register",{cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, cervList:cervList, listaus:cervUsers})
+});
 
 
 //===================POST===================//
 
 router.post('/register', async(req,res) => {
 
-    let email     = req.body.email
+    let email    = req.body.email
     let password = req.body.password
     let name     = req.body.name
     let lastname = req.body.lastname
-    let rolus    = req.body.rolus
+    let rolus    = parseInt(req.body.rolus)
     let cervus   = '';
 
-    console.log(email);
     if (userList.map(e => e.email).indexOf(email) != -1){
         res.render("register",{error:'El correo electrónico ya se encuentra registrado',cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, cervList:cervList})
     }else{
@@ -229,60 +257,190 @@ router.post('/register', async(req,res) => {
             res.render("register",{error:'Validacón de Password no válida',cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, cervList:cervList})
         }else{
             if (usuarioLog.rol == 1){
-                console.log(req.body);
                 cervus = req.body.cervus;
             } else {
                 cervus = usuarioLog.id_cerveceria;
             };
 
-            const nuevousuario = await nuevoUsuario(name,lastname,password[0],email,cervus,parseInt(rolus));
-            if (nuevousuario){
-                res.send("<script>alert('Nuevo Usuario creado exitosamente.');window.location.href='/register'</script>")
-            }else{
-                res.send("<script>alert('Error al crear el usuario');window.location.href='/register'</script>")
-            } 
+            password = password[0];
+
+            const data = {
+                name,
+                lastname,        
+                password,
+                email,
+                rolus,
+                cervus
+            };
+
+            let nuevous = await aHd.setUsuario(data,token);
+            console.log(`Fetch Status: ${nuevous}`);  //Esta variable almacena un booleano como valor del response.ok del fetch a la API, indicando si se realizó o no la acción
+
+            if (nuevous){
+                userList = await aHd.getUsuarios(token);
+                res.send("<script>alert('Nuevo Usuario creado exitosamente.');window.location.href='/register'</script>");
+            } else {
+                res.send("<script>alert('No se pudo crear el usuario');window.location.href='/register'</script>")
+            };
         }   
 }
+});
+
+//===================POST===================//
+
+router.post('/delusuario', async(req,res) => {
+    let user = req.body.uslist;
+    const elimin = await aHd.delUsuario(user,token);
+    console.log(`Fetch status: ${elimin}`);
+
+    if (elimin){
+        userList = await aHd.getUsuarios(token);
+        res.send("<script>alert('Usuario eliminado.');window.location.href='/register'</script>");
+    } else {
+        res.send("<script>alert('No se pudo eliminar al usuario.');window.location.href='/register'</script>");
+    }
+
 });
 
 
 //===================GET===================//
 
-router.get('/regicerv', (req,res,next) => {
-    if(req.isAuthenticated()) return next();
+router.get('/regicerv', async(req,res,next) => {
+    if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
 
-    res.redirect("/login");
-} , async(req,res) => {
+    res.send("<script>alert('Su sesión ha caducado. Ingrese nuevamente.');window.location.href='/login'</script>");
 
-    if(usuarioLog.rol == 3){
+}, async(req,res) => {
+    //A esta ruta solo puede acceder el usuario con rol MASTER
+    if(usuarioLog.rol == 3 || usuarioLog.rol == 2){
         res.redirect("/app");
     };
 
-    res.render("regicerv",{cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin})
+
+    let selectCerv = cervList.slice(1);
+    console.log(selectCerv);
+
+    res.render("regicerv",{cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, cervlist:selectCerv})
 });
 
 
 //===================POST===================//
 
 router.post('/regicerv', async(req,res,next) => {
-    let nombre_cerv = req.body.name;
-    let razons      = req.body.razonsocial;
-    let rutcerv     = req.body.rut;
-    let direcc      = req.body.direccion;
-    let comna       = req.body.comuna;
+    console.log(req.body);
+    const nombre_cerv = req.body.name;
+    const razons = req.body.razonsocial;
+    const rutcerv = req.body.rut;
+    const direcc = req.body.direccion;
+    const comna = req.body.comuna;
     
     if (cervList.map(e => e.nombre_cerveceria).indexOf(nombre_cerv) != -1){
         res.render("regicerv",{error:'La cervecería ya se encuentra registrada',cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, cervList:cervList})
     }else{
-        const newcerv = await nuevaCerveceria(nombre_cerv,razons,rutcerv,direcc,comna);
+       
+        const data = {
+            nombre_cerv,
+            razons,        
+            rutcerv,
+            direcc,
+            comna
+        };
+
+        let newcerv = await aHd.setCerveceria(data,token);
+        console.log(`Fetch Status: ${newcerv}`);  //Esta variable almacena un booleano como valor del response.ok del fetch a la API, indicando si se realizó o no la acción
 
         if (newcerv){
-            res.send("<script>alert('Nueva cervecería creada exitosamente.');window.location.href='/regicerv'</script>")   
+            cervList = await aHd.getCervecerias(token);
+            res.send("<script>alert('Nueva cervecería creada exitosamente.');window.location.href='/regicerv'</script>");
         } else {
-            res.send("<script>alert('Error al crear la nueva cervecería.');window.location.href='/regicerv'</script>") 
-        }    
+            res.send("<script>alert('Error al crear la nueva cervecería.');window.location.href='/regicerv'</script>")
+        };
+
     }
 });
+
+
+//===================POST===================//
+
+router.post('/delcerv', async(req,res,next) => {
+    let id = req.body.cervlist;
+    const elimin = await aHd.delCerveceria(id,token);
+    console.log(`Fetch status: ${elimin}`);
+
+    if (elimin){
+        cervList = await aHd.getCervecerias(token);
+        res.send("<script>alert('Cervecería eliminada.');window.location.href='/regicerv'</script>");
+    } else {
+        res.send("<script>alert('No se puso eliminar la cervecería.');window.location.href='/regicerv'</script>");
+    }
+
+});
+
+
+
+
+//===================GET===================//
+
+router.get('/regicat', async(req,res,next) => {
+    if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
+
+    res.send("<script>alert('Su sesión ha caducado. Ingrese nuevamente.');window.location.href='/login'</script>");
+} , async(req,res) => {
+    if(usuarioLog.rol == 3){ //Caso USER (No puede insertar ni eliminar categorías)
+        res.redirect("/app");
+    };
+    //Se almacena la lista de categorías de la cervecería correspondiente para renderizar selectivamente.
+    let data = await aHd.getCatsByCervID(usuarioLog.id_cerveceria, token);
+    cervCats = data;
+
+
+    res.render("regicat",{cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, catlist:cervCats})
+});
+
+
+//===================POST===================//
+
+router.post('/regicat', async(req,res,next) => {
+    if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
+
+    res.send("<script>alert('Su sesión ha caducado. Ingrese nuevamente.');window.location.href='/login'</script>");
+} , async(req,res) => {
+    const descr = req.body.name;
+    
+        if (cervCats.map(e => e.descripcion.toLowerCase()).indexOf(descr.toLowerCase()) != -1){
+            res.render("regicat",{error:'La categoría ya se encuentra registrada',cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, catlist:cervCats})
+        }else{
+           
+            let newcat = await aHd.setCategoriaByCervID(usuarioLog.id_cerveceria, descr, token);
+            console.log(`Fetch Status: ${newcat}`);  
+    
+            if (newcat){
+                cervCats = await aHd.getCatsByCervID(usuarioLog.id_cerveceria, token);
+                console.log(`NUEVAS CATEGORIAS: ${cervCats}`);
+                res.send("<script>alert('Nueva categoría creada exitosamente.');window.location.href='/regicat'</script>");
+            } else {
+                res.send("<script>alert('Error al crear la nueva categoría.');window.location.href='/regicat'</script>")
+            };
+        }     
+    }
+);
+
+//===================POST===================//
+
+router.post('/delcat', async(req,res,next) => {
+    let id = req.body.catlist;
+    const elimin = await aHd.delCategoria(id,token);
+    console.log(`Fetch status: ${elimin}`);
+
+    if (elimin){
+        cervList = await aHd.getCervecerias(token);
+        res.send("<script>alert('Categoría eliminada.');window.location.href='/regicerv'</script>");
+    } else {
+        res.send("<script>alert('No se pudo eliminar la categoría.');window.location.href='/regicerv'</script>");
+    }
+
+});
+
 
 
 //===================GET===================//

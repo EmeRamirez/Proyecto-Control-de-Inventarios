@@ -14,4 +14,12 @@ app.set('view engine', 'hbs');
 app.set('views' , './views');
 app.use(express.static("public"));
 
-app.listen(3000);
+try {
+    app.listen(3000, ()=>{
+        console.log('Server is listening in port 3000');
+    });
+} catch (error) {
+    console.error('No se pudo levantar el servidor.',error);
+};
+
+

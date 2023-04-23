@@ -8,6 +8,11 @@ import { Rol } from "./data/class/Rol.js";
 import { Usuario } from "./data/class/Usuario.js";
 import { syncTables, getTablaJoinbyID, nuevoRol, nuevoEstado, nuevoUsuario, nuevaCerveceria, nuevaCateg, nuevoItem, getInventariobyID } from "./utils/class/DBHandler.js";
 
+const data = await Cerveceria.findAll({
+    raw:true
+});
+console.log(JSON.stringify(data));
+
 
 // await syncTables();
 

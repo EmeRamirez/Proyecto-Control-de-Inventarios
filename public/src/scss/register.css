@@ -161,6 +161,14 @@
   width: 1px;
 }
 
+.btn-eliminar{
+  background-color: #AD5A7D !important;
+}
+
+.btn-eliminar:hover{
+  background-color: #b54a5c !important;
+}
+
 .form_container .row .col_half.last {
   border-left: 1px solid #cccccc;
 }
