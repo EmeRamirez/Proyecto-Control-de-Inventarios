@@ -153,7 +153,7 @@
     align-items: center;
     justify-items: center;
     gap: 30px;
-    margin-top: 25vw;
+    margin-top: 0;
     }
 
     .listainventariocel{
@@ -167,7 +167,11 @@
         flex-direction: column;
         margin: 0;
         gap: 0;
-      }
+    }
+
+    .contenedor-tabla{
+        max-width: 450px;
+    }
     
 }
 
@@ -220,3 +224,13 @@
     }
     
 }
+
+@media only screen and (max-width: 400px) {
+    .contenedor-tabla {
+        max-width: 360px;
+    }
+
+    .body-container-inventario {
+        margin-top: 0;
+    }
+};

@@ -5,6 +5,8 @@ const ApiURL = 'http://localhost:4000/mmkapi';
 // const ApiURL = 'https://api-mmk-production.up.railway.app/mmkapi';
 
 
+//================================>>TOKEN FETCH<<================================//
+
 //Solicitar token a la API
 export async function getToken(usuario){
     const res = await fetch(`${ApiURL}/auth/${usuario}`, {
@@ -32,6 +34,8 @@ export async function authToken(token){
     
 };
 
+
+//================================>>USUARIOS<<================================//
 
 //Enviar solicitud a la API para obtener el registro de todos los usuarios creados.
 export async function getUsuarios(token){
@@ -82,6 +86,10 @@ export async function delUsuario(id,token){
         return false;
     }
 }
+
+
+
+//================================>>CERVECERÍAS<<================================//
 
 //Enviar solicitud a la API para obtener el resgistro de todas las cervecerias creadas.
 export async function getCervecerias(token){
@@ -155,6 +163,8 @@ export async function getCatsByCervID(id,token){
 };
 
 
+//================================>>CATEGORÍAS<<================================//
+
 //Enviar solicitud a la API para agregar una nueva CATEGORÍA de una respectiva CERVECERÍA
 export async function setCategoriaByCervID(id,desc,token){
     try {
@@ -178,6 +188,74 @@ export async function setCategoriaByCervID(id,desc,token){
 export async function delCategoria(id,token){
     try {
         const response = await fetch(`${ApiURL}/categoria/del/${id}`,{
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            }
+        });
+        return response.ok;
+    } catch (error) {
+        console.log('Error al comunicarse con la API', error);
+        return false;
+    }
+};
+
+
+//================================>>INVENTARIO<<================================//
+//Enviar solicitud a la API para obtener el registro de todos los ITEMS de una respectiva CERVECERIA.
+export async function getItemsByCervID(id,token){
+    try {
+        const data = await fetch(`${ApiURL}/inventario/${id}`,{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            }
+        });
+        return data.json();
+    } catch (error) {
+        console.log('Error al comunicarse con la API', error);
+        return false;
+    }
+};
+
+
+//Enviar solicitud a la API para registrar un nuevo ITEM a una respectiva CERVECERIA
+export async function nuevoItem(obj,id,token){
+    try {
+        const response = await fetch(`${ApiURL}/inventario/${id}`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            },
+            body: JSON.stringify(obj)
+        });
+        return response.ok;
+    } catch (error) {
+        console.log('Error al comunicarse con la API', error);
+        return false; 
+    }
+};
+
+//Función para generar un nombre código para un nuevo Item
+export function codifNombre(string){
+    let str = string.split(' ');
+    let str2 = str[str.length-1].normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    let codname;
+    if (str2.length < 2){
+        codname = str2+str2+str2+str2;
+    } else {
+        codname = (str2[0]+str2[1]+str2[str2.length-2]+str2[str2.length-1]).toUpperCase();
+    };
+    return codname;
+};
+
+//Enviar solicitud a la API para eliminar un ITEM
+export async function delItem(id,token){
+    try {
+        const response = await fetch(`${ApiURL}/inventario/del/${id}`,{
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

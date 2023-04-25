@@ -45,8 +45,6 @@
                         <li><a class="dropdown-item" href="/logout">Cerrar Sesión</a></li>
                 </ul>
             </div>
-            {{!-- <i class="fa-solid fa-user user-login" style="font-size: 30px; letter-spacing: 0.3vw; color:white"></i>
-            <a href="/logout"><button class="btn btn-outline-secondary" >Log Out</button></a> --}}
         </div>
     </div>
 
@@ -54,15 +52,56 @@
     <div class="body-app">
          <div class="menu-desk">
             <a href="app"><i class="fa-solid fa-house fa-2xl"></i></a>
-            <a href="inventariomob"><i class="fa-solid fa-folder-tree fa-2xl optionselected"></i></a>
+            <a href="inventario"><i class="fa-solid fa-folder-tree fa-2xl optionselected"></i></a>
             <a href="informe"><i class="fa-solid fa-chart-line fa-2xl"></i></a>
             <i class="fa-solid fa-qrcode fa-2xl"></i>
         </div>
+
         <div class="body-container-inventario">
-            {{#each inventario}}
-                {{>carditem}}
+        <!-- ===============>> TABLA INVENTARIO <<================== -->
+        <div class="panel-tablas-inv">
+            <a href="nvoitem"><img src="src/img/barrel-plus.png" id="icon-inv-panel" height="40px" title="Nuevo Item"></img></a>
+            <a href="inventario"><img src="src/img/barrel-eye.png" id="icon-inv-panel" height="40px" title="Ver Items"></img></a>
+            <a href="produccion"><img src="src/img/barrel-box.png" id="icon-inv-panel" height="40px" title="Ver Producciones"></img></a>
+        </div>
+        <div class="container-sm mt-4 contenedor-tabla">
+    <table id="tabla-responsiva-inventario" class="table table-striped display responsive nowrap" style="width:100%">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Tipo</th>
+                <th>Capacidad</th>
+                <th>Observación</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each listaitems}}
+            <tr>
+                <td id="cod-tabla">{{qr_code}}</td>
+                <td>{{tipo}}</td>
+                <td>{{capacidad}}</td>
+                <td>{{observacion}}</td>
+                <td id="estado-tabla">{{estado.descripcion}}</td>
+            </tr>
             {{/each}}
-        </div>        
+            
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Código</th>
+                <th>Tipo</th>
+                <th>Capacidad</th>
+                <th>Observación</th>
+                <th>Estado</th>
+            </tr>
+        </tfoot>
+    </table>
+   </div>
+
+       
+        </div> 
+
     </div>
 
     <div class="appfooterspace">
@@ -72,10 +111,26 @@
 
     <div class="menu-celu">
         <a href="app"><i class="fa-solid fa-house fa-2xl"></i></a>
-        <a href="inventariomob"><i class="fa-solid fa-folder-tree fa-2xl optionselected"></i></a>
+        <a href="inventario"><i class="fa-solid fa-folder-tree fa-2xl optionselected"></i></a>
         <a href="informe"><i class="fa-solid fa-chart-line fa-2xl"></i></a>
         <i class="fa-solid fa-qrcode fa-2xl"></i>
     </div>
 </div>
 
+
+<script>
+    if (document.querySelectorAll('#estado-tabla')){
+        let arrEstados = document.querySelectorAll('#estado-tabla');
+        console.log(arrEstados);
+        arrEstados.forEach(e => {
+            if (e.textContent == 'En Uso'){
+                e.classList.add('highlight-estado-g');
+            }else if (e.textContent == 'Sucio'){
+                e.classList.add('highlight-estado-r');
+            }else if (e.textContent == 'Limpio'){
+                e.classList.add('highlight-estado-y');
+            }
+        });
+    }   
+</script>
 {{/layoutapp}}

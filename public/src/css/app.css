@@ -179,7 +179,7 @@ html{
   align-content: flex-start;
   /* justify-items: space-between; */
   gap: 1rem;
-  margin-right: 8vw;
+  /* margin-right: 8vw; */
   margin-top: 1rem;
 }
 
@@ -232,45 +232,42 @@ html{
 
 
 /* ================================ SECCION INVENTARIO ================================== */
-.inventariocel-card{
-  display: grid;
-  grid-template-columns: 60% 40%;
-  align-items: center;
-  justify-items: center;
-  min-width: 300px;
-  min-height: 100px;
-  background-color:#1B232A;
-  border-radius: 8px;
-}
-
-.listainventariocel{
+.panel-tablas-inv {
   display: flex;
   width: 100%;
-  align-items: flex-start;
-  padding-left: 1vw;
-  font-size: 12px;
-  font-family: 'Roboto', sans-serif;
-  color: white;
-  flex-direction: column;
-  margin: 0;
-  gap: 0;
+  justify-content: center;
+  margin-top: 4vh;
+  gap: 50px;
+  transition: 500ms;
+  -webkit-transition: 500ms;
 }
 
-#listainventariocel-titulo{
-  margin: 0;
-  font-weight: bold;
-  letter-spacing: 1.4px;
-  font-size: 13px;
-  color: white;
+.contenedor-tabla{
+  background-color: rgb(226, 208, 178);
+  padding: 2vw;
+  border-radius: 8px;
+  border-top: 18px solid #273542;
+  border-bottom: 18px solid #273542;
 }
 
-.listainventariocel p{
-  color: rgb(218, 209, 199);
-  margin: 0;
+
+#icon-inv-panel:hover {
+  transition: 500ms;
+  scale: 115%;
+  filter: invert(20%);
 }
 
-.cont-codigoqr-card{
+#icon-inv-panel:not(:hover) {
+  transition: 500ms;
+  scale: (100%);
+}
+
+.panel-tablas-inv {
   display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-top: 4vh;
+  gap: 50px;
 }
 
 .appfooterspace{
@@ -284,6 +281,26 @@ html{
 .foot-menu{
   background-color: #1B232A;
   width: 100px;
+}
+
+.highlight-estado-g {
+  color: green !important;
+  font-weight: bold;
+}
+
+.highlight-estado-r {
+  color: rgb(211, 56, 56) !important;
+  font-weight: bold;
+}
+
+.highlight-estado-y {
+  color: rgb(62 98 108) !important;
+  font-weight: bold;
+}
+
+#cod-tabla{
+  font-weight: bold;
+  color: #3e4449 !important;
 }
 
 /* ================================ SECCION INFORMES ================================== */

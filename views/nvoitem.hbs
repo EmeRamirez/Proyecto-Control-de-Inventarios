@@ -7,11 +7,11 @@
     <div class="header-app-info">
       {{#unless isMaster}}
       <p class="header-subtitle">{{cerveceria}}</p>
-      <h4 class="header-title">Dashboard</h4>
+      <h4 class="header-title">Inventario</h4>
       {{/unless}}
       {{#if isMaster}}
       <p class="header-subtitle">Admin</p>
-      <h4 class="header-title">Dashboard</h4>
+      <h4 class="header-title">Inventario</h4>
       {{/if}}
     </div>
     <div class="header-app-panel">
@@ -66,55 +66,43 @@
         <div class="form_container">
           <div class="title_container">
             {{#unless isMaster}}
-            <h2>Nuevo Usuario {{cerveceria}}</h2>
+            <h2>Nuevo Item {{cerveceria}}</h2>
             {{/unless}}
             {{#if isMaster}}
-              <h2>Nuevo Usuario</h2>
+              <h2>Nuevo Item</h2>
             {{/if}}
           </div>
           <div class="row clearfix">
             <div class="">
-              <form method="POST" action="/register">
-                <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope"></i></span>
-                  <input type="email" name="email" placeholder="Correo electrónico" required />
+              <form method="POST" action="/nvoitem">
+                
+                <div class="input_field select_option">
+                  <select name="tipo" required>
+                    <option value="">Seleccione una categoria</option>
+                    <option value='Barril Inox Euro'>Barril Inox Euro</option>
+                    <option value='Barril Inox Slim'>Barril Inox Slim</option>
+                    <option value='Cilindro de gases'>Cilindro de gases</option>
+                    <option value='Otro'>Otro</option>
+                  </select>
+                  <div class="select_arrow"></div>
                 </div>
-                <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"></i></span>
-                  <input type="password" name="password" placeholder="Contraseña" required />
+                
+                <div class="input_field"> <span><i class="fa-solid fa-weight-scale"></i></span>
+                  <input type="text" name="capacidad" placeholder="Capacidad"/>
                 </div>
-                <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"></i></span>
-                  <input type="password" name="password" placeholder="Confirme contraseña" required />
+
+                <div class="input_field"> <span><i class="fa-regular fa-clipboard"></i></span>
+                  <input type="text" name="obs" placeholder="Observación(es)"/>
                 </div>
-                <div class="row clearfix">
-                  <div class="col_half">
-                    <div class="input_field"> <span><i aria-hidden="true" class="fa fa-user"></i></span>
-                      <input type="text" name="name" placeholder="Nombre" />
-                    </div>
-                  </div>
-                  <div class="col_half">
-                    <div class="input_field"> <span><i aria-hidden="true" class="fa fa-user"></i></span>
-                      <input type="text" name="lastname" placeholder="Apellido" required />
-                    </div>
-                  </div>
-                </div>
+
                     <div class="input_field select_option">
-                      <select name="rolus" required>
-                        <option value="">Seleccione un rol de usuario</option>
-                        <option value='3'>Usuario</option>
-                        <option value='2'>Administrador</option>
+                      <select name="estado" required>
+                        <option value="">Seleccione un estado</option>
+                        <option value='2'>Limpio</option>
+                        <option value='3'>Sucio</option>
                       </select>
                       <div class="select_arrow"></div>
                     </div>
-                    {{#if isMaster}}
-                    <div class="input_field select_option">
-                      <select name="cervus" required>
-                        <option value="">Seleccione una Cervecería</option>
-                        {{#each cervList}}
-                          {{>cervlist}}
-                        {{/each}}
-                      </select>
-                      <div class="select_arrow"></div>
-                    </div>
-                    {{/if}}
                     {{#if error}}
                       <div style="text-align: center; margin-bottom: 15px"><span id="mensaje-login">{{error}}</span></div>
                     {{/if}}
@@ -127,13 +115,13 @@
       <div class="form_wrapper cont-eliminar">
         <div class="form_container">
           <div class="title_container">
-            <h2>Eliminar Usuario</h2>
-            <form method="POST" action="/delusuario">
+            <h2>Eliminar Item</h2>
+            <form method="POST" action="/delitem">
               <div class="input_field select_option">
-                <select name="uslist" required>
-                  <option value="">Seleccione un usuario</option>
-                  {{#each listaus}}
-                  <option value={{id_usuario}}>{{nombre_usuario}} {{apellido_usuario}}</option>
+                <select name="itemlist" required>
+                  <option value="">Seleccione un item</option>
+                  {{#each listaitems}}
+                  <option value={{id_item}}>Cod: {{qr_code}}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{tipo}}  {{capacidad}}</option>
                   {{/each}}
                 </select>
                 <div class="select_arrow"></div>

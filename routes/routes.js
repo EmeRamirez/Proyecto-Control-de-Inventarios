@@ -136,7 +136,7 @@ router.post('/login', passport.authenticate('local',{
 }));
 
 
-//======================= APP ============================//
+//================================>>APP<<================================//
 
 //===================GET===================//
 //En esta ruta solo se puede entrar si el usuario está autenticado, para esto se añade el método isAuthenticated()
@@ -150,13 +150,10 @@ router.get('/app', (req,res,next) => {
  
     //Al iniciar sesión se le asigna un token al usuario
     token = await aHd.getToken(usuarioLog.email);
-    console.log('=============== TOKEN 2 ===============');
-    console.log(token);
     
     let auth = await aHd.authToken(token);
-    console.log(auth);
     if(!auth){
-        res.redirect('/login');
+        res.send("<script>alert('Su sesión ha caducado. Ingrese nuevamente.');window.location.href='/login'</script>");
     } else {
 
         //Se asigna a la variable global la lista de cervecerías traidas desde la API
@@ -165,9 +162,8 @@ router.get('/app', (req,res,next) => {
         
         //Se busca la cervecería perteneciente al usuario en sesión y se asigna a la variable global
         cerveceriaLog = cervList.find(e => e.id_cerveceria == usuarioLog.id_cerveceria);
-
-        // inventarioCerv = await getInventariobyID(cerveceriaLog.id_cerveceria);
-        // conteoEstados = await contarEstados(cerveceriaLog.id_cerveceria)
+        let idcerv = usuarioLog.id_cerveceria;
+        inventarioCerv = await aHd.getItemsByCervID(idcerv,token);
         usuarioLog.isMaster = false;
         usuarioLog.isAdmin = false;
 
@@ -184,6 +180,7 @@ router.get('/app', (req,res,next) => {
     }
 );
 
+//================================>>LOGOUT<<================================//
 
 //===================GET===================//
 
@@ -196,25 +193,9 @@ router.get('/logout', (req,res,next) => {
 })
 
 
-//===================GET===================//
-
-router.get('/inventariomob', async(req,res,next) => {
-    if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
-
-    res.send("<script>alert('Su sesión ha caducado. Ingrese nuevamente.');window.location.href='/login'</script>");
-} , async(req,res) => {
-    
-    if (usuarioLog.rol == 1){
-        inventarioCerv= await DBget(Item);
-    }
-
-
-    res.render("inventariomob",{cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, inventario:inventarioCerv, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin})
-})
-
+//================================>>REGISTRO DE USUARIO<<================================//
 
 //===================GET===================//
-
 router.get('/register', async(req,res,next) => {
     if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
 
@@ -303,8 +284,9 @@ router.post('/delusuario', async(req,res) => {
 });
 
 
-//===================GET===================//
+//================================>>REGISTRO DE CERVECERÍA<<================================//
 
+//===================GET===================//
 router.get('/regicerv', async(req,res,next) => {
     if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
 
@@ -377,10 +359,9 @@ router.post('/delcerv', async(req,res,next) => {
 });
 
 
-
+//================================>>REGISTRO DE CATEGORÍA<<================================//
 
 //===================GET===================//
-
 router.get('/regicat', async(req,res,next) => {
     if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
 
@@ -442,9 +423,90 @@ router.post('/delcat', async(req,res,next) => {
 });
 
 
+//================================>>INVENTARIO<<================================//
 
 //===================GET===================//
 
+router.get('/inventario', async(req,res,next) => {
+    if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
+
+    res.send("<script>alert('Su sesión ha caducado. Ingrese nuevamente.');window.location.href='/login'</script>");
+} , async(req,res) => {
+    inventarioCerv = await aHd.getItemsByCervID(usuarioLog.id_cerveceria,token);
+    
+    res.render("inventario",{inventariorender: true, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, listaitems:inventarioCerv, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin})
+});
+
+//================================>>NUEVO ITEM<<================================//
+
+//===================GET===================//
+router.get('/nvoitem', async(req,res,next) => {
+    if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
+
+    res.send("<script>alert('Su sesión ha caducado. Ingrese nuevamente.');window.location.href='/login'</script>");
+} , async(req,res) => {
+    res.render("nvoitem",{inventariorender: true, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, listaitems:inventarioCerv, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin})
+});
+
+
+//===================POST===================//
+router.post('/nvoitem', async(req,res,next) => {
+    if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
+
+    res.send("<script>alert('Su sesión ha caducado. Ingrese nuevamente.');window.location.href='/login'</script>");
+} , async(req,res) => {
+    let {tipo,capacidad,obs, estado} = req.body;
+    estado = parseInt(estado);
+    let idcerv = usuarioLog.id_cerveceria;
+    let codname = aHd.codifNombre(cerveceriaLog.nombre_cerveceria);
+    
+    let obj = {
+        tipo,
+        capacidad,
+        obs,
+        estado,
+        idcerv,
+        codname
+    };
+
+    const data = await aHd.nuevoItem(obj,idcerv,token);
+    console.log(`FETCH STATUS:${data}`);
+
+    inventarioCerv = await aHd.getItemsByCervID(usuarioLog.id_cerveceria,token);
+
+    res.render("nvoitem",{inventariorender: true, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, listaitems:inventarioCerv, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin})
+});
+
+//===================POST===================//
+
+router.post('/delitem', async(req,res,next) => {
+    if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
+
+    res.send("<script>alert('Su sesión ha caducado. Ingrese nuevamente.');window.location.href='/login'</script>");
+} , async(req,res) => {
+    let id = req.body.itemlist;
+    const elimin = await aHd.delItem(id,token);
+    console.log(`Fetch status: ${elimin}`);
+
+    if (elimin){
+        inventarioCerv = await aHd.getItemsByCervID(usuarioLog.id_cerveceria,token);
+        res.send("<script>alert('Item eliminado.');window.location.href='/inventario'</script>");
+    } else {
+        res.send("<script>alert('No se pudo eliminar el ítem.');window.location.href='/inventario'</script>");
+    };
+
+});
+
+
+
+
+
+
+
+
+//================================>>INFORME<<================================//
+
+//===================GET===================//
 router.get('/informe', (req,res,next) => {
     if(req.isAuthenticated()) return next();
 

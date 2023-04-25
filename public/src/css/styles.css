@@ -11,6 +11,10 @@ font-family: 'Work Sans', sans-serif;
 font-family: 'Poppins', sans-serif;
 */
 
+div.dataTables_wrapper div.dataTables_length select {
+    width:70px !important;
+}
+
 :root{
     --btnBlu: #4D86BD;
     --hlight: #3d8296;
