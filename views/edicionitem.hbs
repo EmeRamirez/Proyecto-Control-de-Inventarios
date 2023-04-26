@@ -1,0 +1,152 @@
+{{#> layoutapp}}
+
+<div class="app">
+    
+  <div class="header-app">
+    <div class="header-app-info">
+      {{#unless isMaster}}
+      <p class="header-subtitle">{{cerveceria}}</p>
+      <h4 class="header-title">Inventario</h4>
+      {{/unless}}
+      {{#if isMaster}}
+      <p class="header-subtitle">Admin</p>
+      <h4 class="header-title">Inventario</h4>
+      {{/if}}
+    </div>
+    <div class="header-app-panel">
+      <!-- MENU DROPDOWN DESKTOP -->
+      <div class="dropdown dropdown-desk">
+          <button class="btn btn-secondary dropdown-toggle log-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Hola {{capitalizar nombre}}
+          </button>
+          <i class="fa-solid fa-user user-login user-login-desk" style="font-size: 20px; letter-spacing: 0.3vw; color:white"></i>
+          <ul class="dropdown-menu">
+            {{#if isMaster}}
+                <li><a class="dropdown-item" href="/regicerv">Registrar Cervecería</a></li>
+            {{/if}}
+            {{#if isAdmin}}    
+                <li><a class="dropdown-item" href="/register">Registrar Usuario</a></li>
+                <li><a class="dropdown-item" href="/regicat">Registrar Categoría</a></li>
+            {{/if}}
+                <li><a class="dropdown-item" href="/logout">Cerrar Sesión</a></li>
+          </ul>
+      </div>
+
+      <!-- MENU DROPDOWN MOBILE -->
+      <div class="dropdown dropdown-celu">
+          <button class="btn btn-secondary dropdown-toggle log-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa-solid fa-user user-login" style="font-size: 20px; letter-spacing: 0.3vw; color:white"></i>
+          </button>
+          <ul class="dropdown-menu">
+                {{#if isMaster}}
+                  <li><a class="dropdown-item" href="/regicerv">Registrar Cervecería</a></li>
+              {{/if}}
+              {{#if isAdmin}}    
+                  <li><a class="dropdown-item" href="/register">Registrar Usuario</a></li>
+                  <li><a class="dropdown-item" href="/regicat">Registrar Categoría</a></li>
+              {{/if}}
+                  <li><a class="dropdown-item" href="/logout">Cerrar Sesión</a></li>
+          </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="body-app">
+    <!-- MENU PRINCIPAL DESKTOP -->
+    <div class="menu-desk">
+        <a href="/app"><i class="fa-solid fa-house fa-2xl optionselected"></i></a>
+        <a href="/inventario"><i class="fa-solid fa-folder-tree fa-2xl"></i></a>
+        <a href="/informe"><i class="fa-solid fa-chart-line fa-2xl"></i></a>
+        <i class="fa-solid fa-qrcode fa-2xl"></i>
+    </div>
+    <div class="body-container">
+          
+     <div class="form_wrapper">
+        <div class="form_container">
+          <div class="title_container">
+            <h2>Editar Item</h2>
+            <div class="input_field select_option">
+                <select name="itemsel" form="editem" onchange="javascript:refs(this)" required>
+                <option value="{{item.id_item}}">{{item.qr_code}}  {{item.tipo}}</option>
+                {{#each invrest}}
+                    <option value={{id_item}}>{{qr_code}} {{tipo}}</option>
+                {{/each}}
+                </select>
+                <div class="select_arrow"></div>
+            </div>
+            <div class="divisor-form"></div>
+            <div class="card-subcont">
+                <form id="editem" method="POST" action="/edicionitem">
+                    <div class="input_field select_option">
+                      <select name="estado" required>
+                        <option value="{{item.id_estado}}"> Estado </option>
+                        <option value='2'>Limpio</option>
+                        <option value='3'>Sucio</option>
+                        <option value='4'>Fuera de Servicio</option>
+                      </select>
+                      <div class="select_arrow"></div>
+                    </div>
+
+                    <div class="input_field"> <span><i class="fa-solid fa-weight-scale"></i></span>
+                        <input type="text" name="tipo" placeholder="Categoria" value="{{item.tipo}}"/>
+                    </div>
+
+                    <div class="input_field"> <span><i class="fa-solid fa-weight-scale"></i></span>
+                        <input type="text" name="capacidad" placeholder="Capacidad" value="{{item.capacidad}}"/>
+                    </div>
+
+                    <div class="input_field"> <span><i class="fa-regular fa-clipboard"></i></span>
+                        <input type="text" name="obs" placeholder="Observación(es)" value={{item.observacion}}>
+                    </div>
+
+                </form>
+                <div id="qr-container">
+                    <div><h2>{{item.qr_code}}</h2></div>
+                    <div id="qr-img"></div>
+                </div>
+            </div> 
+            <input class="button" form="editem" type="submit" value="Actualizar"/>         
+          </div>
+        </div>
+</div>
+
+    </div>
+  </div>
+
+  <div class="appfooterspace">
+      <div class="foot-menu" style="background-color: #1B232A;"></div>
+      <div><p></p></div>
+  </div>
+
+  <!-- MENU PRINCIPAL MOBILE -->
+  <div class="menu-celu">
+      <a href="/app"><i class="fa-solid fa-house fa-2xl optionselected"></i></a>
+      <a href="/inventario"><i class="fa-solid fa-folder-tree fa-2xl"></i></a>
+      <a href="/informe"><i class="fa-solid fa-chart-line fa-2xl"></i></a>
+      <i class="fa-solid fa-qrcode fa-2xl"></i>
+  </div>  
+</div>
+
+<!-- GENERADOR DE QR -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+    const contenedorQR = document.getElementById('qr-img');
+    
+    new QRCode(contenedorQR, {
+        text: {{{codigoQR}}},
+        width: 130,
+        height: 130
+
+    })
+</script>
+<script>
+    function refs(element){
+        window.location.href=`/edicionitem/${element.value}`
+    };
+</script>
+{{/layoutapp}}
+
+
+
+
+

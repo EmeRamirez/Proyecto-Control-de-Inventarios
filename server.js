@@ -12,7 +12,7 @@ hbs.registerPartials(join(__dirname,"/views/partials"));
 app.use(indexRoutes);
 app.set('view engine', 'hbs');
 app.set('views' , './views');
-app.use(express.static("public"));
+app.use(express.static(__dirname + '/public'));
 
 try {
     app.listen(3000, ()=>{

@@ -82,7 +82,7 @@
                 <td>{{tipo}}</td>
                 <td>{{capacidad}}</td>
                 <td>{{observacion}}</td>
-                <td id="estado-tabla">{{estado.descripcion}}</td>
+                <td id="estado-tabla"><span>{{estado.descripcion}}</span> <a href="edicionitem/{{id_item}}"><i class="fa-solid fa-pen-to-square"></i></a></td>
             </tr>
             {{/each}}
             
@@ -123,14 +123,18 @@
         let arrEstados = document.querySelectorAll('#estado-tabla');
         console.log(arrEstados);
         arrEstados.forEach(e => {
-            if (e.textContent == 'En Uso'){
+            if (e.firstChild.textContent == 'En Uso'){
                 e.classList.add('highlight-estado-g');
-            }else if (e.textContent == 'Sucio'){
+                e.innerHTML=("En Uso");
+            }else if (e.firstChild.textContent == 'Sucio'){
                 e.classList.add('highlight-estado-r');
-            }else if (e.textContent == 'Limpio'){
+            }else if (e.firstChild.textContent == 'Limpio'){
                 e.classList.add('highlight-estado-y');
+            }else if (e.firstChild.textContent == 'Fuera de Servicio'){
+                e.classList.add('highlight-estado-fs');
             }
         });
     }   
 </script>
+
 {{/layoutapp}}

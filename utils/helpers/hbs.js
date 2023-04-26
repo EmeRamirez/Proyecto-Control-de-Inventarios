@@ -31,3 +31,5 @@ hbs.registerHelper('nombrarEstado', function (num) {
             return 'Sin estado asignado'
     }   
 });
+
+

@@ -161,7 +161,7 @@ html{
   gap: 20px;
 }
 
-.body-container{
+.body-container-apphome{
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -283,6 +283,10 @@ html{
   width: 100px;
 }
 
+#estado-tabla a{
+  color: inherit;
+}
+
 .highlight-estado-g {
   color: green !important;
   font-weight: bold;
@@ -298,9 +302,40 @@ html{
   font-weight: bold;
 }
 
+.highlight-estado-fs {
+  color: rgba(88, 31, 31, 0.685) !important;
+  font-weight: bold;
+}
+
 #cod-tabla{
   font-weight: bold;
   color: #3e4449 !important;
+}
+
+/* ================================ SECCION EDICION ITEM ================================== */
+
+.card-subcont{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.divisor-form {
+  border-bottom: 3px solid white;
+  border-radius: 2px;
+  margin-bottom: 20px;
+}
+
+#qr-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding-bottom: 35%;
+}
+
+#qr-img {
+  margin-top: 15px;
 }
 
 /* ================================ SECCION INFORMES ================================== */

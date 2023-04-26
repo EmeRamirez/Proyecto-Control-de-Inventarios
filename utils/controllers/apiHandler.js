@@ -268,3 +268,22 @@ export async function delItem(id,token){
         return false;
     }
 };
+
+//Enviar solicitud a la API para actualizar el registro de un ITEM(id)
+export async function updItem(obj,id,token){
+    try {
+        const response = await fetch(`${ApiURL}/inventario/${id}`,{
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            },
+            body: JSON.stringify(obj)
+        });
+        return response.ok;
+    } catch (error) {
+        console.log('Error al comunicarse con la API', error);
+        return false; 
+    }
+}
+

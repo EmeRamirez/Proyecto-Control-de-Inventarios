@@ -472,9 +472,16 @@ router.post('/nvoitem', async(req,res,next) => {
     const data = await aHd.nuevoItem(obj,idcerv,token);
     console.log(`FETCH STATUS:${data}`);
 
+    let alert = false;
+    let msj = '';
+    if (data){
+        alert = true;
+        msj = "'Se ha creado un nuevo Item'";
+    };
+
     inventarioCerv = await aHd.getItemsByCervID(usuarioLog.id_cerveceria,token);
 
-    res.render("nvoitem",{inventariorender: true, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, listaitems:inventarioCerv, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin})
+    res.render("nvoitem",{alert:alert, msj:msj, inventariorender: true, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, listaitems:inventarioCerv, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin})
 });
 
 //===================POST===================//
@@ -497,6 +504,48 @@ router.post('/delitem', async(req,res,next) => {
 
 });
 
+//===================GET===================//
+router.get('/edicionitem/:id', async(req,res,next) => {
+    if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
+
+    res.send("<script>alert('Su sesión ha caducado. Ingrese nuevamente.');window.location.href='/login'</script>");
+} , async(req,res) => {
+    let id = req.params.id;
+    let item;
+    let invRestante = [];
+    inventarioCerv.forEach(e => {
+        if (e.id_item == id){
+            item = e;
+        } else {
+            invRestante.push(e);
+        };
+    })
+    let qrcode = `"'${item.qr_code}'"`
+    res.render('edicionitem',{itemrender: true, item:item, codigoQR:qrcode, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, invrest:invRestante});
+});
+
+router.post('/edicionitem', async(req,res) => {
+
+    let {itemsel,estado,tipo,capacidad,obs} = req.body;
+    itemsel = parseInt(itemsel);
+    estado = parseInt(estado)
+
+    const obj = {
+        estado,
+        tipo,
+        capacidad,
+        obs,
+    };
+    
+    const data = await aHd.updItem(obj,itemsel,token);
+   
+    if (data){
+        res.send("<script>alert('El registro ha sido modificado con éxito');window.location.href='/inventario'</script>")
+    } else {
+        res.send("<script>alert('No se ha podido modificar el registro. Intente nuevamente.');window.location.href='/inventario'</script>")   
+    };
+
+});
 
 
 

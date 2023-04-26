@@ -3,13 +3,9 @@
 @import url(login.css);
 @import url(app.css);
 @import url(mediaquerys.css);
+@import url(register.css);
 
-/* Fuentes
-font-family: 'Noto Sans', sans-serif;
-font-family: 'Roboto', sans-serif;
-font-family: 'Work Sans', sans-serif; 
-font-family: 'Poppins', sans-serif;
-*/
+
 
 div.dataTables_wrapper div.dataTables_length select {
     width:70px !important;
