@@ -116,7 +116,7 @@
         <div class="form_container">
           <div class="title_container">
             <h2>Eliminar Item</h2>
-            <form method="POST" action="/delitem">
+            <form id="form-del-item" method="POST" action="/delitem">
               <div class="input_field select_option">
                 <select name="itemlist" required>
                   <option value="">Seleccione un item</option>
@@ -149,10 +149,25 @@
   </div>  
 </div>
 
-{{#if alert}}
-  <script>
-    alert({{{msj}}});
-  </script>
+<script src="src/js/main.js"></script>
+<script src="sweetalert2.all.min.js"></script>
+<script>
+  let formdel = document.getElementById('form-del-item');
+  formdel.addEventListener('submit', e => {
+      e.preventDefault();
+      confDel(formdel);
+  })
+</script>
+
+{{#if confirmar}}
+<script>
+  confSucc();
+</script>
 {{/if}}
 
+{{#if failed}}
+<script>
+  failAlert();
+</script>
+{{/if}}
 {{/layoutapp}}

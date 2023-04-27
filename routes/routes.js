@@ -153,7 +153,7 @@ router.get('/app', (req,res,next) => {
     
     let auth = await aHd.authToken(token);
     if(!auth){
-        res.send("<script>alert('Su sesión ha caducado. Ingrese nuevamente.');window.location.href='/login'</script>");
+        res.render('login',{expsession:true});
     } else {
 
         //Se asigna a la variable global la lista de cervecerías traidas desde la API
@@ -199,7 +199,7 @@ router.get('/logout', (req,res,next) => {
 router.get('/register', async(req,res,next) => {
     if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
 
-    res.send("<script>alert('Su sesión ha caducado. Ingrese nuevamente.');window.location.href='/login'</script>");
+    res.render('login',{expsession:true});
 } , async(req,res) => {
 
     //Se almacena la lista de usuarios de la cervecería correspondiente al usuario y su rol para renderizar selectivamente.
@@ -223,7 +223,7 @@ router.get('/register', async(req,res,next) => {
 //===================POST===================//
 
 router.post('/register', async(req,res) => {
-
+    console.log(req.body);
     let email    = req.body.email
     let password = req.body.password
     let name     = req.body.name
@@ -259,9 +259,13 @@ router.post('/register', async(req,res) => {
 
             if (nuevous){
                 userList = await aHd.getUsuarios(token);
-                res.send("<script>alert('Nuevo Usuario creado exitosamente.');window.location.href='/register'</script>");
+                cervUsers = [];
+                userList.forEach(e =>{
+                    if (e.id_cerveceria == usuarioLog.id_cerveceria && e.email != usuarioLog.email){cervUsers.push(e)};
+                });
+                res.render("register",{cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, cervList:cervList, listaus:cervUsers, confirmar:true})
             } else {
-                res.send("<script>alert('No se pudo crear el usuario');window.location.href='/register'</script>")
+                res.render("register",{cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, cervList:cervList, listaus:cervUsers, failed:true})
             };
         }   
 }
@@ -276,9 +280,13 @@ router.post('/delusuario', async(req,res) => {
 
     if (elimin){
         userList = await aHd.getUsuarios(token);
-        res.send("<script>alert('Usuario eliminado.');window.location.href='/register'</script>");
+        cervUsers = [];
+        userList.forEach(e =>{
+            if (e.id_cerveceria == usuarioLog.id_cerveceria && e.email != usuarioLog.email){cervUsers.push(e)};
+        });
+        res.render("register",{cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, cervList:cervList, listaus:cervUsers, confirmar:true})
     } else {
-        res.send("<script>alert('No se pudo eliminar al usuario.');window.location.href='/register'</script>");
+        res.render("register",{cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, cervList:cervList, listaus:cervUsers, failed:true})
     }
 
 });
@@ -290,8 +298,7 @@ router.post('/delusuario', async(req,res) => {
 router.get('/regicerv', async(req,res,next) => {
     if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
 
-    res.send("<script>alert('Su sesión ha caducado. Ingrese nuevamente.');window.location.href='/login'</script>");
-
+    res.render('login',{expsession:true});
 }, async(req,res) => {
     //A esta ruta solo puede acceder el usuario con rol MASTER
     if(usuarioLog.rol == 3 || usuarioLog.rol == 2){
@@ -365,7 +372,7 @@ router.post('/delcerv', async(req,res,next) => {
 router.get('/regicat', async(req,res,next) => {
     if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
 
-    res.send("<script>alert('Su sesión ha caducado. Ingrese nuevamente.');window.location.href='/login'</script>");
+    res.render('login',{expsession:true});
 } , async(req,res) => {
     if(usuarioLog.rol == 3){ //Caso USER (No puede insertar ni eliminar categorías)
         res.redirect("/app");
@@ -384,7 +391,7 @@ router.get('/regicat', async(req,res,next) => {
 router.post('/regicat', async(req,res,next) => {
     if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
 
-    res.send("<script>alert('Su sesión ha caducado. Ingrese nuevamente.');window.location.href='/login'</script>");
+    res.render('login',{expsession:true});
 } , async(req,res) => {
     const descr = req.body.name;
     
@@ -397,10 +404,9 @@ router.post('/regicat', async(req,res,next) => {
     
             if (newcat){
                 cervCats = await aHd.getCatsByCervID(usuarioLog.id_cerveceria, token);
-                console.log(`NUEVAS CATEGORIAS: ${cervCats}`);
-                res.send("<script>alert('Nueva categoría creada exitosamente.');window.location.href='/regicat'</script>");
+                res.render("regicat",{confirmar:true,cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, catlist:cervCats})
             } else {
-                res.send("<script>alert('Error al crear la nueva categoría.');window.location.href='/regicat'</script>")
+                res.render("regicat",{failed:true,cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, catlist:cervCats})
             };
         }     
     }
@@ -415,9 +421,9 @@ router.post('/delcat', async(req,res,next) => {
 
     if (elimin){
         cervList = await aHd.getCervecerias(token);
-        res.send("<script>alert('Categoría eliminada.');window.location.href='/regicerv'</script>");
+        res.render("regicat",{confirmar:true,cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, catlist:cervCats})
     } else {
-        res.send("<script>alert('No se pudo eliminar la categoría.');window.location.href='/regicerv'</script>");
+        res.render("regicat",{failed:true,cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, catlist:cervCats})
     }
 
 });
@@ -430,7 +436,7 @@ router.post('/delcat', async(req,res,next) => {
 router.get('/inventario', async(req,res,next) => {
     if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
 
-    res.send("<script>alert('Su sesión ha caducado. Ingrese nuevamente.');window.location.href='/login'</script>");
+    res.render('login',{expsession:true});
 } , async(req,res) => {
     inventarioCerv = await aHd.getItemsByCervID(usuarioLog.id_cerveceria,token);
     
@@ -443,7 +449,7 @@ router.get('/inventario', async(req,res,next) => {
 router.get('/nvoitem', async(req,res,next) => {
     if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
 
-    res.send("<script>alert('Su sesión ha caducado. Ingrese nuevamente.');window.location.href='/login'</script>");
+    res.render('login',{expsession:true});
 } , async(req,res) => {
     res.render("nvoitem",{inventariorender: true, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, listaitems:inventarioCerv, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin})
 });
@@ -453,7 +459,7 @@ router.get('/nvoitem', async(req,res,next) => {
 router.post('/nvoitem', async(req,res,next) => {
     if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
 
-    res.send("<script>alert('Su sesión ha caducado. Ingrese nuevamente.');window.location.href='/login'</script>");
+    res.render('login',{expsession:true});
 } , async(req,res) => {
     let {tipo,capacidad,obs, estado} = req.body;
     estado = parseInt(estado);
@@ -472,16 +478,17 @@ router.post('/nvoitem', async(req,res,next) => {
     const data = await aHd.nuevoItem(obj,idcerv,token);
     console.log(`FETCH STATUS:${data}`);
 
-    let alert = false;
-    let msj = '';
     if (data){
-        alert = true;
-        msj = "'Se ha creado un nuevo Item'";
-    };
+        inventarioCerv = await aHd.getItemsByCervID(usuarioLog.id_cerveceria,token);
 
-    inventarioCerv = await aHd.getItemsByCervID(usuarioLog.id_cerveceria,token);
+        res.render("nvoitem",{confirmar:true, inventariorender: true, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, listaitems:inventarioCerv, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin})
+    } else {
+        res.render("nvoitem",{failed:true, inventariorender: true, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, listaitems:inventarioCerv, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin})
+    }
 
-    res.render("nvoitem",{alert:alert, msj:msj, inventariorender: true, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, listaitems:inventarioCerv, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin})
+    
+
+   
 });
 
 //===================POST===================//
@@ -489,7 +496,7 @@ router.post('/nvoitem', async(req,res,next) => {
 router.post('/delitem', async(req,res,next) => {
     if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
 
-    res.send("<script>alert('Su sesión ha caducado. Ingrese nuevamente.');window.location.href='/login'</script>");
+    res.render('login',{expsession:true});
 } , async(req,res) => {
     let id = req.body.itemlist;
     const elimin = await aHd.delItem(id,token);
@@ -497,9 +504,9 @@ router.post('/delitem', async(req,res,next) => {
 
     if (elimin){
         inventarioCerv = await aHd.getItemsByCervID(usuarioLog.id_cerveceria,token);
-        res.send("<script>alert('Item eliminado.');window.location.href='/inventario'</script>");
+        res.render("inventario",{confirmar:true, inventariorender: true, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, listaitems:inventarioCerv, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin});
     } else {
-        res.send("<script>alert('No se pudo eliminar el ítem.');window.location.href='/inventario'</script>");
+        res.render("inventario",{failed:true, inventariorender: true, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, listaitems:inventarioCerv, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin});
     };
 
 });
@@ -508,8 +515,12 @@ router.post('/delitem', async(req,res,next) => {
 router.get('/edicionitem/:id', async(req,res,next) => {
     if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
 
-    res.send("<script>alert('Su sesión ha caducado. Ingrese nuevamente.');window.location.href='/login'</script>");
+    res.render('login',{expsession:true});
 } , async(req,res) => {
+    console.log(req.body);
+    console.log(req.params);
+    console.log('===========');
+    // console.log(inventarioCerv);
     let id = req.params.id;
     let item;
     let invRestante = [];
@@ -540,9 +551,11 @@ router.post('/edicionitem', async(req,res) => {
     const data = await aHd.updItem(obj,itemsel,token);
    
     if (data){
-        res.send("<script>alert('El registro ha sido modificado con éxito');window.location.href='/inventario'</script>")
+        inventarioCerv = await aHd.getItemsByCervID(usuarioLog.id_cerveceria,token);
+
+        res.render("inventario",{confirmar:true, inventariorender: true, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, listaitems:inventarioCerv, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin});
     } else {
-        res.send("<script>alert('No se ha podido modificar el registro. Intente nuevamente.');window.location.href='/inventario'</script>")   
+         res.render("inventario",{failed:true, inventariorender: true, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, listaitems:inventarioCerv, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin}); 
     };
 
 });
@@ -555,48 +568,71 @@ router.post('/edicionitem', async(req,res) => {
 
 //================================>>INFORME<<================================//
 
-//===================GET===================//
 router.get('/informe', (req,res,next) => {
     if(req.isAuthenticated()) return next();
 
-    res.redirect("/login");
+    res.render('login',{expsession:true});
 } , async(req,res) => {
-
-    let arrlabels=[];
-    let arrconteo=[];
-
+    conteoEstados = await aHd.contarEstados(usuarioLog.id_cerveceria,token);
+    let labels = [];
+    let values = [];
     conteoEstados.forEach(e => {
-        arrlabels.push(`"${e.descripcion}"`);
-        arrconteo.push(parseInt(e.conteo_estado));
+        labels.push(`"${e.descripcion}"`);
+        values.push(parseInt(e.conteo_estado));
     });
 
-    console.log(arrlabels);
-    console.log(arrconteo);
+    console.log(labels);
+    console.log(values);
+    
 
-
-    // let grafBarriles = {
-    //     type: 'pie',
-    //     data: {
-    //       labels: ['Wena','Oe','Que','Sucede'],
-    //       datasets: [{
-    //         label: 'Estado de Barriles',
-    //         data: [5,4,8,2],
-    //         borderWidth: 0.5,
-    //       }]
-    //     },
-    //     options: {
-    //       plugins: {
-    //       datalabels: {
-    //         color: 'red'
-    //       }
-    //       }
-    //     }
-    // };
-
-    // console.log(grafBarriles);
-    // console.log(grafBarriles.data.datasets);
-    res.render("informe",{cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, arrLabels:arrlabels, arrDatos:arrconteo})
+    res.render('informe',{graf1Labels:labels, graf1Values:values, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin})
 });
+
+
+
+
+//===================GET===================//
+// router.get('/informe', (req,res,next) => {
+//     if(req.isAuthenticated()) return next();
+
+//     res.render('login',{expsession:true});
+// } , async(req,res) => {
+
+//     let arrlabels=[];
+//     let arrconteo=[];
+
+//     conteoEstados.forEach(e => {
+//         arrlabels.push(`"${e.descripcion}"`);
+//         arrconteo.push(parseInt(e.conteo_estado));
+//     });
+
+//     console.log(arrlabels);
+//     console.log(arrconteo);
+
+
+//     // let grafBarriles = {
+//     //     type: 'pie',
+//     //     data: {
+//     //       labels: ['Wena','Oe','Que','Sucede'],
+//     //       datasets: [{
+//     //         label: 'Estado de Barriles',
+//     //         data: [5,4,8,2],
+//     //         borderWidth: 0.5,
+//     //       }]
+//     //     },
+//     //     options: {
+//     //       plugins: {
+//     //       datalabels: {
+//     //         color: 'red'
+//     //       }
+//     //       }
+//     //     }
+//     // };
+
+//     // console.log(grafBarriles);
+//     // console.log(grafBarriles.data.datasets);
+//     res.render("informe",{cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, arrLabels:arrlabels, arrDatos:arrconteo})
+// });
 
 
 

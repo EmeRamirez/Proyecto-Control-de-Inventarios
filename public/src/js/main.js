@@ -101,7 +101,6 @@ if(document.getElementById('btn-login')){
             boton.style.borderRadius=('50px');
         }, 350);   
                
-        // boton.removeEventListener('mouseover',achicar)
     })
 
     boton.addEventListener('mouseout',function agrandar(){
@@ -121,7 +120,110 @@ if (document.querySelector('#mensaje-login')){
     }, 3000);
 }
 
+//Alert sesión expirada
+function sesionExp(){
+    Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Su sesión ha expirado. Ingrese nuevamente',
+        showConfirmButton: false,
+        timer: 1000,
+        background: '#3A3A49',
+        color: '#fff',
+      })
+      .then(()=>{
+        window.location.href='/login';
+      });
+};
+
+
+//Confirmar delete
+async function confDel(form){
+    Swal.fire({
+        title: '¿Estás seguro que quieres eliminar un registro?',
+        text: "Este cambio no puede ser revertido",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Si, bórralo!',
+        background: '#3A3A49',
+        color: '#fff'
+      }).then((result) => {
+        if(result.isConfirmed){
+           form.submit()
+        } 
+      })
+};
+
+//Confirmar cambio
+async function confChg(form){
+    Swal.fire({
+        title: '¿Estás seguro que quieres modificar el registro?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Si, modifícalo!',
+        background: '#3A3A49',
+        color: '#fff'
+      }).then((result) => {
+        if(result.isConfirmed){
+           form.submit()
+        } 
+      })
+};
+
+//Alert success
+function confSucc(){
+    Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Operación exitosa.',
+        showConfirmButton: false,
+        background: '#3A3A49',
+        color: '#fff',
+        timer: 1500
+      })
+};
+
+//Alert fail
+function failAlert(){
+    Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Operación fallida, intente nuevamente.',
+        showConfirmButton: false,
+        background: '#3A3A49',
+        color: '#fff',
+        timer: 1500
+      })
+};
+
+async function itCuenta(e){
+    let num = parseInt(e.getAttribute('data-target'));
+    console.log(num);
+    let interval = 200;
+
+    for (let i=0;i<=num;i++){
+        setTimeout(() => {
+            console.log(i);
+            e.firstChild.textContent = i;
+        }, interval);
+        interval = interval + 60;
+        if (i > num-5){
+        interval = interval + 120;
+        }
+    }
+};
 
 
 
 
+/* <script>
+  let formupd = document.getElementById('editem');
+  formupd.addEventListener('submit', e => {
+      e.preventDefault();
+      confChg(formupd);
+  })
+</script> */

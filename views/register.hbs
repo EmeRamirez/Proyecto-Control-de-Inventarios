@@ -73,7 +73,7 @@
           </div>
           <div class="row clearfix">
             <div class="">
-              <form method="POST" action="/register">
+              <form id="form-regus" method="POST" action="/register">
                 <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope"></i></span>
                   <input type="email" name="email" placeholder="Correo electrónico" required />
                 </div>
@@ -127,7 +127,7 @@
         <div class="form_container">
           <div class="title_container">
             <h2>Eliminar Usuario</h2>
-            <form method="POST" action="/delusuario">
+            <form id="form-del-us" method="POST" action="/delusuario">
               <div class="input_field select_option">
                 <select name="uslist" required>
                   <option value="">Seleccione un usuario</option>
@@ -159,5 +159,28 @@
       <i class="fa-solid fa-qrcode fa-2xl"></i>
   </div>  
 </div>
+
+
+<script src="src/js/main.js"></script>
+<script src="sweetalert2.all.min.js"></script>
+<script>
+  let formdel = document.getElementById('form-del-us');
+  formdel.addEventListener('submit', e => {
+      e.preventDefault();
+      confDel(formdel);
+  })
+</script>
+
+{{#if confirmar}}
+<script>
+  confSucc();
+</script>
+{{/if}}
+
+{{#if failed}}
+<script>
+  failAlert();
+</script>
+{{/if}}
 
 {{/layoutapp}}

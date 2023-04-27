@@ -340,36 +340,151 @@ html{
 
 /* ================================ SECCION INFORMES ================================== */
 
-.body-container-informe{
+.cont-ext-graf {
   display: flex;
-  justify-content: flex-end;
-  margin-right: 180px;
+  margin-top: 5vh;
+  justify-content: center;
+
 }
 
-.cont-ext-graf{
+#myChart1 {
+  height: 400px;
+  width: 400px;
+  
+}
+
+.carousel {
+  max-width: 400px !important;
+}
+
+.carousel-control-next{
+  justify-content: flex-end;
+} 
+
+.carousel-control-prev{
+  justify-content: flex-start;
+}
+
+.carousel-control-prev-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%%23000' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
+ }
+ 
+ .carousel-control-next-icon {
+   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%%23000' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
+ }
+
+.body-container-informe{
   display: grid;
-  grid-template-columns: 30% 70%;
-  margin-top: 10vh;
-  min-width: 80%;
+  width: 80%;
+  align-items: center;
+  justify-items: center;
+  grid-template-columns: 40% 60%;
+  background-color: rgb(226, 208, 178);
+  border-radius: 6px;
+  border-top: 20px solid #1B232A;
+  border-bottom: 20px solid #1B232A;
+}
+
+.cont-grafico {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
 }
 
 .graf-container{
-  display: flex;
-  max-width: 450px;
-  max-height: 450px;
-  background-color: #3a3a49;
-  padding: 25px;
-  border-radius: 30px;
+  display: flex; 
+  width: 100%;
+  justify-content: center;
 }
 
-.graf-menu{
+.cont-izq-graf{
   display: grid;
-  align-content: center;
-  gap: 40px;
-  margin-bottom: 40px;
-  margin-right: 25px;
+  grid-template-rows: 10% 40% 45%;
+  height: 100%;
+  width: 100%;
+  padding-top: 4vh;
 }
 
+#titulo-resum {
+  display: flex;
+  margin-left: 4vw;
+  border-bottom: 1px solid #525252b9;
+  margin-top: 0;
+  align-items: flex-end;
+  width: 85%;
+
+}
+
+#titulo-resum h2{
+  font-size: 1.4rem;
+  font-family: 'Poppins', sans-serif;
+  align-content: flex-end;
+}
+
+.graf-menu {
+  display: grid;
+  width: 85%;
+  grid-template-rows: 50% 50%;
+  align-content: flex-end;
+  
+  margin-left: 4vw;
+  border-bottom: 1px solid #525252b9;
+}
+
+.graf-menu h2{
+  font-size: 1.4rem;
+  font-family: 'Poppins', sans-serif;
+  text-align: end;
+}
+
+.grafmenu1, .grafmenu2 {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  align-items: space-around;
+  gap: 100px;
+  
+}
+
+#counter{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#counter h1{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 3.5rem;
+  font-weight: 800;
+  font-family: 'Poppins', sans-serif;
+  color: #0e99a3;
+  margin-right:5px;
+}
+
+#icon-count{
+  height: 50px;
+}
+
+.graf-resumen{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  margin-left: 4vw;
+}
+
+.graf-resumen h2 {
+  font-size: 22px;
+  font-family: 'Poppins', sans-serif;
+  margin-top: 5px;
+  margin-bottom: 15px;
+
+}
+/* 
 .btn-informe{
   padding: 1vw 2vw;
   max-width: 15vw;
@@ -380,7 +495,7 @@ html{
   letter-spacing: 2px;
   color: #fff;
   background-color: #1B232A;
-}
+} */
 
 /* Fuentes
 font-family: 'Noto Sans', sans-serif;

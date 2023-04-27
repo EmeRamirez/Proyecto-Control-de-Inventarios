@@ -1,5 +1,4 @@
 {{#> layoutapp}}
-<link rel="stylesheet" type="text/css" href="src/scss/register.css"/>
 
 <div class="app">
     
@@ -61,19 +60,78 @@
         <i class="fa-solid fa-qrcode fa-2xl"></i>
     </div>
     
-    <div class="body-container-informe">
-        <div class="cont-ext-graf">
-            <div class="graf-menu">
-                <button class="btn btn-dark btn-informe">Barriles</button>
-                <button class="btn btn-dark btn-informe">Categorias</button>
-                <button class="btn btn-dark btn-informe">Clientes</button>
-
-            </div>
+    <div class=".container cont-ext-graf">
+      <div class="body-container-informe">
+          <div class="cont-izq-graf">
+              <div id="titulo-resum"><h2>Resumen de Estados</h2></div>
+              <div class="graf-menu">
+                <div class="grafmenu1"><div id="counter"><h1 id="count" data-target="12">0</h1><img id="icon-count" src="/src/img/kegiconcyan.png" alt=""></div>  <div id="counter"><h1 id="count" data-target="13">0</h1><img id="icon-count" src="/src/img/kegiconazul.png" alt=""></div></div>
+                <div class="grafmenu2"><div id="counter"><h1 id="count" data-target="22">0</h1><img id="icon-count" src="/src/img/kegicongray.png" alt=""></div>  <div id="counter"><h1 id="count" data-target="17">0</h1><img id="icon-count" src="/src/img/kegiconsalm.png" alt=""></div></div>
+                  {{!-- <button class="btn btn-dark btn-informe">Barriles</button>
+                  <button class="btn btn-dark btn-informe">Categorias</button>
+                  <button class="btn btn-dark btn-informe">Clientes</button> --}}
+              </div>
+              <div class="graf-resumen">
+                <h2>Ultimos barriles modificados</h2>
+                <table>
+                  <thead>
+                    <th>Código</th>
+                    <th>Fecha</th>
+                  </thead>
+                  <tbody>
+                    {{!-- each --}}
+                    <tr>
+                      <td>COD123</td>
+                      <td>15/04/2023</td>
+                    </tr>
+                    <tr>
+                      <td>COD123</td>
+                      <td>15/04/2023</td>
+                    </tr>
+                    <tr>
+                      <td>COD123</td>
+                      <td>15/04/2023</td>
+                    </tr>
+                    <tr>
+                      <td>COD123</td>
+                      <td>15/04/2023</td>
+                    </tr>
+                    
+                    {{!-- each --}}
+                  </tbody>
+                </table>
+              </div>
+          </div>
+          <div class="cont-grafico">
             <div class="graf-container">
-                <canvas class="" id="myChart"></canvas>
+              <div id="carouselExample" class="carousel slide">
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <canvas class="" id="myChart1"></canvas>
+                  </div>
+                  <div class="carousel-item">
+                    <canvas class="" id="myChart2"></canvas>
+                  </div>
+                  <div class="carousel-item">
+                    <canvas class="" id="myChart3"></canvas>
+                  </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+                  
             </div>
-        </div>
+          </div>
+      </div>
     </div>
+
+
   </div>
 
   <div class="appfooterspace">
@@ -91,30 +149,92 @@
 </div>
 
 <script>
-  const ctx = document.getElementById('myChart');
+  Chart.defaults.font.size = 20;
+  Chart.defaults.font.weight = 'bold';
+  Chart.defaults.plugins.legend.position = 'bottom';
+  Chart.defaults.plugins.legend.labels.boxWidth = 20
+  Chart.defaults.plugins.legend.labels.padding = 40
+  const ctx = document.getElementById('myChart1').getContext("2d");
+  const ctx2 = document.getElementById('myChart2').getContext("2d");
+  const ctx3 = document.getElementById('myChart3').getContext("2d");
   
-Chart.defaults.font.size = 16;
-Chart.defaults.font.weight = 'bold';
-Chart.defaults.color = '#fff';
   new Chart(ctx, {
-        type: 'pie',
+        type: "doughnut",
+        
         data: {
-          labels: [{{{arrLabels}}}],
+          labels: [{{{graf1Labels}}}],
           datasets: [{
-            label: 'Estado de Barriles',
-            data: [{{arrDatos}}],
+            label: 'Barriles',
+            data: [{{{graf1Values}}}],
+            backgroundColor: ["#00a9ce", "#053C5E", "#8f8389", "#ff4444"],
             borderWidth: 0.5,
+          }],
+          options: [{
+            plugins: {
+              title: {
+                display: true,
+                text: 'Barriles',
+                position: 'top'
+              }
+            }
           }]
-        },
-        options: {
-          plugins: {
-          datalabels: {
-            color: 'red'
-          }
-          }
+        } 
+    });
+
+
+    new Chart(ctx2, {
+        type: "line",
+        
+        data: {
+          labels: [{{{graf1Labels}}}],
+          datasets: [{
+            label: 'Barriles',
+            data: [{{{graf1Values}}}],
+            backgroundColor: ["#00a9ce", "#053C5E", "#8f8389", "#ff4444"],
+            borderWidth: 0.5,
+          }],
+          options: [{
+            plugins: {
+              title: {
+                display: true,
+                text: 'Barriles',
+                position: 'top'
+              }
+            }
+          }]
+        }
+    });
+
+
+    new Chart(ctx3, {
+        type: "bar",
+        
+        data: {
+          labels: [{{{graf1Labels}}}],
+          datasets: [{
+            label: 'Barriles',
+            data: [{{{graf1Values}}}],
+            backgroundColor: ["#00a9ce", "#053C5E", "#8f8389", "#ff4444"],
+            borderWidth: 0.5,
+          }],
+          options: [{
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }]
         }
     });
   
+</script>
+<script src="src/js/main.js"></script>
+<script>
+  let list = document.querySelectorAll('#count');
+    console.log(list)
+    list.forEach(function(e){
+      itCuenta(e)
+    })
 </script>
 
 {{/layoutapp}}

@@ -82,14 +82,14 @@
                 <td>{{tipo}}</td>
                 <td>{{capacidad}}</td>
                 <td>{{observacion}}</td>
-                <td id="estado-tabla"><span>{{estado.descripcion}}</span> <a href="edicionitem/{{id_item}}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+                <td id="estado-tabla"><span>{{estado.descripcion}}</span> <a href="/edicionitem/{{id_item}}"><i class="fa-solid fa-pen-to-square"></i></a></td>
             </tr>
             {{/each}}
             
         </tbody>
         <tfoot>
             <tr>
-                <th>Código</th>
+                <th> <a onclick="alertamaxima()">Código</a></th>
                 <th>Tipo</th>
                 <th>Capacidad</th>
                 <th>Observación</th>
@@ -121,7 +121,6 @@
 <script>
     if (document.querySelectorAll('#estado-tabla')){
         let arrEstados = document.querySelectorAll('#estado-tabla');
-        console.log(arrEstados);
         arrEstados.forEach(e => {
             if (e.firstChild.textContent == 'En Uso'){
                 e.classList.add('highlight-estado-g');
@@ -137,4 +136,18 @@
     }   
 </script>
 
+<script src="src/js/main.js"></script>
+<script src="sweetalert2.all.min.js"></script>
+
+{{#if confirmar}}
+<script>
+  confSucc();
+</script>
+{{/if}}
+
+{{#if failed}}
+<script>
+  failAlert();
+</script>
+{{/if}}
 {{/layoutapp}}

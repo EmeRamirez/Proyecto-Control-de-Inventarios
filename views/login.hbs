@@ -72,5 +72,12 @@
     <script src="src/js/main.js"></script>
     <script src="src/js/lib/jquery.rwdImageMaps.min.js"></script>
     <script>$(document).ready(function(e){$('img[usemap]').rwdImageMaps();});</script>
+    
+    {{#if expsession}}
+    <script src="sweetalert2.all.min.js"></script>
+    <script>
+        sesionExp();
+    </script>
+    {{/if}}
 </body>
 </html>

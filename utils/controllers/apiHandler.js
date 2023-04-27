@@ -285,5 +285,22 @@ export async function updItem(obj,id,token){
         console.log('Error al comunicarse con la API', error);
         return false; 
     }
-}
+};
+
+//Enviar solicitud a la API para obtener la sumatoria de cada uno de los ESTADOS de los ITEMS de una respectiva CERVECERIA(id)
+export async function contarEstados(id,token){
+    try {
+        const data = await fetch(`${ApiURL}/inventario/conteo/${id}`,{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            }
+        });
+        return data.json();
+    } catch (error) {
+        console.log('Error al comunicarse con la API', error);
+        return false;
+    }
+};
 

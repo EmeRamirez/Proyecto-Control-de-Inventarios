@@ -69,7 +69,7 @@
           </div>
           <div class="row clearfix">
             <div class="">
-              <form method="POST" action="/regicat">
+              <form id="form-cat" method="POST" action="/regicat">
                 <div class="input_field"> <span><i aria-hidden="true" class="fa-solid fa-beer-mug-empty"></i></span>
                   <input type="text" name="name" placeholder="Nombre de la categoría" required />
                 </div>
@@ -86,7 +86,7 @@
         <div class="form_container">
           <div class="title_container">
             <h2>Eliminar Categoría</h2>
-            <form method="POST" action="/delcat">
+            <form id="form-cat-del" method="POST" action="/delcat">
               <div class="input_field select_option">
                 <select name="catlist" required>
                   <option value="">Seleccione una categoria</option>
@@ -118,4 +118,25 @@
   </div>  
 </div>
 
+<script src="src/js/main.js"></script>
+<script src="sweetalert2.all.min.js"></script>
+<script>
+  let formdel = document.getElementById('form-cat-del');
+  formdel.addEventListener('submit', e => {
+      e.preventDefault();
+      confDel(formdel);
+  })
+</script>
+
+{{#if confirmar}}
+<script>
+  confSucc();
+</script>
+{{/if}}
+
+{{#if failed}}
+<script>
+  failAlert();
+</script>
+{{/if}}
 {{/layoutapp}}
