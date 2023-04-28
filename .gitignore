@@ -1,5 +1,5 @@
 node_modules/
 ormQueries.js
 .env
-uploads/**
+public/src/img/uploads/**
 !mmklogosquare.png
