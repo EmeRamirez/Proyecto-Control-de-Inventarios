@@ -7,6 +7,8 @@ import flash from "express-flash";
 import session from "express-session";
 import bodyParser from 'body-parser';
 import { Router } from "express";
+import path, { extname } from "path";
+import { __dirname } from "../server.js";
 
 //Handlers
 import * as aHd from "../utils/controllers/apiHandler.js";
@@ -17,9 +19,9 @@ const PassportLocal = passportLocal.Strategy
 
 
 //Variables
+let usuarioLog;
 let userList;
 let cervList;
-let usuarioLog;
 let cerveceriaLog;
 let inventarioCerv;
 let conteoEstados;
@@ -174,8 +176,12 @@ router.get('/app', (req,res,next) => {
             usuarioLog.isAdmin = true;
         };
 
+        let imgcerv = false;
+        if(cerveceriaLog.imglogo){
+            imgcerv = cerveceriaLog.imglogo;
+        };
 
-        res.render("app",{cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin})
+        res.render("app",{imgcerv:imgcerv, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin})
     }
     }
 );
@@ -568,8 +574,8 @@ router.post('/edicionitem', async(req,res) => {
 
 //================================>>INFORME<<================================//
 
-router.get('/informe', (req,res,next) => {
-    if(req.isAuthenticated()) return next();
+router.get('/informe', async(req,res,next) => {
+    if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
 
     res.render('login',{expsession:true});
 } , async(req,res) => {
@@ -589,51 +595,36 @@ router.get('/informe', (req,res,next) => {
 });
 
 
+//================================>>UPLOAD IMG<<================================//
+router.post('/uplimg', async(req,res, next) => {
+    if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
+
+    res.render('login',{expsession:true});
+} , async(req,res) =>{
+
+    const img = req.files.image;
+    console.log(img);
+    if (img.mimetype.startsWith('image/')){
+        let extension = extname(img.name);
+        let nombreSinExt = img.name.split(extension)[0];
+        img.name = `${nombreSinExt}-${Date.now()}${extension}`
+        
+        const uploadPath = __dirname + '/public/src/img/uploads/' + img.name 
+        const rutaimagen = 'src/img/uploads/' + img.name
+
+        img.mv(uploadPath, function(err) {
+            if (err) return res.status(500).send(err)
+        })
+
+        const data = await aHd.updImgCerv(usuarioLog.id_cerveceria,rutaimagen,token);
+        console.log(`FETCH STATUS: ${data}`);
 
 
-//===================GET===================//
-// router.get('/informe', (req,res,next) => {
-//     if(req.isAuthenticated()) return next();
-
-//     res.render('login',{expsession:true});
-// } , async(req,res) => {
-
-//     let arrlabels=[];
-//     let arrconteo=[];
-
-//     conteoEstados.forEach(e => {
-//         arrlabels.push(`"${e.descripcion}"`);
-//         arrconteo.push(parseInt(e.conteo_estado));
-//     });
-
-//     console.log(arrlabels);
-//     console.log(arrconteo);
-
-
-//     // let grafBarriles = {
-//     //     type: 'pie',
-//     //     data: {
-//     //       labels: ['Wena','Oe','Que','Sucede'],
-//     //       datasets: [{
-//     //         label: 'Estado de Barriles',
-//     //         data: [5,4,8,2],
-//     //         borderWidth: 0.5,
-//     //       }]
-//     //     },
-//     //     options: {
-//     //       plugins: {
-//     //       datalabels: {
-//     //         color: 'red'
-//     //       }
-//     //       }
-//     //     }
-//     // };
-
-//     // console.log(grafBarriles);
-//     // console.log(grafBarriles.data.datasets);
-//     res.render("informe",{cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, arrLabels:arrlabels, arrDatos:arrconteo})
-// });
-
+        res.redirect('app'); 
+    } else {
+        res.render('app',{errorimg:true, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin})
+    }
+})
 
 
 //===================TESTING===================//

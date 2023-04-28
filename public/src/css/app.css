@@ -161,6 +161,17 @@ html{
   gap: 20px;
 }
 
+#foto-modal-btn {
+  background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
+
+
 .body-container-apphome{
   display: flex;
   flex-direction: column;
@@ -484,18 +495,76 @@ html{
   margin-bottom: 15px;
 
 }
-/* 
-.btn-informe{
-  padding: 1vw 2vw;
-  max-width: 15vw;
-  max-height: 10vh;
-  font-size: 1.3rem;
-  border-radius: 20px;
-  font-family: 'Poppins', sans-serif;
-  letter-spacing: 2px;
-  color: #fff;
+
+
+/* ================================ MODAL IMG ================================== */
+
+.modal-dialog2{
+  margin-top: 15vw;
+}
+
+.modal-content2 {
+  color: white;
   background-color: #1B232A;
-} */
+  font-family: 'Poppins', sans-serif;
+}
+
+.modal-header2 {
+  min-height: 50px;
+  padding-left: 3vw;
+}
+
+.modal-header2 h5{
+  font-weight: bold;
+  font-size: 1.4rem;
+  letter-spacing: 5px;
+
+}
+
+.modal-footer2 {
+  min-height: 50px;
+}
+
+.modal-body2 {
+  display: grid;
+  grid-template-columns: 60% 40%;
+}
+
+.img-modal-cont {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding-right: 1vw;
+  margin-right: 2vw;
+  margin-top: 2vw;
+  margin-bottom: 2vw;
+  min-height: 150px;
+  min-width: 150px;
+}
+
+#form-img {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 90%;
+  padding-left: 30px;
+  padding-right: 20px;
+  padding-top: 25px;
+  padding-bottom: 20px;
+}
+
+#form-img button{
+  max-width: 140px !important;
+  max-height: 50px !important;
+  margin-right: 0;
+  background-color: var(--btnBlu);
+  border-color: var(--btnBlu);
+}
+
+
+
+
+
 
 /* Fuentes
 font-family: 'Noto Sans', sans-serif;
@@ -505,17 +574,4 @@ font-family: 'Poppins', sans-serif;
 */
 
 
-
-/* @media only screen and (max-height: 680px) {
-  .body-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-items: center;
-    gap: 30px;
-    margin-top: 10vw;
-  }
-
-
-} */
 

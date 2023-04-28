@@ -162,6 +162,23 @@ export async function getCatsByCervID(id,token){
     }
 };
 
+export async function updImgCerv(id,rutaimg,token){
+    try {
+        const response = await fetch(`${ApiURL}/cervecerias/updimg/${id}`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            },
+            body: JSON.stringify({rutaimg})
+        });
+        return response.ok;
+    } catch (error) {
+        console.log('Error al comunicarse con la API', error);
+        return false; 
+    }
+};
+
 
 //================================>>CATEGORÍAS<<================================//
 

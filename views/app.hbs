@@ -18,7 +18,8 @@
                 <button class="btn btn-secondary dropdown-toggle log-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Hola {{capitalizar nombre}}
                 </button>
-                <i class="fa-solid fa-user user-login user-login-desk" style="font-size: 20px; letter-spacing: 0.3vw; color:white"></i>
+                <button id="foto-modal-btn" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-user user-login user-login-desk" style="font-size: 20px; letter-spacing: 0.3vw; color:white"></i></button>
+                
                 <ul class="dropdown-menu">
                     {{#if isMaster}}
                         <li><a class="dropdown-item" href="/regicerv">Registrar Cervecería</a></li>
@@ -77,5 +78,54 @@
     </div>
     
 </div>
+
+<!-- ==========================MODAL IMAGEN================================ -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog2">
+    <div class="modal-content modal-content2">
+      <div class="modal-header modal-header2">
+        <h5 class="modal-title">{{capitalizar cerveceria}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body modal-body2">
+        
+        <form id="form-img" action="uplimg" method="post" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Subir un logo (250 x 250)</label>
+            <input type="file" class="form-control" name="image" accept="image/*" required>
+          </div>
+          <button type="submit" form="form-img" class="btn btn-primary">Subir imagen</button>
+        </form>
+        <div class="img-modal-cont">
+            {{#if imgcerv}}
+                <img src="{{imgcerv}}" height="150px" width="150px" alt="">
+            {{/if}}
+            {{#unless imgcerv}}
+                <img src="src/img/mmklogosquare.png" height="150px" width="150px" alt="">
+            {{/unless}}
+        </div>
+      </div>
+      <div class="modal-footer modal-footer2">
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+{{#if errorimg}}
+    <script src="src/js/main.js"></script>
+    <script src="sweetalert2.all.min.js"></script>
+    <script>
+         Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Tipo de archivo no admitido.',
+        showConfirmButton: false,
+        background: '#3A3A49',
+        color: '#fff',
+        timer: 1500
+    })
+    </script>
+{{/if}}
 
 {{/layoutapp}}
