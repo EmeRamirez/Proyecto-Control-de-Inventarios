@@ -60,8 +60,8 @@
         <div class="body-container-inventario">
         <!-- ===============>> TABLA INVENTARIO <<================== -->
         <div class="panel-tablas-inv">
-            <a href="nvoitem"><img src="src/img/barrel-plus.png" id="icon-inv-panel" height="40px" title="Nuevo Item"></img></a>
-            <a href="produccion"><img src="src/img/barrel-box.png" id="icon-inv-panel" height="40px" title="Ver Producciones"></img></a>
+            <a href="nvocliente"><img src="src/img/shop-plus.png" id="icon-inv-panel" height="38px" title="Nuevo Cliente"></img></a>
+            <a href="inventario"><img src="src/img/barrel-eye.png" id="icon-inv-panel" height="40px" title="Ver Items"></img></a>
         </div>
         <div class="container-sm mt-4 contenedor-tabla">
     <table id="tabla-responsiva-inventario" class="table table-striped display responsive nowrap" style="width:100%">
@@ -75,16 +75,15 @@
             </tr>
         </thead>
         <tbody>
-            {{#each listaitems}}
+            {{#each listaprod}}
             <tr>
                 <td id="cod-tabla">{{qr_code}}</td>
                 <td>{{tipo}}</td>
                 <td>{{capacidad}}</td>
                 <td>{{observacion}}</td>
-                <td id="estado-tabla"><span>{{estado.descripcion}}</span> <a href="/edicionitem/{{id_item}}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+                <td id="estado-prod"><span>{{estado.descripcion}}</span> <a href="/edicionitem/{{id_item}}"><i class="fa-solid fa-pen-to-square"></i></a></td>
             </tr>
-            {{/each}}
-            
+            {{/each}}  
         </tbody>
         <tfoot>
             <tr>
@@ -118,8 +117,8 @@
 
 
 <script>
-    if (document.querySelectorAll('#estado-tabla')){
-        let arrEstados = document.querySelectorAll('#estado-tabla');
+    if (document.querySelectorAll('#estado-prod')){
+        let arrEstados = document.querySelectorAll('#estado-prod');
         arrEstados.forEach(e => {
             if (e.firstChild.textContent == 'En Uso'){
                 e.classList.add('highlight-estado-g');

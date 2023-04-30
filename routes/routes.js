@@ -9,6 +9,7 @@ import bodyParser from 'body-parser';
 import { Router } from "express";
 import path, { extname } from "path";
 import { __dirname } from "../server.js";
+import { unlink } from "fs";
 
 //Handlers
 import * as aHd from "../utils/controllers/apiHandler.js";
@@ -27,6 +28,7 @@ let inventarioCerv;
 let conteoEstados;
 let cervUsers;
 let cervCats;
+let cervCtes;
 let token;
 
 
@@ -538,7 +540,8 @@ router.get('/edicionitem/:id', async(req,res,next) => {
         };
     })
     let qrcode = `"'${item.qr_code}'"`
-    res.render('edicionitem',{itemrender: true, item:item, codigoQR:qrcode, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, invrest:invRestante});
+    let rutalogo = '../' + cerveceriaLog.imglogo;
+    res.render('edicionitem',{itemrender: true, rutalogo:rutalogo ,item:item, codigoQR:qrcode, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, invrest:invRestante});
 });
 
 router.post('/edicionitem', async(req,res) => {
@@ -567,9 +570,72 @@ router.post('/edicionitem', async(req,res) => {
 });
 
 
+//================================>>PRODUCCIONES<<================================//
+router.get('/produccion', async(req,res, next) => {
+    if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
+
+    res.render('login',{expsession:true});
+} , async(req,res) => {
+
+    res.render('produccion',{listaprod:[],cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, listaitems:inventarioCerv, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin})
+});
+
+//================================>>CLIENTES<<================================//
+
+//===================GET===================//
+router.get('/nvocliente', async(req,res, next) => {
+    if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
+
+    res.render('login',{expsession:true});
+} , async(req,res) => {
+
+    cervCtes = await aHd.getClientesByCervID(usuarioLog.id_cerveceria, token);
+
+    res.render('nvocliente',{listacte:cervCtes,cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin})
+});
 
 
+//===================POST===================//
+router.post('/nvocte', async(req,res, next) => {
+    if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
 
+    res.render('login',{expsession:true});
+} , async(req,res) => {
+    const {nombre,direccion,comuna} = req.body;
+    let obj = {nombre,direccion,comuna};
+    console.log(obj);
+
+    if (cervCtes.map(e => e.nombre_cliente.toLowerCase()).indexOf(nombre.toLowerCase()) != -1){
+        res.render("nvocliente",{error:'El cliente ya se encuentra registrado',cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, ctelist:cervCtes})
+    }else{
+       console.log('se crea el wn');
+        let newcte = await aHd.setClienteByCervID(usuarioLog.id_cerveceria, obj, token);
+        console.log(`Fetch Status: ${newcte}`);  
+
+        if (newcte){
+            cervCtes = await aHd.getClientesByCervID(usuarioLog.id_cerveceria, token);
+            res.render("nvocliente",{confirmar:true,cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, ctelist:cervCtes})
+        } else {
+            res.render("nvocliente",{failed:true,cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, ctelist:cervCtes})
+        };
+    }    
+});
+
+//FALTA HACER EL DELETE A CLIENTES
+//===================POST===================//
+router.post('/delcte', async(req,res,next) => {
+    let id = req.body.catlist;
+    // const elimin = await aHd.delCategoria(id,token);
+    // console.log(`Fetch status: ${elimin}`);
+
+    // if (elimin){
+    //     cervList = await aHd.getCervecerias(token);
+    //     res.render("regicat",{confirmar:true,cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, catlist:cervCats})
+    // } else {
+    //     res.render("regicat",{failed:true,cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, catlist:cervCats})
+    // }
+
+});
 
 
 //================================>>INFORME<<================================//
@@ -587,21 +653,27 @@ router.get('/informe', async(req,res,next) => {
         values.push(parseInt(e.conteo_estado));
     });
 
-    console.log(labels);
-    console.log(values);
-    
+    //Esta iteración genera una copia del arreglo inventario y lo ordena por fecha de actualización de estado de forma descendente
+    let invUpdOrd = inventarioCerv.map(e => e).sort((a,b) => (new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()));
+    invUpdOrd = invUpdOrd.slice(0,4);
 
-    res.render('informe',{graf1Labels:labels, graf1Values:values, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin})
+    invUpdOrd.forEach(e => {
+        e.modificado = new Date(e.updatedAt).toString().split(' GMT')[0];
+    });
+
+    res.render('informe',{graf1Labels:labels, graf1Values:values, ultimUpd:invUpdOrd, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin})
 });
 
 
 //================================>>UPLOAD IMG<<================================//
+//En este módulo se almacena una nueva imagen para utilizar como logo personalizado del cliente.
 router.post('/uplimg', async(req,res, next) => {
     if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
 
     res.render('login',{expsession:true});
 } , async(req,res) =>{
 
+    //En esta parte se recepciona la imagen subida por el cliente, se valida el mimetype para verificar que el archivo sea válido
     const img = req.files.image;
     console.log(img);
     if (img.mimetype.startsWith('image/')){
@@ -609,9 +681,22 @@ router.post('/uplimg', async(req,res, next) => {
         let nombreSinExt = img.name.split(extension)[0];
         img.name = `${nombreSinExt}-${Date.now()}${extension}`
         
+        //Se establece la ruta de la carpeta que almacenará los uploads
         const uploadPath = __dirname + '/public/src/img/uploads/' + img.name 
         const rutaimagen = 'src/img/uploads/' + img.name
 
+
+        //Aquí verificamos si la cervecería ya posee una ruta de imagen previamente establecida en la BD
+        const deleteLast = __dirname + '/public/' + cerveceriaLog.imglogo;
+        if (cerveceriaLog.imglogo){
+            //Si la tiene, este archivo es eliminado.
+            const delimg = unlink(deleteLast, (err) => {
+                if (err) throw err;
+                console.log(`${deleteLast} fue eliminado.`);
+            });
+        };
+
+        //Finalmente almacenamos en el directorio del proyecto el nuevo archivo subido por el cliente
         img.mv(uploadPath, function(err) {
             if (err) return res.status(500).send(err)
         })

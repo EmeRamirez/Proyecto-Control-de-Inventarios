@@ -349,6 +349,113 @@ html{
   margin-top: 15px;
 }
 
+#etiqueta-modal-btn {
+  margin-top: 1vw;
+  background: none;
+	color: white;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
+
+.modal-dialog3 {
+  position: relative;
+  max-width: var(--bs-modal-width);
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 5vw;
+  margin-bottom: 0;
+  pointer-events: none;
+}
+
+.modal-content3 {
+  display: grid !important;
+  grid-template-rows: 85% 15%;
+  color: white;
+  background-color: #000000;
+  font-family: 'Poppins', sans-serif;
+  width: 600px;
+  height: 230px;
+  padding: 0 8px; 
+  padding-bottom: 2px;
+}
+
+.label-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+}
+
+.img-modal-lbl {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding-right: 1vw;
+  margin-right: 2vw;
+  margin-top: 2vw;
+  margin-bottom: 2vw;
+}
+
+#img-lbl {
+  height: 180px;
+  width: 180px;
+}
+
+#qr-lbl{
+  border: 1px solid white;
+}
+
+#footer-lbl h5{
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  font-size: 11px;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: 4px;
+}
+
+#cont-btn-imp{
+  max-width: var(--bs-modal-width);
+  margin-right: auto;
+  margin-left: auto;
+  padding-left:2vw ;
+}
+
+#btn-imprimir {
+  margin-top: 1vw;
+  background: none;
+	color: white;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
+
+@media print{
+ .app *{
+  display: none;
+ }
+
+ .modal-content3 {
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust:exact !important;
+ }
+
+ #cont-btn-imp {
+  display: none;
+ }
+
+
+
+ 
+
+
+}
+
 /* ================================ SECCION INFORMES ================================== */
 
 .cont-ext-graf {

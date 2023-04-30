@@ -65,11 +65,8 @@
           <div class="cont-izq-graf">
               <div id="titulo-resum"><h2>Resumen de Estados</h2></div>
               <div class="graf-menu">
-                <div class="grafmenu1"><div id="counter"><h1 id="count" data-target="12">0</h1><img id="icon-count" src="/src/img/kegiconcyan.png" alt=""></div>  <div id="counter"><h1 id="count" data-target="13">0</h1><img id="icon-count" src="/src/img/kegiconazul.png" alt=""></div></div>
-                <div class="grafmenu2"><div id="counter"><h1 id="count" data-target="22">0</h1><img id="icon-count" src="/src/img/kegicongray.png" alt=""></div>  <div id="counter"><h1 id="count" data-target="17">0</h1><img id="icon-count" src="/src/img/kegiconsalm.png" alt=""></div></div>
-                  {{!-- <button class="btn btn-dark btn-informe">Barriles</button>
-                  <button class="btn btn-dark btn-informe">Categorias</button>
-                  <button class="btn btn-dark btn-informe">Clientes</button> --}}
+                <div class="grafmenu1"><div id="counter"><h1 id="count" data-target="{{graf1Values.[0]}}">0</h1><img id="icon-count" src="/src/img/kegiconcyan.png" alt=""></div>  <div id="counter"><h1 id="count" data-target="{{graf1Values.[1]}}">0</h1><img id="icon-count" src="/src/img/kegiconazul.png" alt=""></div></div>
+                <div class="grafmenu2"><div id="counter"><h1 id="count" data-target="{{graf1Values.[2]}}">0</h1><img id="icon-count" src="/src/img/kegiconsalm.png" alt=""></div>  <div id="counter"><h1 id="count" data-target="{{graf1Values.[3]}}">0</h1><img id="icon-count" src="/src/img/kegicongray.png" alt=""></div></div>  
               </div>
               <div class="graf-resumen">
                 <h2>Ultimos barriles modificados</h2>
@@ -79,25 +76,12 @@
                     <th>Fecha</th>
                   </thead>
                   <tbody>
-                    {{!-- each --}}
+                    {{#each ultimUpd}}
                     <tr>
-                      <td>COD123</td>
-                      <td>15/04/2023</td>
+                      <td>{{qr_code}}</td>
+                      <td>{{modificado}}</td>
                     </tr>
-                    <tr>
-                      <td>COD123</td>
-                      <td>15/04/2023</td>
-                    </tr>
-                    <tr>
-                      <td>COD123</td>
-                      <td>15/04/2023</td>
-                    </tr>
-                    <tr>
-                      <td>COD123</td>
-                      <td>15/04/2023</td>
-                    </tr>
-                    
-                    {{!-- each --}}
+                    {{/each}}
                   </tbody>
                 </table>
               </div>
@@ -166,7 +150,7 @@
           datasets: [{
             label: 'Barriles',
             data: [{{{graf1Values}}}],
-            backgroundColor: ["#00a9ce", "#053C5E", "#8f8389", "#ff4444"],
+            backgroundColor: ["#00a9ce", "#053C5E", "#ff4444", "#8f8389"],
             borderWidth: 0.5,
           }],
           options: [{
@@ -190,7 +174,7 @@
           datasets: [{
             label: 'Barriles',
             data: [{{{graf1Values}}}],
-            backgroundColor: ["#00a9ce", "#053C5E", "#8f8389", "#ff4444"],
+            backgroundColor: ["#00a9ce", "#053C5E", "#ff4444", "#8f8389"],
             borderWidth: 0.5,
           }],
           options: [{
@@ -214,7 +198,7 @@
           datasets: [{
             label: 'Barriles',
             data: [{{{graf1Values}}}],
-            backgroundColor: ["#00a9ce", "#053C5E", "#8f8389", "#ff4444"],
+            backgroundColor: ["#00a9ce", "#053C5E", "#ff4444", "#8f8389"],
             borderWidth: 0.5,
           }],
           options: [{

@@ -238,6 +238,7 @@ export async function getItemsByCervID(id,token){
 };
 
 
+
 //Enviar solicitud a la API para registrar un nuevo ITEM a una respectiva CERVECERIA
 export async function nuevoItem(obj,id,token){
     try {
@@ -321,3 +322,39 @@ export async function contarEstados(id,token){
     }
 };
 
+//================================>>INVENTARIO<<================================//
+//Enviar solicitud a la API para obtener el registro de todas las CATEGORIAS de una respectiva CERVECERIA.
+export async function getClientesByCervID(id,token){
+    try {
+        const data = await fetch(`${ApiURL}/clientes/${id}`,{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            }
+        });
+        return data.json();
+    } catch (error) {
+        console.log('Error al comunicarse con la API', error);
+        return false;
+    }
+};
+
+
+//Enviar una solicitud a la API para añadir un nuevo CLIENTE
+export async function setClienteByCervID(id,obj,token){
+    try {
+        const response = await fetch(`${ApiURL}/clientes/${id}`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            },
+            body: JSON.stringify(obj)
+        });
+        return response.ok;
+    } catch (error) {
+        console.log('Error al comunicarse con la API', error);
+        return false; 
+    }
+}

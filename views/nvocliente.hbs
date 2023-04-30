@@ -64,13 +64,19 @@
       <div class="form_wrapper">
         <div class="form_container">
           <div class="title_container">
-            <h2>Nueva Categoría</h2>
+            <h2>Nuevo Cliente</h2>
           </div>
           <div class="row clearfix">
             <div class="">
-              <form id="form-cat" method="POST" action="/regicat">
-                <div class="input_field"> <span><i aria-hidden="true" class="fa-solid fa-beer-mug-empty"></i></span>
-                  <input type="text" name="name" placeholder="Nombre de la categoría" required />
+              <form id="form-cat" method="POST" action="/nvocte">
+                <div class="input_field"> <span><i class="fa-solid fa-shop"></i></span>
+                  <input type="text" name="nombre" placeholder="Nombre del Cliente" required />
+                </div>
+                <div class="input_field"> <span><i aria-hidden="true" class="fa-solid fa-location-dot"></i></span>
+                  <input type="text" name="direccion" placeholder="Direccion" required />
+                </div>
+                <div class="input_field"> <span><i aria-hidden="true" class="fa-solid fa-map-location-dot"></i></span>
+                  <input type="text" name="comuna" placeholder="Comuna" required />
                 </div>
                     {{#if error}}
                       <div style="text-align: center; margin-bottom: 15px"><span id="mensaje-login">{{error}}</span></div>
@@ -84,13 +90,13 @@
       <div class="form_wrapper cont-eliminar">
         <div class="form_container">
           <div class="title_container">
-            <h2>Eliminar Categoría</h2>
-            <form id="form-cat-del" method="POST" action="/delcat">
+            <h2>Eliminar Cliente</h2>
+            <form id="form-cte-del" method="POST" action="/delcte">
               <div class="input_field select_option">
-                <select name="catlist" required>
+                <select name="ctelist" required>
                   <option value="">Seleccione una categoria</option>
-                  {{#each catlist}}
-                  <option value={{id_categoria}}>{{descripcion}}</option>
+                  {{#each ctelist}}
+                  <option value={{id_cliente}}>{{nombre_cliente}}</option>
                   {{/each}}
                 </select>
                 <div class="select_arrow"></div>
@@ -120,7 +126,7 @@
 <script src="src/js/main.js"></script>
 <script src="sweetalert2.all.min.js"></script>
 <script>
-  let formdel = document.getElementById('form-cat-del');
+  let formdel = document.getElementById('form-cte-del');
   formdel.addEventListener('submit', e => {
       e.preventDefault();
       confDel(formdel);

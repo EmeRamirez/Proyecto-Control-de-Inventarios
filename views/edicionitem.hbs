@@ -103,15 +103,18 @@
                 <div id="qr-container">
                     <div><h2>{{item.qr_code}}</h2></div>
                     <div id="qr-img"></div>
+                    <div><button id="etiqueta-modal-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">Ver Etiqueta</button></div>
                 </div>
             </div> 
             <input class="button" form="editem" type="submit" value="Actualizar"/>         
           </div>
         </div>
-</div>
+      </div>
 
     </div>
   </div>
+
+
 
   <div class="appfooterspace">
       <div class="foot-menu" style="background-color: #1B232A;"></div>
@@ -127,16 +130,40 @@
   </div>  
 </div>
 
+  <!-- ==========================MODAL QR LABEL================================ -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog3">
+    <div class="modal-content modal-content3">
+      <div class="label-body">
+        <div class="img-modal-lbl">
+          <img id="img-lbl" src="{{rutalogo}}" alt="">
+        </div>
+        <div id="qr-lbl" class=""></div>
+      </div>
+      <div id="footer-lbl">
+        <h5>Barril monitoreado por <img src="../src/img/meetmykeg-logo2.png" height="24px" style="padding-left: 3px;"><img src="../src/img/qrx.png" alt="" height="24px"></h5>
+      </div>
+    </div>
+  </div>
+  <div id="cont-btn-imp"><button id="btn-imprimir">Imprimir</button></div>
+</div>
+
 <!-- GENERADOR DE QR -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
     const contenedorQR = document.getElementById('qr-img');
+    const contQRLabel = document.getElementById('qr-lbl');
     
     new QRCode(contenedorQR, {
         text: {{{codigoQR}}},
         width: 130,
         height: 130
+    })
 
+    new QRCode(contQRLabel, {
+        text: {{{codigoQR}}},
+        width: 130,
+        height: 130
     })
 </script>
 <script>
@@ -145,8 +172,14 @@
     };
 </script>
 
-<script src="src/js/main.js"></script>
+<script src="/src/js/main.js"></script>
 
+<script>
+  const btnImprimir = document.getElementById('btn-imprimir');
+  btnImprimir.addEventListener('click', () => {
+    print();
+  })
+</script>
 
 
 {{#if confirmar}}

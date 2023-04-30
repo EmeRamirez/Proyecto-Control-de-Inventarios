@@ -116,6 +116,10 @@
     scale: 150%;
     }
 
+    #etiqueta-modal-btn {
+        display: none;
+    }
+
     /* .body-container{
         margin-top: 20vw;
     } */
