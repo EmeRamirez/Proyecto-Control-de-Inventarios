@@ -218,6 +218,22 @@ async function itCuenta(e){
 };
 
 
+if (document.getElementById('ver-mas-btn')){
+    let btnvm = document.getElementById('ver-mas-btn');
+    let alternador = false;
+    btnvm.addEventListener('click',()=>{
+        if (!alternador){
+            document.querySelector('.card-subcont-edicion').classList.remove('d-none');
+            btnvm.innerText=('- Ver menos')
+            alternador = true;
+        } else {
+            document.querySelector('.card-subcont-edicion').classList.add('d-none');
+            btnvm.innerText=('+ Ver más')
+            alternador = false;
+        }   
+    }); 
+}
+
 
 
 /* <script>

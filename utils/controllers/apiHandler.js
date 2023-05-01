@@ -322,7 +322,7 @@ export async function contarEstados(id,token){
     }
 };
 
-//================================>>INVENTARIO<<================================//
+//================================>>CLIENTES<<================================//
 //Enviar solicitud a la API para obtener el registro de todas las CATEGORIAS de una respectiva CERVECERIA.
 export async function getClientesByCervID(id,token){
     try {
@@ -357,4 +357,77 @@ export async function setClienteByCervID(id,obj,token){
         console.log('Error al comunicarse con la API', error);
         return false; 
     }
-}
+};
+
+
+//Enviar solicitud a la API para eliminar un CLIENTE
+export async function delCliente(id,token){
+    try {
+        const response = await fetch(`${ApiURL}/clientes/del/${id}`,{
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            }
+        });
+        return response.ok;
+    } catch (error) {
+        console.log('Error al comunicarse con la API', error);
+        return false;
+    }
+};
+
+
+//================================>>PRODUCCIONES<<================================//
+//Enviar solicitud a la API para obtener el registro de todas las PRODUCCIONES VIGENTES (exceptuando Devueltos) de una respectiva CERVECERIA .
+export async function getProduccionesVigByID(id,token){
+    try {
+        const data = await fetch(`${ApiURL}/produccion/${id}`,{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            }
+        });
+        return data.json();
+    } catch (error) {
+        console.log('Error al comunicarse con la API', error);
+        return false;
+    }
+};
+
+//Enviar solicitud a la API para obtener el historial de todas las PRODUCCIONES de una respectiva CERVECERIA.
+export async function getProduccionesHistByID(id,token){
+    try {
+        const data = await fetch(`${ApiURL}/produccion/historial/${id}`,{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            }
+        });
+        return data.json();
+    } catch (error) {
+        console.log('Error al comunicarse con la API', error);
+        return false;
+    }
+};
+
+//Enviar solicitud a la API para actualizar el registro de una PRODUCCION(id)
+export async function updProdbyID(id,obj,token){
+    try {
+        const response = await fetch(`${ApiURL}/produccion/${id}`,{
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            },
+            body: JSON.stringify(obj)
+        });
+        return response.ok;
+    } catch (error) {
+        console.log('Error al comunicarse con la API', error);
+        return false; 
+    }
+};
+

@@ -253,6 +253,14 @@ html{
   -webkit-transition: 500ms;
 }
 
+.panel-tablas-inv a {
+  text-decoration: none;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .contenedor-tabla{
   background-color: rgb(226, 208, 178);
   padding: 2vw;
@@ -303,6 +311,11 @@ html{
   font-weight: bold;
 }
 
+.highlight-estado-gy {
+  color: rgb(113, 141, 12) !important;
+  font-weight: bold;
+}
+
 .highlight-estado-r {
   color: rgb(211, 56, 56) !important;
   font-weight: bold;
@@ -329,6 +342,7 @@ html{
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
+
 
 .divisor-form {
   border-bottom: 3px solid white;
@@ -449,11 +463,50 @@ html{
   display: none;
  }
 
+}
 
+/* ================================ SECCION EDICION PROD ================================== */
 
- 
+.card-info-pedido {
+  background-color: #272736 !important;
+  
+}
 
+.card-info-pedido h2 {
+  color: #dfc450 !important;
+}
 
+.card-subcont-edicion{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 2vw ;
+  border-bottom: 3px solid white;
+  border-radius: 2px;
+  padding-bottom: 18px;
+}
+
+.card-subcont-edicion h2{
+  color: white !important;
+  font-size: 1rem !important;
+  letter-spacing: 2px;
+}
+
+#card-tit-estado {
+  color: #dfc450;
+  font-weight: bold;
+  letter-spacing: 3px;
+  padding-bottom: 0;
+}
+
+#ver-mas-btn {
+  border-radius: 5px;
+  background-color: #0e99a3;
+  color: white;
+}
+
+#cont-valores h3{
+  color: white;
 }
 
 /* ================================ SECCION INFORMES ================================== */

@@ -81,7 +81,7 @@
                 <td>{{tipo}}</td>
                 <td>{{capacidad}}</td>
                 <td>{{observacion}}</td>
-                <td id="estado-tabla"><span>{{estado.descripcion}}</span> <a href="/edicionitem/{{id_item}}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+                <td id="estado-tabla" value="{{id_item}}"><span>{{estado.descripcion}}</span> <a href="/edicionitem/{{id_item}}"><i class="fa-solid fa-pen-to-square"></i></a></td>
             </tr>
             {{/each}}
             
@@ -123,7 +123,8 @@
         arrEstados.forEach(e => {
             if (e.firstChild.textContent == 'En Uso'){
                 e.classList.add('highlight-estado-g');
-                e.innerHTML=("En Uso");
+                let id = e.attributes[1].textContent;
+                e.lastChild.href=`/edicionprod/${id}`
             }else if (e.firstChild.textContent == 'Sucio'){
                 e.classList.add('highlight-estado-r');
             }else if (e.firstChild.textContent == 'Limpio'){

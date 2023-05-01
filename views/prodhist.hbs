@@ -5,11 +5,11 @@
         <div class="header-app-info">
             {{#unless isMaster}}
             <p class="header-subtitle">{{cerveceria}}</p>
-            <h4 class="header-title">Producción</h4>
+            <h4 class="header-title">Historial</h4>
             {{/unless}}
             {{#if isMaster}}
             <p class="header-subtitle">Admin</p>
-            <h4 class="header-title">Producción</h4>
+            <h4 class="header-title">Historial</h4>
             {{/if}}
         </div>
         <div class="header-app-panel">
@@ -62,7 +62,7 @@
         <div class="panel-tablas-inv">
             <a href="nvocliente"><img src="src/img/shop-plus.png" id="icon-inv-panel" height="38px" title="Nuevo Cliente"></img></a>
             <a href="inventario"><img src="src/img/barrel-eye.png" id="icon-inv-panel" height="40px" title="Ver Items"></img></a>
-            <a href="prodhist"><img src="src/img/barrel-his.png" id="icon-inv-panel" height="40px" title="Historial de Producciones"></img></a>
+            <a href="produccion"><img src="src/img/barrel-box.png" id="icon-inv-panel" height="40px" title="Ver Producciones"></img></a>
 
         </div>
         <div class="container-sm mt-4 contenedor-tabla">
@@ -92,7 +92,7 @@
                 {{#unless id_cliente}}
                 <td>{{id_cliente}}</td>
                 {{/unless}}
-                <td id="estado-prod"><span>{{proceso.descripcion}}</span> <a href="/edicionprod/{{id_item}}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+                <td id="estado-prod"><span>{{proceso.descripcion}}</span></td>
             </tr>
             {{/each}}  
         </tbody>
