@@ -163,7 +163,12 @@
     <div class="modal-content modal-content3">
       <div class="label-body">
         <div class="img-modal-lbl">
+          {{#if imgcerv}}
           <img id="img-lbl" src="{{rutalogo}}" alt="">
+          {{/if}}
+          {{#unless imgcerv}}
+          <img id="img-lbl" src="../src/img/uploads/mmklogosquare.png" alt="" height="90px" width="90px">
+          {{/unless}}
         </div>
         <div id="qr-lbl" class=""></div>
       </div>

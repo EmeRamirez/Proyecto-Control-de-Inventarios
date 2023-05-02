@@ -538,7 +538,7 @@ router.get('/edicionitem/:id', async(req,res,next) => {
     })
     let qrcode = `"'${item.qr_code}'"`
     let rutalogo = '../' + cerveceriaLog.imglogo;
-    res.render('edicionitem',{itemrender: true, rutalogo:rutalogo ,item:item, codigoQR:qrcode, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, invrest:invRestante});
+    res.render('edicionitem',{itemrender: true, imgcerv:imgcerv, rutalogo:rutalogo ,item:item, codigoQR:qrcode, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, invrest:invRestante});
 });
 
 router.post('/edicionitem', async(req,res) => {
@@ -604,7 +604,7 @@ router.get('/edicionprod/:id', async(req,res,next) => {
     
     let qrcode = `"'${produccion.item.qr_code}'"`
     let rutalogo = '../' + cerveceriaLog.imglogo;
-    res.render('edicionprod',{rutalogo:rutalogo ,produccion:produccion, codigoQR:qrcode, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, listacat:cervCats, listactes:cervCtes ,prodrest:prodRestante});
+    res.render('edicionprod',{rutalogo:rutalogo , imgcerv:imgcerv, produccion:produccion, codigoQR:qrcode, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, listacat:cervCats, listactes:cervCtes ,prodrest:prodRestante});
 });
 
 
@@ -649,9 +649,9 @@ router.post('/postedicionprod/:id', async(req,res,next) => {
         let rutalogo = '../' + cerveceriaLog.imglogo;
 
         if (edit){
-            res.render('edicionprod',{confirmar:true, rutalogo:rutalogo ,produccion:produccion, codigoQR:qrcode, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, listacat:cervCats, listactes:cervCtes ,prodrest:prodRestante});
+            res.render('edicionprod',{confirmar:true, rutalogo:rutalogo , imgcerv:imgcerv, produccion:produccion, codigoQR:qrcode, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, listacat:cervCats, listactes:cervCtes ,prodrest:prodRestante});
         } else {
-            res.render('edicionprod',{failed:true, rutalogo:rutalogo ,produccion:produccion, codigoQR:qrcode, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, listacat:cervCats, listactes:cervCtes ,prodrest:prodRestante});
+            res.render('edicionprod',{failed:true, rutalogo:rutalogo ,imgcerv:imgcerv, produccion:produccion, codigoQR:qrcode, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, listacat:cervCats, listactes:cervCtes ,prodrest:prodRestante});
         }
 
     } else {
