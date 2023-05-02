@@ -15,7 +15,9 @@ La base de datos relacional opera sobre PostgreSQL y es manejada como ORM con Se
   <img src="https://user-images.githubusercontent.com/115498370/235584371-69fa7391-25d4-48c9-be81-87b564b135ee.png"/>
 </p>   
 <p align="center">(JWT_KEY debe ser un string cualquiera)</p>
+
 3. Para sincronizar las tablas realizar una solicitud GET a su API con la siguiente dirección: ``` http://localhost:PORT/mmkapi/sincronizar ```
+
 4. Ejecutar el código SQL contenido en el archivo ``` query-inicial.sql ``` Cualquiera de los usuarios listados en este archivo puede ser utilizado para ingresar a la aplicación una vez realizada la inserción de datos.
 5. Run ``` npm start ``` 
 
