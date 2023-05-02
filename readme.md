@@ -84,11 +84,12 @@ Actualmente en la sección de **Informes** solo contaremos con 2 estadísticas
 
 ### Escaneo de códigos QR
 
-+ La última sección restante y una indispensable, es el módulo para escaneo de códigos. Si bien es funcional y no tiene problemas, áun se encuentra en desarrollo la parte estética. Solo dale acceso a tu cámara, acerca tu lente al código y ve como automáticamente te redirecciona al respectivo enlace de edición. ¿Qué? ¿cómo? Ah si... algunos ítems son vacios y otros ya tienen contenido, pero relájate, la aplicación sabrá determinar si **escaneaste un item con producción vigente o un item vacío** y te llevará directamente al menú que corresponda.
++ La última sección restante y una indispensable, es el módulo para escaneo de códigos. Si bien es funcional y no tiene problemas, áun se encuentra en desarrollo la parte estética. Solo dale acceso a tu cámara, acerca tu lente al código y ve como automáticamente te redirecciona al respectivo enlace de edición. ¿Qué? ¿cómo? Ah si... algunos ítems son vacios y otros ya tienen contenido, pero relájate, la aplicación sabrá determinar si **escaneaste un item con producción vigente o un item vacío** y te llevará directamente al menú que corresponda, así que solo relájate y procura sacar tus cervezas bien frías, que ***Meet My Keg*** se encarga de tus inventarios :)
 
 
 
 ## Repositorio 
+Aplicación:
 [https://github.com/EmeRamirez/Proyecto-Control-de-Inventarios.git](https://github.com/EmeRamirez/Proyecto-Control-de-Inventarios.git)
 
 Api:
