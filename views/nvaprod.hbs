@@ -61,64 +61,28 @@
     </div>
     <div class="body-container">
           
-     <div class="form_wrapper card-info-pedido">
-        <div class="form_container">
-          <div class="title_container">
-            <h3 style="color:white">Información Actual</h3>
-            <h2>{{produccion.item.qr_code}}</h2>
-            
-            <div class="divisor-form"></div>
-            <div class="card-subcont-edicion d-none">
-                <div id="cont-labels">
-                    <h2>Categoria:</h2>
-                    <h2>Fecha:</h2>
-                    <h2>Cliente:</h2>
-                    <h2>Observación</h2>    
-                </div>
-                <div id="cont-valores">
-                    <h2>{{produccion.categoria.descripcion}}</h2>
-                    <h2>{{normfecha produccion.fecha}}</h2>
-                    <h2>{{produccion.cliente.nombre_cliente}}</h2>
-                    <h3>{{produccion.observacion}}</h3>   
-                </div>    
-            </div>  
-            <h1 id="card-tit-estado">{{produccion.proceso.descripcion}}</h1>
-            <button id="ver-mas-btn">+ Ver más</button>       
-          </div>
-        </div>
-     </div>
-
      <div class="form_wrapper">
         <div class="form_container">
           <div class="title_container">
-            <h2>Editar Producción</h2>
-            <div class="input_field select_option">
-                <select name="iditem" form="ediprod" onchange="javascript:refs(this)" required>
-                <option value="{{produccion.id_item}}">{{produccion.item.qr_code}}  {{produccion.categoria.descripcion}}</option>
-                {{#each prodrest}}
-                    <option value={{id_item}}>{{item.qr_code}} {{categoria.descripcion}}</option>
-                {{/each}}
-                </select>
-                <div class="select_arrow"></div>
-            </div>
+            <h2>Nueva Producción</h2>
+            
             <div class="divisor-form"></div>
             <div class="card-subcont">
-                <form id="ediprod" method="POST" action="/postedicionprod/{{produccion.id_produccion}}">
+                <form id="nvaprod" method="POST" action="/prodcreate/{{item.id_item}}">
                     <div class="input_field select_option">
-                      <select name="estado" required>
-                        <option value="{{produccion.id_proceso}}"> Estado </option>
+                      <select name="idproc" required>
+                        <option value="4"> Estado </option>
                         <option value='1'>Entregado</option>
                         <option value='2'>Reservado</option>
                         <option value='3'>Listo</option>
                         <option value='4'>En Proceso</option>
-                        <option value='5'>Devuelto</option>
                       </select>
                       <div class="select_arrow"></div>
                     </div>
 
                     <div class="input_field select_option">
-                      <select name="categoria" required>
-                        <option value="{{produccion.id_categoria}}"> Categoria </option>
+                      <select name="idcat" required>
+                        <option value=""> Categoria </option>
                         {{#each listacat}}
                         <option value={{id_categoria}}>{{descripcion}}</option>
                         {{/each}}
@@ -127,8 +91,8 @@
                     </div>
 
                     <div class="input_field select_option">
-                      <select name="cliente" required>
-                        <option value="{{produccion.id_cliente}}"> Cliente </option>
+                      <select name="idcte" required>
+                        <option value="null"> Cliente </option>
                         <option value="null"> Sin cliente </option>
                         {{#each listactes}}
                         <option value={{id_cliente}}>{{nombre_cliente}}</option>
@@ -138,17 +102,23 @@
                     </div>
 
                     <div class="input_field"> <span><i class="fa-regular fa-clipboard"></i></span>
-                        <input type="text" name="obs" placeholder="Observación(es)" value="{{produccion.observacion}}">
+                        <input type="text" name="obs" placeholder="Observación(es)">
                     </div>
 
                 </form>
                 <div id="qr-container">
-                    <div><h2>{{produccion.item.qr_code}}</h2></div>
-                    <div id="qr-img"></div>
-                    <div><button id="etiqueta-modal-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">Ver Etiqueta</button></div>
+                    <div><h2>{{item.qr_code}}</h2></div>
+                    <div id="cerv-img">
+                      {{#if imgcerv}}
+                          <img src="../../{{imgcerv}}" height="150px" width="150px" alt="">
+                      {{/if}}
+                      {{#unless imgcerv}}
+                          <img src="../../src/img/uploads/mmklogosquare.png" height="150px" width="150px" alt="">
+                      {{/unless}}
+                    </div>
                 </div>
             </div> 
-            <input class="button" form="ediprod" type="submit" value="Actualizar"/>         
+            <input id="btn-llenar" class="button" form="nvaprod" type="submit" value="Nueva Producción"/>         
           </div>
         </div>
      </div>
@@ -168,60 +138,13 @@
       <a href="/app"><i class="fa-solid fa-house fa-2xl"></i></a>
       <a href="/inventario"><i class="fa-solid fa-folder-tree fa-2xl optionselected"></i></a>
       <a href="/informe"><i class="fa-solid fa-chart-line fa-2xl"></i></a>
-      <a href="/scanitem"><i class="fa-solid fa-qrcode fa-2xl"></i></a>
+      <a href="scanitem"><i class="fa-solid fa-qrcode fa-2xl"></i></a>
   </div>  
 </div>
 
-  <!-- ==========================MODAL QR LABEL================================ -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog3">
-    <div class="modal-content modal-content3">
-      <div class="label-body">
-        <div class="img-modal-lbl">
-          <img id="img-lbl" src="{{rutalogo}}" alt="">
-        </div>
-        <div id="qr-lbl" class=""></div>
-      </div>
-      <div id="footer-lbl">
-        <h5>Barril monitoreado por <img src="../src/img/meetmykeg-logo2.png" height="24px" style="padding-left: 3px;"><img src="../src/img/qrx.png" alt="" height="24px"></h5>
-      </div>
-    </div>
-  </div>
-  <div id="cont-btn-imp"><button id="btn-imprimir">Imprimir</button></div>
-</div>
-
-<!-- GENERADOR DE QR -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script>
-    const contenedorQR = document.getElementById('qr-img');
-    const contQRLabel = document.getElementById('qr-lbl');
-    
-    new QRCode(contenedorQR, {
-        text: {{{codigoQR}}},
-        width: 130,
-        height: 130
-    })
-
-    new QRCode(contQRLabel, {
-        text: {{{codigoQR}}},
-        width: 130,
-        height: 130
-    })
-</script>
-<script>
-    function refs(element){
-        window.location.href=`/edicionprod/${element.value}`
-    };
-</script>
 
 <script src="/src/js/main.js"></script>
 
-<script>
-  const btnImprimir = document.getElementById('btn-imprimir');
-  btnImprimir.addEventListener('click', () => {
-    print();
-  })
-</script>
 
 
 {{#if confirmar}}

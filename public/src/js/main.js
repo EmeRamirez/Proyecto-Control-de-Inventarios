@@ -187,6 +187,22 @@ function confSucc(){
       })
 };
 
+//Alert success con redireccion
+function confSuccRedir(){
+    Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Operación exitosa.',
+        showConfirmButton: false,
+        background: '#3A3A49',
+        color: '#fff',
+        timer: 1500
+    })
+    .then(()=>{
+        window.location.href='/app';
+    })
+};
+
 //Alert fail
 function failAlert(){
     Swal.fire({
@@ -197,8 +213,26 @@ function failAlert(){
         background: '#3A3A49',
         color: '#fff',
         timer: 1500
-      })
+    })
 };
+
+//Alert fail con redireccion
+function failAlertRedir(){
+    Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Operación fallida, intente nuevamente.',
+        showConfirmButton: false,
+        background: '#3A3A49',
+        color: '#fff',
+        timer: 1500
+    })
+    .then(()=>{
+        window.location.href='/app';
+    })
+};
+
+
 
 async function itCuenta(e){
     let num = parseInt(e.getAttribute('data-target'));

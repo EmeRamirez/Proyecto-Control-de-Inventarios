@@ -413,6 +413,24 @@ export async function getProduccionesHistByID(id,token){
     }
 };
 
+//Enviar una solicitud a la API para crear un nuevo registro en la tabla PRODUCCIONES
+export async function setNewProduccion(id,obj,token){
+    try {
+        const response = await fetch(`${ApiURL}/produccion/${id}`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            },
+            body: JSON.stringify(obj)
+        });
+        return response.ok;
+    } catch (error) {
+        console.log('Error al comunicarse con la API', error);
+        return false; 
+    }
+}
+
 //Enviar solicitud a la API para actualizar el registro de una PRODUCCION(id)
 export async function updProdbyID(id,obj,token){
     try {

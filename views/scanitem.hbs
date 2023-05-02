@@ -6,11 +6,11 @@
         <div class="header-app-info">
             {{#unless isMaster}}
             <p class="header-subtitle">{{cerveceria}}</p>
-            <h4 class="header-title">Dashboard</h4>
+            <h4 class="header-title">Nueva Producción</h4>
             {{/unless}}
             {{#if isMaster}}
             <p class="header-subtitle">Admin</p>
-            <h4 class="header-title">Dashboard</h4>
+            <h4 class="header-title">Nueva Producción</h4>
             {{/if}}
         </div>
         <div class="header-app-panel">
@@ -55,12 +55,19 @@
             <a href="app"><i class="fa-solid fa-house fa-2xl optionselected"></i></a>
             <a href="inventario"><i class="fa-solid fa-folder-tree fa-2xl"></i></a>
             <a href="informe"><i class="fa-solid fa-chart-line fa-2xl"></i></a>
-            <a href="scanitem"><i class="fa-solid fa-qrcode fa-2xl"></i></a>
+            <a href="scanitem"><i class="fa-solid fa-qrcode fa-2xl optionselected"></i></a>
         </div>
         <div class="body-container-apphome">
-            <div class="celbody-card1"><h4 class="text-buttons">Cambiar Estado</h4></div>
-            <div class="celbody-card2"><h4 class="text-buttons">Nueva Categoria</h4></div>
-            <div class="celbody-card3"><a href="scanitem"><h4 class="text-buttons">Llenar un barril</h4></a></div>
+
+            <div id="reader" width="600px"></div>
+
+            <form id="code-form" action="/menumodif" method="post">
+            <input id="code-input" type="text" name="code" placeholder="Codigo">
+            <button class="btn btn-primary" type="submit">Enviar</button>
+            </form>
+
+            
+
         </div>
     </div>
 
@@ -71,10 +78,10 @@
 
 
     <div class="menu-celu">
-        <a href="app"><i class="fa-solid fa-house fa-2xl optionselected"></i></a>
+        <a href="app"><i class="fa-solid fa-house fa-2xl"></i></a>
         <a href="inventario"><i class="fa-solid fa-folder-tree fa-2xl"></i></a>
         <a href="informe"><i class="fa-solid fa-chart-line fa-2xl"></i></a>
-        <a href="scanitem"><i class="fa-solid fa-qrcode fa-2xl"></i></a>
+        <a href="scanitem"><i class="fa-solid fa-qrcode fa-2xl optionselected"></i></a>
     </div>
     
 </div>
@@ -128,19 +135,31 @@
     </script>
 {{/if}}
 
-<script src="/src/js/main.js"></script>
-{{#if confirmarRedir}}
-<script src="../sweetalert2.all.min.js"></script>
+<script src="/src/js/lib/html5-qrcode.min.js"></script>
 <script>
-  confSuccRedir();
-</script>
-{{/if}}
+    let codeForm = document.getElementById('code-form');
+    let codeIpt = document.getElementById('code-input');
 
-{{#if failedRedir}}
-<script src="../sweetalert2.all.min.js"></script>
-<script>
-  failAlertRedir();
+  function onScanSuccess(decodedText, decodedResult) {
+  // handle the scanned code as you like, for example:
+  console.log(decodedText);
+
+  texto = decodedText.replace("'",'');
+  codigo = texto.replace("'",'');
+  codeIpt.value = codigo;
+
+  codeForm.submit();
+}
+
+function onScanFailure(error) {
+ 
+}
+
+let html5QrcodeScanner = new Html5QrcodeScanner(
+  "reader",
+  { fps: 10, qrbox: {width: 250, height: 250} },
+  /* verbose= */ false);
+html5QrcodeScanner.render(onScanSuccess, onScanFailure);
 </script>
-{{/if}}
 
 {{/layoutapp}}

@@ -35,7 +35,7 @@ hbs.registerHelper('nombrarEstado', function (num) {
 hbs.registerHelper('normfecha', function (str) {
     let date = new Date(str);  
     let dia = new Date(date).getDate()
-    let mes = new Date(date).getMonth()
+    let mes = new Date(date).getMonth()+1
     let anio = new Date(date).getFullYear()
     let fecha = `${dia}/${mes}/${anio}`
 

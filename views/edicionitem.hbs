@@ -57,11 +57,37 @@
         <a href="/app"><i class="fa-solid fa-house fa-2xl optionselected"></i></a>
         <a href="/inventario"><i class="fa-solid fa-folder-tree fa-2xl"></i></a>
         <a href="/informe"><i class="fa-solid fa-chart-line fa-2xl"></i></a>
-        <i class="fa-solid fa-qrcode fa-2xl"></i>
+        <a href="/scanitem"><i class="fa-solid fa-qrcode fa-2xl"></i></a>
     </div>
     <div class="body-container">
+
+      <div class="form_wrapper card-info-pedido">
+        <div class="form_container">
+          <div class="title_container">
+            <h3 style="color:white">Información Actual</h3>
+            <h2>{{item.qr_code}}</h2>
+            
+            <div class="divisor-form"></div>
+            <div class="card-subcont-edicion d-none">
+                <div id="cont-labels">
+                    <h2>Tipo:</h2>
+                    <h2>Capacidad:</h2>
+                    <h2>Observación</h2>    
+                </div>
+                <div id="cont-valores">
+                    <h2>{{item.tipo}}</h2>
+                    <h2>{{item.capacidad}}</h2>
+                    <h3>{{item.observacion}}</h3>   
+                </div>      
+            </div>  
+            <h1 id="card-tit-estado" style="margin-bottom: 0;">ITEM VACÍO</h1>
+            <h2 style="margin-bottom: 2vw; color: white !important">{{item.estado.descripcion}}</h2>
+            <button id="ver-mas-btn">+ Ver más</button>        
+          </div>
+        </div>
+      </div>
           
-     <div class="form_wrapper">
+      <div class="form_wrapper">
         <div class="form_container">
           <div class="title_container">
             <h2>Editar Item</h2>
@@ -106,7 +132,8 @@
                     <div><button id="etiqueta-modal-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">Ver Etiqueta</button></div>
                 </div>
             </div> 
-            <input class="button" form="editem" type="submit" value="Actualizar"/>         
+            <input class="button" form="editem" type="submit" value="Actualizar"/>  
+            <button id="btn-llenar"><a href="/nvaprod/new/{{item.id_item}}">Llenar Barril</a></button>       
           </div>
         </div>
       </div>
@@ -126,7 +153,7 @@
       <a href="/app"><i class="fa-solid fa-house fa-2xl optionselected"></i></a>
       <a href="/inventario"><i class="fa-solid fa-folder-tree fa-2xl"></i></a>
       <a href="/informe"><i class="fa-solid fa-chart-line fa-2xl"></i></a>
-      <i class="fa-solid fa-qrcode fa-2xl"></i>
+      <a href="/scanitem"><i class="fa-solid fa-qrcode fa-2xl"></i></a>
   </div>  
 </div>
 

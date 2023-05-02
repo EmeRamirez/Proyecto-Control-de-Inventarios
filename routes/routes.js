@@ -13,7 +13,6 @@ import { unlink } from "fs";
 
 //Handlers
 import * as aHd from "../utils/controllers/apiHandler.js";
-import { ChildProcess } from "child_process";
 
 //Constantes
 const router = Router();
@@ -32,6 +31,7 @@ let cervCats;
 let cervCtes;
 let cervProds;
 let token;
+let imgcerv;
 
 
 // ========== Configuración de Middleware ========== //
@@ -169,9 +169,11 @@ router.get('/app', (req,res,next) => {
         //Se busca la cervecería perteneciente al usuario en sesión y se asigna a la variable global
         cerveceriaLog = cervList.find(e => e.id_cerveceria == usuarioLog.id_cerveceria);
         let idcerv = usuarioLog.id_cerveceria;
+        (cerveceriaLog.imglogo) ? imgcerv = cerveceriaLog.imglogo : imgcerv = false;
         inventarioCerv = await aHd.getItemsByCervID(idcerv,token);
         cervCtes = await aHd.getClientesByCervID(usuarioLog.id_cerveceria, token);
         cervCats = await aHd.getCatsByCervID(usuarioLog.id_cerveceria, token);
+        cervProds = await aHd.getProduccionesVigByID(usuarioLog.id_cerveceria,token);
         usuarioLog.isMaster = false;
         usuarioLog.isAdmin = false;
 
@@ -182,10 +184,8 @@ router.get('/app', (req,res,next) => {
             usuarioLog.isAdmin = true;
         };
 
-        let imgcerv = false;
-        if(cerveceriaLog.imglogo){
-            imgcerv = cerveceriaLog.imglogo;
-        };
+        
+        
 
         res.render("app",{imgcerv:imgcerv, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin})
     }
@@ -525,10 +525,7 @@ router.get('/edicionitem/:id', async(req,res,next) => {
 
     res.render('login',{expsession:true});
 } , async(req,res) => {
-    console.log(req.body);
-    console.log(req.params);
-    console.log('===========');
-    // console.log(inventarioCerv);
+    
     let id = req.params.id;
     let item;
     let invRestante = [];
@@ -548,7 +545,8 @@ router.post('/edicionitem', async(req,res) => {
 
     let {itemsel,estado,tipo,capacidad,obs} = req.body;
     itemsel = parseInt(itemsel);
-    estado = parseInt(estado)
+    estado = parseInt(estado);
+    (obs == '') ? obs == null : obs;
 
     const obj = {
         estado,
@@ -594,6 +592,7 @@ router.get('/edicionprod/:id', async(req,res,next) => {
     let id = req.params.id;
     let produccion;
     let prodRestante = [];
+    console.log(cervProds);
     cervProds.forEach(e => {
         if (e.id_item == id){
             produccion = e;
@@ -615,38 +614,55 @@ router.post('/postedicionprod/:id', async(req,res,next) => {
 
     res.render('login',{expsession:true});
 } , async(req,res) => {
-    console.log(req.body);
+    // console.log(req.body);
     let idprod = req.params.id;
+    // console.log(`ID PARAM: ${idprod}`);
+
     let {iditem, estado,categoria,cliente,obs} = req.body;
-    (obs[0].length > 1) ? obs=obs[0] : obs=obs[1];
     (cliente == 'null') ? cliente = null : cliente;
 
     let obj = {iditem,estado,categoria,cliente,obs};
-    console.log(obj);
+    // console.log(obj);
     
     let edit = await aHd.updProdbyID(idprod,obj,token);
     console.log(`FETCH STATUS:${edit}`);
 
-    cervProds = await aHd.getProduccionesVigByID(usuarioLog.id_cerveceria,token);
+    if (estado != '5'){
+        
+        cervProds = await aHd.getProduccionesVigByID(usuarioLog.id_cerveceria,token)
 
-    let produccion;
-    let prodRestante = [];
-    cervProds.forEach(e => {
-        if (e.id_item == iditem){
-            produccion = e;
-        } else {
-            prodRestante.push(e);
-        };
-    });
+        let produccion;
+        let prodRestante = [];
+        (async()=>{
+            await cervProds.forEach(e => {
+                if (e.id_item == iditem){
+                    produccion = e;
+                } else {
+                    prodRestante.push(e);
+                };
+            });
+        })();
     
-    let qrcode = `"'${item.qr_code}'"`;
-    let rutalogo = '../' + cerveceriaLog.imglogo;
+        // console.log(produccion);
+        
+        let qrcode = `"'${produccion.item.qr_code}'"`;
+        let rutalogo = '../' + cerveceriaLog.imglogo;
 
-    if (edit){
-        res.render('edicionprod',{confirmar:true, rutalogo:rutalogo ,produccion:produccion, codigoQR:qrcode, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, listacat:cervCats, listactes:cervCtes ,prodrest:prodRestante});
+        if (edit){
+            res.render('edicionprod',{confirmar:true, rutalogo:rutalogo ,produccion:produccion, codigoQR:qrcode, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, listacat:cervCats, listactes:cervCtes ,prodrest:prodRestante});
+        } else {
+            res.render('edicionprod',{failed:true, rutalogo:rutalogo ,produccion:produccion, codigoQR:qrcode, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, listacat:cervCats, listactes:cervCtes ,prodrest:prodRestante});
+        }
+
     } else {
-        res.render('edicionprod',{failed:true, rutalogo:rutalogo ,produccion:produccion, codigoQR:qrcode, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, listacat:cervCats, listactes:cervCtes ,prodrest:prodRestante});
+        if (edit){
+            res.render('app',{confirmarRedir:true, imgcerv:imgcerv, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin})
+        } else {
+            res.render('app',{failedRedir:true, imgcerv:imgcerv, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin})
+        }
     }
+
+    
 });
 
 
@@ -662,6 +678,49 @@ router.get('/prodhist', async(req,res, next) => {
     res.render('prodhist',{inventariorender:true, listaprod:histcervProds,cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, listaitems:inventarioCerv, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin})
 });
 
+
+//===================GET===================//
+router.get('/nvaprod/new/:id' , async(req,res, next) => {
+    if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
+
+    res.render('login',{expsession:true});
+} , async(req,res) => {
+    let iditem = req.params.id;
+    let item = inventarioCerv.find(e => e.id_item == iditem);
+    // console.log(item);
+    
+    let rutalogo = cerveceriaLog.imglogo;
+    res.render('nvaprod',{item:item, listacat:cervCats, rutalogo:rutalogo, listactes:cervCtes, imgcerv:imgcerv, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin})
+   
+});
+
+
+//===================POST===================//
+router.post('/prodcreate/:id', async(req,res,next) => {
+    if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
+
+    res.render('login',{expsession:true});
+} , async(req,res) => {
+
+    let iditem = req.params.id;
+    let {idproc, idcat, idcte, obs} = req.body;
+    (idcte == 'null') ? idcte = null : idcte;
+    (obs == '') ? obs = null : obs;
+    let obj = {idproc, idcat, idcte, obs};
+    console.log(obj);
+
+    let newprod = await aHd.setNewProduccion(iditem,obj,token);
+    console.log(`FETCH STATUS: ${newprod}`);
+
+    if (newprod){
+        cervProds = await aHd.getProduccionesVigByID(usuarioLog.id_cerveceria,token);
+        inventarioCerv = await aHd.getItemsByCervID(usuarioLog.id_cerveceria,token);
+
+        res.render('app',{confirmarRedir:true, imgcerv:imgcerv, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin})
+    } else {
+        res.render('app',{failedRedir:true, imgcerv:imgcerv, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin})
+    }
+});
 
 //================================>>CLIENTES<<================================//
 
@@ -684,7 +743,7 @@ router.post('/nvocte', async(req,res, next) => {
 } , async(req,res) => {
     const {nombre,direccion,comuna} = req.body;
     let obj = {nombre,direccion,comuna};
-    console.log(obj);
+    // console.log(obj);
 
     if (cervCtes.map(e => e.nombre_cliente.toLowerCase()).indexOf(nombre.toLowerCase()) != -1){
         res.render("nvocliente",{error:'El cliente ya se encuentra registrado',cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, ctelist:cervCtes})
@@ -701,7 +760,7 @@ router.post('/nvocte', async(req,res, next) => {
     }    
 });
 
-//FALTA HACER EL DELETE A CLIENTES
+
 //===================POST===================//
 router.post('/delcte', async(req,res,next) => {
     let id = req.body.ctelist;
@@ -743,6 +802,47 @@ router.get('/informe', async(req,res,next) => {
 
     res.render('informe',{graf1Labels:labels, graf1Values:values, ultimUpd:invUpdOrd, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin})
 });
+
+
+//================================>>MENU SCAN<<================================//
+//===================GET===================//
+router.get('/scanitem', async(req,res,next) => {
+    if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
+
+    res.render('login',{expsession:true});
+} , async(req,res) => {
+
+       
+    res.render('scanitem',{imgcerv:imgcerv, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin})
+})
+
+
+//Este post administra el resultado del scaneo del código QR, determinando en que casos este debe acceder a edicion de produccion, o a la creación de una nueva
+router.post('/menumodif', async(req,res) => {
+    const code = req.body.code;
+    console.log(code);
+
+    let index = cervProds.map(e => e.item.qr_code).indexOf(code);
+
+    // console.log(cervProds.map(e => e.item.qr_code));
+    if (index != -1){
+        console.log(`El indice del elemento en la lista es ${index}`);
+        console.log('========');
+        console.log(`El elemento es ${cervProds[index]}`);
+        let id = cervProds[index].item.id_item;
+        res.redirect(`/edicionprod/${id}`)
+    } else {
+        console.log('El elemento no existe aún en producciones vigentes');
+        let index = inventarioCerv.map(e => e.qr_code).indexOf(code);
+        let id = inventarioCerv[index].id_item;
+        res.redirect(`/edicionitem/${id}`);
+    }
+    
+
+});
+
+
+
 
 
 //================================>>UPLOAD IMG<<================================//
