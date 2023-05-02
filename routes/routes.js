@@ -266,6 +266,7 @@ router.post('/register', async(req,res) => {
                 cervus
             };
 
+            console.log(data);
             let nuevous = await aHd.setUsuario(data,token);
             console.log(`Fetch Status: ${nuevous}`);  //Esta variable almacena un booleano como valor del response.ok del fetch a la API, indicando si se realizó o no la acción
 
@@ -328,6 +329,10 @@ router.get('/regicerv', async(req,res,next) => {
 //===================POST===================//
 
 router.post('/regicerv', async(req,res,next) => {
+    if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
+
+    res.render('login',{expsession:true});
+}, async(req,res) => {
     console.log(req.body);
     const nombre_cerv = req.body.name;
     const razons = req.body.razonsocial;
@@ -352,9 +357,9 @@ router.post('/regicerv', async(req,res,next) => {
 
         if (newcerv){
             cervList = await aHd.getCervecerias(token);
-            res.send("<script>alert('Nueva cervecería creada exitosamente.');window.location.href='/regicerv'</script>");
+            res.render("regicerv",{confirmar:true, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, cervlist:cervList});
         } else {
-            res.send("<script>alert('Error al crear la nueva cervecería.');window.location.href='/regicerv'</script>")
+            res.render("regicerv",{failed: true, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, cervlist:cervList});
         };
 
     }
@@ -364,15 +369,19 @@ router.post('/regicerv', async(req,res,next) => {
 //===================POST===================//
 
 router.post('/delcerv', async(req,res,next) => {
+    if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
+
+    res.render('login',{expsession:true});
+}, async(req,res) => {
     let id = req.body.cervlist;
     const elimin = await aHd.delCerveceria(id,token);
     console.log(`Fetch status: ${elimin}`);
 
     if (elimin){
         cervList = await aHd.getCervecerias(token);
-        res.send("<script>alert('Cervecería eliminada.');window.location.href='/regicerv'</script>");
+        res.render("regicerv",{confirmar:true, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, cervlist:cervList});
     } else {
-        res.send("<script>alert('No se puso eliminar la cervecería.');window.location.href='/regicerv'</script>");
+        res.render("regicerv",{failed: true, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, cervlist:cervList});
     }
 
 });
@@ -423,6 +432,10 @@ router.post('/regicat', async(req,res,next) => {
 //===================POST===================//
 
 router.post('/delcat', async(req,res,next) => {
+    if(req.isAuthenticated() && await aHd.authToken(token) != null) return next();
+
+    res.render('login',{expsession:true});
+}, async(req,res) => {
     let id = req.body.catlist;
     const elimin = await aHd.delCategoria(id,token);
     console.log(`Fetch status: ${elimin}`);
@@ -494,9 +507,6 @@ router.post('/nvoitem', async(req,res,next) => {
         res.render("nvoitem",{failed:true, inventariorender: true, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, listaitems:inventarioCerv, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin})
     }
 
-    
-
-   
 });
 
 //===================POST===================//

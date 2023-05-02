@@ -1,6 +1,4 @@
 {{#> layoutapp}}
-<link rel="stylesheet" type="text/css" href="src/scss/register.css"/>
-
 <div class="app">
     
   <div class="header-app">
@@ -130,4 +128,18 @@
   </div>  
 </div>
 
+<script src="/src/js/main.js"></script>
+{{#if confirmar}}
+<script src="/sweetalert2.all.min.js"></script>
+<script>
+  confSucc();
+</script>
+{{/if}}
+
+{{#if failed}}
+<script src="/sweetalert2.all.min.js"></script>
+<script>
+  failAlert();
+</script>
+{{/if}}
 {{/layoutapp}}
