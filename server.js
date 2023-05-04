@@ -7,6 +7,7 @@ import hbs from "hbs";
 import fileUpload from "express-fileupload";
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 
 app.use(fileUpload());
 export const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -19,8 +20,8 @@ app.use(express.static(__dirname + '/node_modules/sweetalert2/dist'))
 
 
 try {
-    app.listen(3000, ()=>{
-        console.log('Server is listening in port 3000');
+    app.listen(PORT, ()=>{
+        console.log(`Server is listening in port ${PORT}`);
     });
 } catch (error) {
     console.error('No se pudo levantar el servidor.',error);
