@@ -102,8 +102,15 @@
                 <div class="select_arrow"></div>
             </div>
             <div class="divisor-form"></div>
-            <div class="card-subcont">
+            <div class="card-subcont card-subcont-editprod">
                 <form id="ediprod" method="POST" action="/postedicionprod/{{produccion.id_produccion}}">
+                    
+
+                    <div class="input_field">
+                        <input type="text" name="categoria" value={{produccion.id_categoria}} hidden>
+                    </div>
+                    
+                    
                     <div class="input_field select_option">
                       <select name="estado" required>
                         <option value="{{produccion.id_proceso}}"> Estado </option>
@@ -112,16 +119,6 @@
                         <option value='3'>Listo</option>
                         <option value='4'>En Proceso</option>
                         <option value='5'>Devuelto</option>
-                      </select>
-                      <div class="select_arrow"></div>
-                    </div>
-
-                    <div class="input_field select_option">
-                      <select name="categoria" required>
-                        <option value="{{produccion.id_categoria}}"> Categoria </option>
-                        {{#each listacat}}
-                        <option value={{id_categoria}}>{{descripcion}}</option>
-                        {{/each}}
                       </select>
                       <div class="select_arrow"></div>
                     </div>

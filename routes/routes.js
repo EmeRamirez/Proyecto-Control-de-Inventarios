@@ -842,10 +842,8 @@ router.post('/menumodif', async(req,res) => {
         let id = cervProds[index].item.id_item;
         res.redirect(`/edicionprod/${id}`)
     } else {
-        console.log('El elemento no existe aún en producciones vigentes');
-        let index = inventarioCerv.map(e => e.qr_code).indexOf(code);
-        let id = inventarioCerv[index].id_item;
-        res.redirect(`/edicionitem/${id}`);
+        console.log('El elemento no existe aún en producciones vigentes');   
+        res.render("app",{failedRedir:true , imgcerv:imgcerv, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin});
     }
     
 

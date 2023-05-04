@@ -81,7 +81,7 @@
                     </div>
 
                     <div class="input_field select_option">
-                      <select name="idcat" required>
+                      <select id="selectorcat" name="idcat" required>
                         <option value=""> Categoria </option>
                         {{#each listacat}}
                         <option value={{id_categoria}}>{{descripcion}}</option>
@@ -144,18 +144,23 @@
 
 
 <script src="/src/js/main.js"></script>
+<script src="/sweetalert2.all.min.js"></script>
 
-
+<script>
+  let formnvaprod = document.getElementById('nvaprod');
+  formnvaprod.addEventListener('submit', e => {
+    e.preventDefault()
+    confirmarProduccion(formnvaprod);
+  })
+</script>
 
 {{#if confirmar}}
-<script src="/sweetalert2.all.min.js"></script>
 <script>
   confSucc();
 </script>
 {{/if}}
 
 {{#if failed}}
-<script src="/sweetalert2.all.min.js"></script>
 <script>
   failAlert();
 </script>

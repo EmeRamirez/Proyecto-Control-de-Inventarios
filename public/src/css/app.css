@@ -541,6 +541,10 @@ html{
   color: white;
 }
 
+#ediprod {
+  margin-top: 20px;
+}
+
 /* ================================ SECCION INFORMES ================================== */
 
 .cont-ext-graf {

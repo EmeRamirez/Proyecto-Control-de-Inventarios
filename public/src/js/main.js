@@ -225,7 +225,7 @@ function failAlertRedir(){
         showConfirmButton: false,
         background: '#3A3A49',
         color: '#fff',
-        timer: 1500
+        timer: 500
     })
     .then(()=>{
         window.location.href='/app';
@@ -266,9 +266,25 @@ if (document.getElementById('ver-mas-btn')){
             alternador = false;
         }   
     }); 
-}
+};
 
+async function confirmarProduccion(form){
+    let seleccat = document.getElementById('selectorcat');
 
+    Swal.fire({
+        title: `Se creará una nueva producción de ${seleccat.options[seleccat.selectedIndex].text}`,
+        text: 'La selección de esta categoría no puede ser revertida.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, crear!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          form.submit();
+        }
+      })
+};
 
 /* <script>
   let formupd = document.getElementById('editem');
