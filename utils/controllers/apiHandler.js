@@ -1,3 +1,5 @@
+import fetch from "node-fetch";
+
 //Dirección API local
 // const ApiURL = 'http://localhost:4000/mmkapi';
 
