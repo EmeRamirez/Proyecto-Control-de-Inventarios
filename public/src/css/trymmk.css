@@ -1,0 +1,33 @@
+#img-prueba{
+    display: grid;
+    place-items: center;
+}
+
+#btn-submit-prueba {
+    background-color: var(--btnBlu);
+    border-color: var(--btnBlu);
+    color: aliceblue;
+}
+
+#btn-submit-prueba:hover{
+    transform: scale(103%);
+}
+
+#texto-form-contprueba{
+    display: grid;
+    place-items: center;
+    margin: 0 2vw;
+}
+
+
+
+#textos-prueba {
+    display: grid;
+    margin: 0 3vw;
+    margin-top: 3vw;
+    font-family: 'Poppins', sans-serif;
+}
+
+#textos-prueba h1 {
+    text-align: center;
+}

@@ -451,3 +451,19 @@ export async function updProdbyID(id,obj,token){
     }
 };
 
+//==========================>>INSERCIÓN DE CUENTA DE PRUEBA<<================================//
+export async function setPruebaGratuita(obj){
+    try {
+        const response = await fetch(`${ApiURL}/usuario/free`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(obj)
+        });
+        return response.ok;
+    } catch (error) {
+        console.log('Error al comunicarse con la API', error);
+        return false; 
+    }
+}

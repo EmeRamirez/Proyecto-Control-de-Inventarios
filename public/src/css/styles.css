@@ -4,7 +4,7 @@
 @import url(app.css);
 @import url(mediaquerys.css);
 @import url(register.css);
-
+@import url(trymmk.css);
 
 
 div.dataTables_wrapper div.dataTables_length select {
@@ -20,11 +20,13 @@ div.dataTables_wrapper div.dataTables_length select {
 
 a, li {
     text-decoration: none; 
+    color: inherit;
 }
 
 a:hover {
     color:#99A98F; 
 }
+
 
 main {
     margin-top: 7vw;

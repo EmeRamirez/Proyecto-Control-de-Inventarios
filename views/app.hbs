@@ -58,9 +58,9 @@
             <a href="scanitem"><i class="fa-solid fa-qrcode fa-2xl"></i></a>
         </div>
         <div class="body-container-apphome">
-            <div class="celbody-card1"><h4 class="text-buttons">Cambiar Estado</h4></div>
-            <div class="celbody-card2"><h4 class="text-buttons">Nueva Categoria</h4></div>
-            <div class="celbody-card3"><a href="scanitem"><h4 class="text-buttons">Llenar un barril</h4></a></div>
+            <div class="celbody-card1"><a href="/nvocliente"><h4 class="text-buttons">Nuevo Cliente</h4></a></div>
+            <div class="celbody-card2"><a href="/regicat"><h4 class="text-buttons">Nueva Categoria</h4></a></div>
+            <div class="celbody-card3"><a href="/scanitem"><h4 class="text-buttons">Cambiar Estado</h4></a></div>
         </div>
     </div>
 
@@ -140,6 +140,13 @@
 <script src="../sweetalert2.all.min.js"></script>
 <script>
   failAlertRedir();
+</script>
+{{/if}}
+
+{{#if failedCode}}
+<script src="../sweetalert2.all.min.js"></script>
+<script>
+  failAlertCode();
 </script>
 {{/if}}
 

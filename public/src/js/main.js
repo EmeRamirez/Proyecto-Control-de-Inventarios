@@ -78,11 +78,21 @@ function enviarMail() {
             document.querySelector('#notificacion-contacto').classList.remove('d-none');
         });
     };
+};
+
+async function enviarPruebaGratis(){
+    if (validarForm()){
+        let formuFree = document.getElementById('form-prueba');
+        formuFree.submit()
+
+    }
 }
 
 function cerrarMsjSuccess(){
     document.querySelector('#notificacion-contacto').classList.add('d-none');
 }
+
+
 
 if(document.getElementById('btn-login')){
     let boton = document.getElementById('btn-login');
@@ -196,7 +206,7 @@ function confSuccRedir(){
         showConfirmButton: false,
         background: '#3A3A49',
         color: '#fff',
-        timer: 1500
+        timer: 800
     })
     .then(()=>{
         window.location.href='/app';
@@ -232,7 +242,21 @@ function failAlertRedir(){
     })
 };
 
-
+//Alert fail de código no válido
+function failAlertCode(){
+    Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'El código escaneado no es válido. Intente nuevamente.',
+        showConfirmButton: false,
+        background: '#3A3A49',
+        color: '#fff',
+        timer: 1200
+    })
+    .then(()=>{
+        window.location.href='/app';
+    })
+};
 
 async function itCuenta(e){
     let num = parseInt(e.getAttribute('data-target'));
@@ -273,7 +297,7 @@ async function confirmarProduccion(form){
 
     Swal.fire({
         title: `Se creará una nueva producción de ${seleccat.options[seleccat.selectedIndex].text}`,
-        text: 'La selección de esta categoría no puede ser revertida.',
+        text: 'La selección de esta categoría no puede ser revertida. ¿Desea Crearla?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -286,10 +310,54 @@ async function confirmarProduccion(form){
       })
 };
 
-/* <script>
-  let formupd = document.getElementById('editem');
-  formupd.addEventListener('submit', e => {
-      e.preventDefault();
-      confChg(formupd);
-  })
-</script> */
+async function confirmarCliente(form,select){
+    console.log(select.options[select.selectedIndex].text);
+    Swal.fire({
+        title: `Se asignará esta producción al cliente ${select.options[select.selectedIndex].text}`,
+        text: 'La selección de el cliente no puede ser modificada en el futuro. ¿Desea crearla?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, crear!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          form.submit();
+        }
+      })
+};
+
+//Aviso de email enviado exitosamente
+function confMailRedir(){
+    Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: '¡Felicidades!.',
+        text: 'Su nueva cuenta ha sido enviada a su correo.',
+        showConfirmButton: false,
+        background: '#3A3A49',
+        color: '#fff',
+        timer: 1200
+    })
+    .then(()=>{
+        window.location.href='/trymmk';
+    })
+};
+
+
+//Aviso de email fallido
+function failMailRedir(){
+    Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Lo lamentamos.',
+        text: 'Su nueva cuenta no ha podido ser procesada.',
+        showConfirmButton: false,
+        background: '#3A3A49',
+        color: '#fff',
+        timer: 1200
+    })
+    .then(()=>{
+        window.location.href='/trymmk';
+    })
+};

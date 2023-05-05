@@ -1,0 +1,108 @@
+{{#> layout}}
+<main>
+     <!-- CONTENEDOR 1 -->
+    <div class="contenedor-contacto">
+        
+        <div id="img-prueba">
+          <img src="/src/img/mob-dash.png" alt="">
+        </div>
+
+        <div id="texto-form-contprueba">
+            <div id="textos-prueba"> 
+                <h1 style="color:rgb(116, 116, 116); font-size: 1.6rem;"> ¿Quieres probar la aplicación?</h1>
+                <h1 class="contactate-form" style="margin-top: 0;">Solicita aquí tu cuenta liberada</h1>
+            </div>
+
+            <div id="contenedor-formulario">
+                <div class="row g-5" id="contenedor-formulario-interno">
+                    <div class="col-lg-12">
+                        <form id="form-prueba" name="form-prueba" method="post" action="/sendpruebagrt" class="needs-validation" novalidate>
+                            <div class="row g-3" style="width: 100%;">
+                                <div class="col-lg-6">
+                                    <label for="firstName" class="form-label">Nombre</label>
+                                    <input type="text" name="nombre" class="form-control" id="firstName" placeholder="" value="" required>
+                                    <div class="invalid-feedback">
+                                        Ingrese un nombre.
+                                    </div>
+                                </div>
+          
+                                <div class="col-lg-6">
+                                    <label for="lastName" class="form-label">Apellido</label>
+                                    <input type="text" class="form-control" name="apellido" id="lastName" placeholder="" value="" required>
+                                    <div class="invalid-feedback">
+                                    Ingrese un apellido.
+                                    </div>
+                                </div>
+
+                                 <div class="col-lg-6">
+                                    <label for="mailN" class="form-label">Email</label>
+                                    <input type="email" name="email" class="form-control" id="mailN" placeholder="" value="" required>
+                                    <div class="invalid-feedback">
+                                    Ingrese un email.
+                                    </div>
+                                </div>
+
+                                 <div class="col-lg-6">
+                                    <label for="cervName" class="form-label">Cervecería</label>
+                                    <input type="text" name="cerveceria" class="form-control" id="cervName" placeholder="" value="" required>
+                                    <div class="invalid-feedback">
+                                    Ingrese una cervecería.
+                                    </div>
+                                </div>
+                                <hr class="my-4">
+                                <div id="notificacion-contacto" class="d-none">
+                                    <!-- Este mensaje se muestra si se envió el mail-->
+                                    <div class="notificacion-enviado d-none">
+                                        <div><i class="fa-solid fa-check fa-xl"></i></div>
+                                        <div><h5 id="texto-notificacion">El mensaje se ha enviado exitosamente</h5></div>
+                                    </div>
+                                    <hr class="my-4">
+                                    <!-- Este mensaje se muestra si se envió el mail-->
+
+                                    <!-- Este mensaje se muestra si NO se envió el mail-->
+                                    <div class="notificacion-no-enviado d-none">
+                                        <div><i class="fa-solid fa-xmark fa-xl"></i></div>
+                                        <div><h5 id="texto-notificacion">El mensaje no se ha enviado, intenta más tarde</h5></div>
+                                    </div>
+                                    <hr class="my-4 d-none"> 
+                                    <!-- Este mensaje se muestra si NO se envió el mail -->
+                                </div>
+                            </div>
+                            <button class="w-100 btn btn-lg button" type="submit" id="btn-submit-prueba">Enviar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+  </main>
+
+<script>
+    let btnSubF = document.getElementById('btn-submit-prueba');
+    let formPrueba = document.getElementById('form-prueba');
+    formPrueba.addEventListener('submit', e => {
+        e.preventDefault();
+        if (validarForm()){
+            console.log(formPrueba)
+            formPrueba.submit()
+        }
+    })
+</script>
+    <script src="src/js/main.js"></script>
+  {{#if enviarmail}}
+     <script src="sweetalert2.all.min.js"></script>
+    <script>
+        
+        confMailRedir();
+    </script>
+  {{/if}}
+
+  {{#if failedPrueba}}
+    <script src="sweetalert2.all.min.js"></script>
+    <script>
+        failMailRedir();
+    </script>
+  {{/if}}
+
+{{/layout}}

@@ -123,8 +123,9 @@
                       <div class="select_arrow"></div>
                     </div>
 
+                    {{#unless cteasign}}
                     <div class="input_field select_option">
-                      <select name="cliente" required>
+                      <select id="seleccte" name="cliente" required>
                         <option value="{{produccion.id_cliente}}"> Cliente </option>
                         <option value="null"> Sin cliente </option>
                         {{#each listactes}}
@@ -133,6 +134,13 @@
                       </select>
                       <div class="select_arrow"></div>
                     </div>
+                    {{/unless}}
+
+                    {{#if cteasign}}
+                    <div class="input_field">
+                      <input type="text" name="cliente" value={{produccion.id_cliente}} hidden>
+                    </div>
+                    {{/if}}
 
                     <div class="input_field"> <span><i class="fa-regular fa-clipboard"></i></span>
                         <input type="text" name="obs" placeholder="Observación(es)" value="{{produccion.observacion}}">
@@ -217,6 +225,7 @@
 </script>
 
 <script src="/src/js/main.js"></script>
+<script src="/sweetalert2.all.min.js"></script>
 
 <script>
   const btnImprimir = document.getElementById('btn-imprimir');
@@ -227,14 +236,12 @@
 
 
 {{#if confirmar}}
-<script src="/sweetalert2.all.min.js"></script>
 <script>
   confSucc();
 </script>
 {{/if}}
 
 {{#if failed}}
-<script src="/sweetalert2.all.min.js"></script>
 <script>
   failAlert();
 </script>
@@ -242,6 +249,17 @@
 {{/layoutapp}}
 
 
-
+<script>
+  if (document.getElementById('seleccte')){
+    let selectcte = document.getElementById('seleccte');
+    let formedprod = document.getElementById('ediprod');
+  
+    formedprod.addEventListener('submit', e => {
+      e.preventDefault();
+     confirmarCliente(formedprod,selectcte) 
+    })
+  }
+  
+</script>
 
 

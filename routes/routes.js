@@ -10,6 +10,8 @@ import { Router } from "express";
 import path, { extname } from "path";
 import { __dirname } from "../server.js";
 import { unlink } from "fs";
+import emailjs from '@emailjs/nodejs';
+
 
 //Handlers
 import * as aHd from "../utils/controllers/apiHandler.js";
@@ -99,7 +101,7 @@ passport.deserializeUser(function(user,done){
 
 
 
-// ====================== RUTAS ====================== //
+// ====================== WEB ====================== //
 
 //===================GET===================//
 
@@ -109,14 +111,61 @@ router.get('/', (req,res) => {
 
 
 //===================GET===================//
-
 router.get('/contacto', (req,res) => {
     res.render("contacto")
 })
 
+//===================GET===================//
+router.get('/trymmk', (req,res) => {
+    res.render("trymmk")
+})
+
+router.post('/sendpruebagrt', async(req,res) => {
+    console.log(req.body);
+    let {nombre, apellido, email, cerveceria} = req.body;
+
+    let obj = {nombre,apellido,email,cerveceria};
+    console.log(obj);
+
+    let data = await aHd.setPruebaGratuita(obj);
+    console.log(`FETCH STATUS: ${data}`);
+
+   
+    if(data){
+        const templateParams = {
+            user_email : email,
+            mmk_email: 'contacto.meetmykeg@gmail.com',
+            usuario: email,
+            cerveceria: cerveceria
+        };
+
+        let sent = false;
+        let enviar = await emailjs.send("service_m33t","template_8fx59a5", templateParams,{
+            publicKey: 'eJuQGV-DUaTIO3RbJ',
+            privateKey: 'M5-qy84m1E9yzSJ0t5uCi',
+        }) .then(
+            (response) => {
+                sent = true;
+                console.log('Se ha enviado el mail',response.status, response.text);
+            }, 
+            (err) => {
+                console.log('El mail no ha se ha podido enviar', err);
+            }
+        );
+
+        if (sent){
+            res.render('trymmk',{enviarmail: true})
+        } else {
+            res.render('trymmk',{enviarmail: false})
+        }
+   
+    } else {
+        res.render('trymmk',{failedPrueba: true,failedRedir:true})
+    }
+
+})
 
 //===================GET===================//
-
 router.get('/login', (req,res) => {
     // console.log(req.session);
         if (req.session.flash){
@@ -611,10 +660,14 @@ router.get('/edicionprod/:id', async(req,res,next) => {
         };
     });
     
-    
+    console.log(produccion);
+    let cteAsign = false;
+    if (produccion.cliente && produccion.proceso.id_proceso == 1){
+        cteAsign = true;
+    };
     let qrcode = `"'${produccion.item.qr_code}'"`
     let rutalogo = '../' + cerveceriaLog.imglogo;
-    res.render('edicionprod',{rutalogo:rutalogo , imgcerv:imgcerv, produccion:produccion, codigoQR:qrcode, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, listacat:cervCats, listactes:cervCtes ,prodrest:prodRestante});
+    res.render('edicionprod',{cteasign:cteAsign, rutalogo:rutalogo , imgcerv:imgcerv, produccion:produccion, codigoQR:qrcode, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin, listacat:cervCats, listactes:cervCtes ,prodrest:prodRestante});
 });
 
 
@@ -832,19 +885,42 @@ router.post('/menumodif', async(req,res) => {
     const code = req.body.code;
     console.log(code);
 
-    let index = cervProds.map(e => e.item.qr_code).indexOf(code);
+    let index = -1;
+    let id;
+    index = cervProds.map(e => e.item.qr_code).indexOf(code);
+    let invDisponible = [];
 
     // console.log(cervProds.map(e => e.item.qr_code));
     if (index != -1){
         console.log(`El indice del elemento en la lista es ${index}`);
         console.log('========');
         console.log(`El elemento es ${cervProds[index]}`);
-        let id = cervProds[index].item.id_item;
+        id = cervProds[index].item.id_item;
         res.redirect(`/edicionprod/${id}`)
     } else {
-        console.log('El elemento no existe aún en producciones vigentes');   
-        res.render("app",{failedRedir:true , imgcerv:imgcerv, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin});
-    }
+        console.log(inventarioCerv);
+        inventarioCerv.forEach(e => {
+            if (e.estado.descripcion != 'En Uso'){
+                invDisponible.push(e);
+            };
+        })
+        
+        if (invDisponible[0].qr_code){
+            index = invDisponible.map(e => e.qr_code).indexOf(code);
+
+            if (index != -1){
+                id = invDisponible[index].id_item;
+                res.redirect(`edicionitem/${id}`);
+            } else {
+                console.log('Este código no existe actualmente en la cervecería.');   
+                res.render("app",{failedCode:true , imgcerv:imgcerv, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin});
+            }   
+        } else {
+            console.log('Este código no existe actualmente en la cervecería.');   
+            res.render("app",{failedCode:true , imgcerv:imgcerv, cerveceria:cerveceriaLog.nombre_cerveceria, nombre:usuarioLog.user, isMaster:usuarioLog.isMaster, isAdmin:usuarioLog.isAdmin}); 
+        }
+       
+    };
     
 
 });
