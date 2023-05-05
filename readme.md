@@ -14,7 +14,7 @@ Es posible solicitar una cuenta de prueba clickeando en este ícono:
 </p>
 
 Se debe completar la información solicitada y automáticamente se enviará una nueva cuenta al correo registrado en el formulario.
-Si decide probar la aplicación desplegada en línea, se recomienda visitar la sección: **Manual de uso básico de la aplicación**
+Si decide probar la aplicación desplegada en línea, se recomienda visitar la sección: [**Manual de uso básico de la aplicación**](https://github.com/EmeRamirez/Proyecto-Control-de-Inventarios#manual-de-uso-b%C3%A1sico-de-la-aplicaci%C3%B3n)
 
 
 ### API y Base de Datos
