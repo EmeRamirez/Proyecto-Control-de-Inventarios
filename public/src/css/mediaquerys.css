@@ -326,6 +326,37 @@
     .modal-content{
         margin-top: 180px;
     }
+
+    .body-container-informe{
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+    }
+
+    .cont-izq-graf {
+        display: grid;
+        grid-template-rows: 10% 40% 40%;
+        max-height: 1000px;
+        padding-bottom: 50px;
+        width: 430px;
+        gap: 25px;
+        place-items: center;
+        padding-top: 10px;
+    }
+    .graf-menu{
+        height: 190px;
+    }
+
+    .graf-resumen {
+        width: fit-content;
+        margin-left: 0;
+    }
+
+    .cont-grafico{
+        display: none;
+    }
+
+   
 }
 
 @media only screen and (max-width: 400px) {

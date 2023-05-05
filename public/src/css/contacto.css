@@ -95,33 +95,3 @@ font-family: 'Poppins', sans-serif;
     cursor: pointer;
 }
 
-@media only screen and (max-width: 860px) {
-
-    .contenedor-contacto {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding-top: 12vw;
-        margin-top: 8vw;
-    }
-
-    #contenedor-formulario-interno {
-        margin-right:0;
-        margin: 0 2vw;
-        padding-bottom: 5vw;
-        
-    }
-
-    #texto-contacto {
-        margin-bottom: 0;
-    }
-
-    .row {
-        margin-left: 0;
-    }
-
-    .contenedor-contacto{
-        margin-top: 15vw;
-    }
-
-}
