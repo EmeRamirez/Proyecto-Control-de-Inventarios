@@ -7,7 +7,7 @@ La aplicación y su respectiva página web estan desarrollada totalmente en Java
 ### Demo de la Aplicación
 La aplicación se encuentra desplegada en entorno de prueba en el siguiente link: [Meet-My-Keg-Testing](https://mmk-production.up.railway.app/)
 
-Es posible solicitar una cuenta de prueba clickeando en este ícono:
+Es posible solicitar una cuenta de prueba clickeando en este ícono dentro de la web:
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/115498370/236369729-a6fd83b3-7532-447e-9d4e-3bc5e6806ec1.PNG">
