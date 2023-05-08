@@ -81,6 +81,12 @@ footer li {
     color:#7D92A5;
 }
 
+#logo-gplay {
+    height: 65px;
+    width: 153px;
+    opacity: 83%;
+}
+
 @media only screen and (max-width: 860px) {
     #cont-cen-ft {
         display: none;

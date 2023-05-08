@@ -1,10 +1,10 @@
 import fetch from "node-fetch";
 
 //Dirección API local
-const ApiURL = 'http://localhost:4000/mmkapi';
+// const ApiURL = 'http://localhost:4000/mmkapi';
 
 //Direccion API Railway
-// const ApiURL = 'https://api-mmk-production.up.railway.app/mmkapi';
+const ApiURL = 'https://api-mmk-production.up.railway.app/mmkapi';
 
 
 //================================>>TOKEN FETCH<<================================//

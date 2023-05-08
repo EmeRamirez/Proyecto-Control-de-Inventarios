@@ -242,6 +242,10 @@
     .contenedor-tabla{
         max-width: 450px;
     }
+
+    #logo-gplay {
+        width: 118px;
+    }
     
 }
 
