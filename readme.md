@@ -7,14 +7,14 @@ La aplicación y su respectiva página web estan desarrollada totalmente en Java
 ### Demo de la Aplicación
 La aplicación se encuentra desplegada en entorno de prueba en el siguiente link: [Meet-My-Keg-Testing](https://mmk-production.up.railway.app/)
 
-Es posible solicitar una cuenta de prueba clickeando en este ícono:
+Es posible solicitar una cuenta de prueba clickeando en este ícono dentro de la web:
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/115498370/236369729-a6fd83b3-7532-447e-9d4e-3bc5e6806ec1.PNG">
 </p>
 
 Se debe completar la información solicitada y automáticamente se enviará una nueva cuenta al correo registrado en el formulario.
-Si decide probar la aplicación desplegada en línea, se recomienda visitar la sección: **Manual de uso básico de la aplicación**
+Si decide probar la aplicación desplegada en línea, se recomienda visitar la sección: [**Manual de uso básico de la aplicación**](https://github.com/EmeRamirez/Proyecto-Control-de-Inventarios/blob/main/readme.md#manual-de-uso-b%C3%A1sico-de-la-aplicaci%C3%B3n)
 
 
 ### API y Base de Datos
