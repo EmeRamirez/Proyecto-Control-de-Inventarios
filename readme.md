@@ -114,8 +114,6 @@ Aplicación:
 Api:
 [https://github.com/EmeRamirez/Api-MMK.git](https://github.com/EmeRamirez/Api-MMK.git)
 
-## Rúbrica de Revisión de Portafolio
-[https://docs.google.com/document/d/1dEDqXpSnXXfRzzCr3cL8X_B9FvaxKqhXFcDgdV5xLE8/edit?usp=sharing](https://docs.google.com/document/d/1dEDqXpSnXXfRzzCr3cL8X_B9FvaxKqhXFcDgdV5xLE8/edit?usp=sharing)
 
 ## Desarrollado por:
 <li>Emerson Ramírez</li>
