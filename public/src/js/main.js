@@ -49,10 +49,11 @@ let clickMap = (opcion) => {
 //Funcion para validar formulario
 function validarForm(){
     const forms = document.querySelectorAll('.needs-validation');
-
+    console.log(forms);
     let estado = false; 
 
     forms.forEach(form => {
+        console.log(form.checkValidity());
         if (form.checkValidity()) { 
             estado = true;
         };
